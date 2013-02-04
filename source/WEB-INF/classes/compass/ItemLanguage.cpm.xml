@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE compass-core-mapping PUBLIC
+    "-//Compass/Compass Core Mapping DTD 2.2//EN"
+    "http://www.compass-project.org/dtd/compass-core-mapping-2.2.dtd">
+
+<compass-core-mapping package="com.jada.search">
+  <class name="CompassItemLanguage" alias="compassItemLanguage">
+    <id name="itemLangId">
+    	<meta-data>itemLangId</meta-data>
+    </id>
+    <id name="siteProfileClassId">
+    	<meta-data>siteProfileClassId</meta-data>
+    </id>
+    <id name="siteDomainId">
+    	<meta-data>siteDomainId</meta-data>
+    </id>
+    <property name="itemNaturalKey">
+    	<meta-data>itemNaturalKey</meta-data>
+    </property>
+    <property name="siteId">
+    	<meta-data>siteId</meta-data>
+    </property>
+    <property name="itemId">
+    	<meta-data>itemId</meta-data>
+    </property>
+    <property name="itemNum">
+    	<meta-data>itemNum</meta-data>
+    </property>
+    <property name="itemUpcCd">
+    	<meta-data>itemUpcCd</meta-data>
+    </property>
+    <property name="itemSkuCd">
+    	<meta-data>itemSkuCd</meta-data>
+    </property>
+    <property name="itemShortDesc">
+    	<meta-data>itemShortDesc</meta-data>
+    </property>
+    <property name="itemDesc">
+    	<meta-data>itemDesc</meta-data>
+    </property>
+    <property name="infoPublishOn">
+    	<meta-data>infoPublishOn</meta-data>
+    </property>
+    <property name="infoExpireOn">
+    	<meta-data>infoExpireOn</meta-data>
+    </property>
+    <property name="published">
+    	<meta-data>published</meta-data>
+    </property>
+	<property name="recUpdateBy">
+    	<meta-data>recUpdateBy</meta-data>
+	</property>
+	<property name="recUpdateDatetime">
+    	<meta-data>recUpdateDatetime</meta-data>
+	</property>
+	<property name="recCreateBy">
+    	<meta-data>recCreateBy</meta-data>
+	</property>
+	<property name="recCreateDatetime">
+    	<meta-data>recCreateDatetime</meta-data>
+	</property>
+	<property name="userId">
+    	<meta-data>userId</meta-data>
+    </property>
+  </class>
+</compass-core-mapping>

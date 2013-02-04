@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping>
+	<description xmlns="">Castor generated mapping file</description>
+	<class name="com.jada.xml.psigate.Order">
+		<description xmlns="">Default mapping for class com.jada.xml.psigate.Order</description>
+		<map-to xml="Order"/>
+		<field name="orderID" type="java.lang.String">
+			<bind-xml name="OrderID" node="element"/>
+		</field>
+		<field name="transRefNumber" type="java.lang.String">
+			<bind-xml name="TransRefNumber" node="element"/>
+		</field>
+		<field name="cardExpYear" type="java.lang.String">
+			<bind-xml name="CardExpYear" node="element"/>
+		</field>
+		<field name="cardAction" type="java.lang.String">
+			<bind-xml name="CardAction" node="element"/>
+		</field>
+		<field name="phone" type="java.lang.String">
+			<bind-xml name="Phone" node="element"/>
+		</field>
+		<field name="subtotal" type="java.lang.String">
+			<bind-xml name="Subtotal" node="element"/>
+		</field>
+		<field name="shippingTotal" type="java.lang.String">
+			<bind-xml name="ShippingTotal" node="element"/>
+		</field>
+		<field name="comments" type="java.lang.String">
+			<bind-xml name="Comments" node="element"/>
+		</field>
+		<field name="bname" type="java.lang.String">
+			<bind-xml name="Bname" node="element"/>
+		</field>
+		<field name="bcompany" type="java.lang.String">
+			<bind-xml name="Bcompany" node="element"/>
+		</field>
+		<field name="baddress1" type="java.lang.String">
+			<bind-xml name="Baddress1" node="element"/>
+		</field>
+		<field name="baddress2" type="java.lang.String">
+			<bind-xml name="Baddress2" node="element"/>
+		</field>
+		<field name="bcity" type="java.lang.String">
+			<bind-xml name="Bcity" node="element"/>
+		</field>
+		<field name="bprovince" type="java.lang.String">
+			<bind-xml name="Bprovince" node="element"/>
+		</field>
+		<field name="bpostalcode" type="java.lang.String">
+			<bind-xml name="Bpostalcode" node="element"/>
+		</field>
+		<field name="bcountry" type="java.lang.String">
+			<bind-xml name="Bcountry" node="element"/>
+		</field>
+		<field name="sname" type="java.lang.String">
+			<bind-xml name="Sname" node="element"/>
+		</field>
+		<field name="scompany" type="java.lang.String">
+			<bind-xml name="Scompany" node="element"/>
+		</field>
+		<field name="saddress1" type="java.lang.String">
+			<bind-xml name="Saddress1" node="element"/>
+		</field>
+		<field name="saddress2" type="java.lang.String">
+			<bind-xml name="Saddress2" node="element"/>
+		</field>
+		<field name="scity" type="java.lang.String">
+			<bind-xml name="Scity" node="element"/>
+		</field>
+		<field name="sprovince" type="java.lang.String">
+			<bind-xml name="Sprovince" node="element"/>
+		</field>
+		<field name="spostalcode" type="java.lang.String">
+			<bind-xml name="Spostalcode" node="element"/>
+		</field>
+		<field name="scountry" type="java.lang.String">
+			<bind-xml name="Scountry" node="element"/>
+		</field>
+		<field name="passphrase" type="java.lang.String">
+			<bind-xml name="Passphrase" node="element"/>
+		</field>
+		<field name="storeID" type="java.lang.String">
+			<bind-xml name="StoreID" node="element"/>
+		</field>
+		<field name="cardIDNumber" type="java.lang.String">
+			<bind-xml name="CardIDNumber" node="element"/>
+		</field>
+		<field name="cardExpMonth" type="java.lang.String">
+			<bind-xml name="CardExpMonth" node="element"/>
+		</field>
+		<field name="cardNumber" type="java.lang.String">
+			<bind-xml name="CardNumber" node="element"/>
+		</field>
+		<field name="tax5" type="java.lang.String">
+			<bind-xml name="Tax5" node="element"/>
+		</field>
+		<field name="email" type="java.lang.String">
+			<bind-xml name="Email" node="element"/>
+		</field>
+		<field name="tax4" type="java.lang.String">
+			<bind-xml name="Tax4" node="element"/>
+		</field>
+		<field name="tax3" type="java.lang.String">
+			<bind-xml name="Tax3" node="element"/>
+		</field>
+		<field name="tax2" type="java.lang.String">
+			<bind-xml name="Tax2" node="element"/>
+		</field>
+		<field name="tax1" type="java.lang.String">
+			<bind-xml name="Tax1" node="element"/>
+		</field>
+		<field name="paymentType" type="java.lang.String">
+			<bind-xml name="PaymentType" node="element"/>
+		</field>
+		<field name="customerIP" type="java.lang.String">
+			<bind-xml name="CustomerIP" node="element"/>
+		</field>
+		<field name="item" type="com.jada.xml.psigate.Item" collection="array">
+			<bind-xml name="Item" node="element"/>
+		</field>
+		<field name="fax" type="java.lang.String">
+			<bind-xml name="Fax" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.psigate.Item">
+		<description>Default mapping for class com.jada.xml.psigate.Item</description>
+		<map-to/>
+		<field name="itemDescription" type="java.lang.String">
+			<bind-xml name="ItemDescription" node="element"/>
+		</field>
+		<field name="itemQty" type="java.lang.String">
+			<bind-xml name="ItemQty" node="element"/>
+		</field>
+		<field name="itemPrice" type="java.lang.String">
+			<bind-xml name="ItemPrice" node="element"/>
+		</field>
+		<field name="itemId" type="java.lang.String">
+			<bind-xml name="ItemId" node="element"/>
+		</field>
+	</class>
+</mapping>

@@ -1,0 +1,40 @@
+<div id="comment-response-container">
+	<a href="javascript:void(0);" onclick="jc_alert($commentInfo.commentId, 'A', $commentCounter)">
+		<img src="$template.getServletResourcePrefix()/basic/images/agree.gif" title="$template.getLanguageByValue('Agree')" width="24" height="24">
+	</a><br>
+	<span class="comment-response-agree-text">$template.getLanguageByValue('Agree')</span><br>
+	<span id="jc_comment_agree_$commentCounter" class="comment-response-agree-text">
+	#if ($commentInfo.agreeCount > 0)
+		($commentInfo.agreeCount)
+	#end
+	</span>
+</div>
+<div id="comment-response-container">
+	<img src="$template.getServletResourcePrefix()/basic/images/transparent.gif" width="5" height="1">
+	<a href="javascript:void(0);" onclick="jc_alert($commentInfo.commentId, 'D', $commentCounter)">
+		<img src="$template.getServletResourcePrefix()/basic/images/disagree.gif" title="$template.getLanguageByValue('Disagree')" width="24" height="24">
+	</a><br>
+	<span class="comment-response-agree-text">$template.getLanguageByValue('Disagree')</span><br>
+	<span id="jc_comment_disagree_$commentCounter" class="comment-response-agree-text">
+	#if ($commentInfo.disagreeCount > 0)
+		($commentInfo.disagreeCount)
+	#end
+	</span>
+</div>
+<div class="container-reset">
+	<span id="jc_comment_message_$commentCounter" class="comment-response-message"></span>
+	<hr>
+</div>
+<div id="comment-response-moderation-container">
+	<div id="jc_comment_moderator_$commentCounter" style="text-align: center">
+	  #if ($commentInfo.moderation == 'Y')
+	    #if ($commentInfo.commentApproved == 'Y')
+	      <span id="comment-response-moderation-message">$template.getLanguageByValue('Moderator approved.')</span>
+	    #else
+	      <span id="comment-response-moderation-message">$template.getLanguageByValue('This posting is being moderated.')</span>
+	    #end
+	  #else
+	    <a class="comment-response_moderation-link" href="javascript:void(0);" onclick="jc_alert($commentInfo.commentId, 'M', $commentCounter)">$template.getLanguageByValue('Alert moderator')</a><br>
+	  #end
+	</div>
+</div>

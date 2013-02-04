@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping xmlns="http://castor.exolab.org/" xmlns:cst="http://castor.exolab.org/">
+	<description xmlns="">Castor generated mapping file</description>
+	<class name="com.jada.xml.ie.ItemSimple">
+		<description xmlns="">Default mapping for class com.jada.xml.ie.ItemSimple</description>
+		<map-to/>
+		<field name="published" type="char">
+			<bind-xml name="published" node="element"/>
+		</field>
+		<field name="itemSellable" type="char">
+			<bind-xml name="item-sellable" node="element"/>
+		</field>
+		<field name="productClassId" type="java.lang.Long">
+			<bind-xml name="product-class-id" node="element"/>
+		</field>
+		<field name="customAttributeGroupName" type="java.lang.String">
+			<bind-xml name="custom-attribute-group-name" node="element"/>
+		</field>
+		<field name="recUpdateBy" type="java.lang.String">
+			<bind-xml name="rec-update-by" node="element"/>
+		</field>
+		<field name="itemSkuCd" type="java.lang.String">
+			<bind-xml name="item-sku-cd" node="element"/>
+		</field>
+		<field name="productClassName" type="java.lang.String">
+			<bind-xml name="product-class-name" node="element"/>
+		</field>
+		<field name="itemBookedQty" type="java.lang.Integer">
+			<bind-xml name="item-booked-qty" node="element"/>
+		</field>
+		<field name="pageTitle" type="java.lang.String">
+			<bind-xml name="page-title" node="element"/>
+		</field>
+		<field name="metaKeywords" type="java.lang.String">
+			<bind-xml name="meta-keywords" node="element"/>
+		</field>
+		<field name="metaDescription" type="java.lang.String">
+			<bind-xml name="meta-description" node="element"/>
+		</field>
+		<field name="siteProfileClassId" type="java.lang.Long">
+			<bind-xml name="site-profile-class-id" node="element"/>
+		</field>
+		<field name="recCreateBy" type="java.lang.String">
+			<bind-xml name="rec-create-by" node="element"/>
+		</field>
+		<field name="itemParentId" type="java.lang.Long">
+			<bind-xml name="item-parent-id" node="element"/>
+		</field>
+		<field name="customAttributeGroupId" type="java.lang.Long">
+			<bind-xml name="custom-attribute-group-id" node="element"/>
+		</field>
+		<field name="siteProfileClassName" type="java.lang.String">
+			<bind-xml name="site-profile-class-name" node="element"/>
+		</field>
+		<field name="itemSpecPricePublishOn" type="java.util.Date">
+			<bind-xml name="item-spec-price-publish-on" node="element"/>
+		</field>
+		<field name="shippingTypeName" type="java.lang.String">
+			<bind-xml name="shipping-type-name" node="element"/>
+		</field>
+		<field name="itemShortDesc" type="java.lang.String">
+			<bind-xml name="item-short-desc" node="element"/>
+		</field>
+		<field name="itemImageOverride" type="java.lang.String">
+			<bind-xml name="item-image-override" node="element"/>
+		</field>
+		<field name="itemId" type="java.lang.Long">
+			<bind-xml name="item-id" node="element"/>
+		</field>
+		<field name="itemDesc" type="java.lang.String">
+			<bind-xml name="item-desc" node="element"/>
+		</field>
+		<field name="siteCurrencyClassId" type="java.lang.Long">
+			<bind-xml name="site-currency-class-id" node="element"/>
+		</field>
+		<field name="itemPublishOn" type="java.util.Date">
+			<bind-xml name="item-publish-on" node="element"/>
+		</field>
+		<field name="itemExpireOn" type="java.util.Date">
+			<bind-xml name="item-expire-on" node="element"/>
+		</field>
+		<field name="siteCurrencyClassName" type="java.lang.String">
+			<bind-xml name="site-currency-class-name" node="element"/>
+		</field>
+		<field name="itemUpcCd" type="java.lang.String">
+			<bind-xml name="item-upc-cd" node="element"/>
+		</field>
+		<field name="itemRating" type="java.lang.Float">
+			<bind-xml name="item-rating" node="element"/>
+		</field>
+		<field name="itemHitCounter" type="java.lang.Integer">
+			<bind-xml name="item-hit-counter" node="element"/>
+		</field>
+		<field name="itemPrice" type="java.lang.Float">
+			<bind-xml name="item-price" node="element"/>
+		</field>
+		<field name="itemSpecPrice" type="java.lang.Float">
+			<bind-xml name="item-spec-price" node="element"/>
+		</field>
+		<field name="itemCost" type="java.lang.Float">
+			<bind-xml name="item-cost" node="element"/>
+		</field>
+		<field name="itemQty" type="java.lang.Integer">
+			<bind-xml name="item-qty" node="element"/>
+		</field>
+		<field name="shippingTypeId" type="java.lang.Long">
+			<bind-xml name="shipping-type-id" node="element"/>
+		</field>
+		<field name="recCreateDatetime" type="java.util.Date">
+			<bind-xml name="rec-create-datetime" node="element"/>
+		</field>
+		<field name="itemParentSkuCd" type="java.lang.String">
+			<bind-xml name="item-parent-sku-cd" node="element"/>
+		</field>
+		<field name="itemSpecPriceExpireOn" type="java.util.Date">
+			<bind-xml name="item-spec-price-expire-on" node="element"/>
+		</field>
+		<field name="itemNum" type="java.lang.String">
+			<bind-xml name="item-num" node="element"/>
+		</field>
+		<field name="itemRatingCount" type="java.lang.Integer">
+			<bind-xml name="item-rating-count" node="element"/>
+		</field>
+		<field name="recUpdateDatetime" type="java.util.Date">
+			<bind-xml name="rec-update-datetime" node="element"/>
+		</field>
+		<field name="itemTypeCd" type="java.lang.String">
+			<bind-xml name="item-type-cd" node="element"/>
+		</field>
+		<field name="categories" type="com.jada.xml.ie.ItemSimpleCategory" collection="array">
+			<bind-xml name="categories" node="element"/>
+		</field>
+		<field name="itemAttributeDetails" type="com.jada.xml.ie.ItemSimpleItemAttributeDetail" collection="array">
+			<bind-xml name="item-attribute-details" node="element"/>
+		</field>
+		<field name="itemTierPrices" type="com.jada.xml.ie.ItemSimpleItemTierPrice" collection="array">
+			<bind-xml name="item-tier-prices" node="element"/>
+		</field>
+		<field name="itemsUpSell" type="com.jada.xml.ie.ItemSimple" collection="array">
+			<bind-xml name="items-up-sell" node="element"/>
+		</field>
+		<field name="itemsCrossSell" type="com.jada.xml.ie.ItemSimple" collection="array">
+			<bind-xml name="items-cross-sell" node="element"/>
+		</field>
+		<field name="itemsRelated" type="com.jada.xml.ie.ItemSimple" collection="array">
+			<bind-xml name="items-related" node="element"/>
+		</field>
+		<field name="itemImages" type="com.jada.xml.ie.ItemSimpleImage" collection="array">
+			<bind-xml name="item-images" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.ie.ItemSimpleCategory">
+		<field name="catId" type="java.lang.Long">
+			<bind-xml name="cat-id" node="element"/>
+		</field>
+		<field name="catShortTitle" type="java.lang.String">
+			<bind-xml name="cat-short-title" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.ie.ItemSimpleItemTierPrice">
+		<field name="custClassId" type="java.lang.Long">
+			<bind-xml name="cust-class-id" node="element"/>
+		</field>
+		<field name="custClassName" type="java.lang.String">
+			<bind-xml name="cust-class-name" node="element"/>
+		</field>
+		<field name="itemTierQty" type="java.lang.Integer">
+			<bind-xml name="item-tier-qty" node="element"/>
+		</field>
+		<field name="itemPrice" type="java.lang.Float">
+			<bind-xml name="item-price" node="element"/>
+		</field>
+		<field name="itemTierPricePublishOn" type="java.util.Date">
+			<bind-xml name="item-tier-price-publish-on" node="element"/>
+		</field>
+		<field name="itemTierPriceExpireOn" type="java.util.Date">
+			<bind-xml name="item-tier-price-expire-on" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.ie.ItemSimpleItemAttributeDetail">
+		<field name="customAttribId" type="java.lang.Long">
+			<bind-xml name="custom-attrib-id" node="element"/>
+		</field>
+		<field name="customAttribName" type="java.lang.String">
+			<bind-xml name="custom-attrib-name" node="element"/>
+		</field>
+		<field name="customAttribOptionId" type="java.lang.Long">
+			<bind-xml name="custom-attrib-option-id" node="element"/>
+		</field>
+		<field name="customAttribValue" type="java.lang.String">
+			<bind-xml name="custom-attrib-value" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.ie.ItemSimpleImage">
+		<field name="defaultImage" type="java.lang.String">
+			<bind-xml name="default-image" node="element"/>
+		</field>
+		<field name="imageValue" type="bytes">
+			<bind-xml name="image-value" node="element"/>
+		</field>
+		<field name="itemImageLocation" type="java.lang.String">
+			<bind-xml name="item-image-location" node="element"/>
+		</field>
+	</class>
+</mapping>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping>
+	<description xmlns="">Castor generated mapping file</description>
+	<class name="com.jada.xml.paymentexpress.TxnRequest">
+		<description xmlns="">Default mapping for com.jada.xml.paymentexpress.TxnRequest</description>
+		<map-to xml="Txn"/>
+		<field name="amount" type="java.lang.String">
+			<bind-xml name="Amount" node="element"/>
+		</field>
+		<field name="avsAction" type="java.lang.String">
+			<bind-xml name="AvsAction" node="element"/>
+		</field>
+		<field name="avsPostCode" type="java.lang.String">
+			<bind-xml name="AvsPostCode" node="element"/>
+		</field>
+		<field name="avsStreetAddress" type="java.lang.String">
+			<bind-xml name="AvsStreetAddress" node="element"/>
+		</field>
+		<field name="billingId" type="java.lang.String">
+			<bind-xml name="BillingId" node="element"/>
+		</field>
+		<field name="cardHolderName" type="java.lang.String">
+			<bind-xml name="CardHolderName" node="element"/>
+		</field>
+		<field name="cardNumber" type="java.lang.String">
+			<bind-xml name="CardNumber" node="element"/>
+		</field>
+		<field name="cvc2" type="java.lang.String">
+			<bind-xml name="Cvc2" node="element"/>
+		</field>
+		<field name="dateExpiry" type="java.lang.String">
+			<bind-xml name="DateExpiry" node="element"/>
+		</field>
+		<field name="dateStart" type="java.lang.String">
+			<bind-xml name="DateStart" node="element"/>
+		</field>
+		<field name="dpsBillingId" type="java.lang.String">
+			<bind-xml name="DpsBillingId" node="element"/>
+		</field>
+		<field name="dpsTxnRef" type="java.lang.String">
+			<bind-xml name="DpsTxnRef" node="element"/>
+		</field>
+		<field name="enableAddBillCard" type="java.lang.String">
+			<bind-xml name="EnableAddBillCard" node="element"/>
+		</field>
+		<field name="enableAvsData" type="java.lang.String">
+			<bind-xml name="EnableAvsData" node="element"/>
+		</field>
+		<field name="inputCurrency" type="java.lang.String">
+			<bind-xml name="InputCurrency" node="element"/>
+		</field>
+		<field name="issueNumber" type="java.lang.String">
+			<bind-xml name="IssueNumber" node="element"/>
+		</field>
+		<field name="merchantReference" type="java.lang.String">
+			<bind-xml name="MerchantReference" node="element"/>
+		</field>
+		<field name="postPassword" type="java.lang.String">
+			<bind-xml name="PostPassword" node="element"/>
+		</field>
+		<field name="postUsername" type="java.lang.String">
+			<bind-xml name="PostUsername" node="element"/>
+		</field>
+		<field name="track2" type="java.lang.String">
+			<bind-xml name="Track2" node="element"/>
+		</field>
+		<field name="txnData1" type="java.lang.String">
+			<bind-xml name="TxnData1" node="element"/>
+		</field>
+		<field name="txnData2" type="java.lang.String">
+			<bind-xml name="TxnData2" node="element"/>
+		</field>
+		<field name="txnData3" type="java.lang.String">
+			<bind-xml name="TxnData3" node="element"/>
+		</field>
+		<field name="txnId" type="java.lang.String">
+			<bind-xml name="TxnId" node="element"/>
+		</field>
+		<field name="txnType" type="java.lang.String">
+			<bind-xml name="TxnType" node="element"/>
+		</field>
+	</class>
+</mapping>

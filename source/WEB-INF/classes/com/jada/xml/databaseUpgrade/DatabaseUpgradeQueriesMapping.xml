@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+	<description/>
+	<class name="com.jada.xml.databaseUpgrade.DatabaseUpgradeQueries">
+		<map-to xml="DatabaseUpgradeQueries"/>
+		<field name="databaseUpgradeRecord" type="com.jada.xml.databaseUpgrade.DatabaseUpgradeRecord" collection="array">
+			<bind-xml name="databaseUpgradeRecord" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.databaseUpgrade.DatabaseUpgradeRecord">
+		<field name="dbVersion" type="java.lang.String">
+			<bind-xml name="dbVersion" node="element"/>
+		</field>
+		<field name="dbQuery" type="java.lang.String">
+			<bind-xml name="dbQuery" node="element"/>
+		</field>
+		<field name="className" type="java.lang.String">
+			<bind-xml name="className" node="element"/>
+		</field>
+		<field name="method" type="java.lang.String">
+			<bind-xml name="method" node="element"/>
+		</field>
+		<field name="ignoreError" type="java.lang.String">
+			<bind-xml name="ignoreError" node="element"/>
+		</field>
+	</class>
+</mapping>

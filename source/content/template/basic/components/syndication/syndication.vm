@@ -1,0 +1,12 @@
+<div class="jc_panel_header">$template.getLanguageByValue('News feed')</div>
+<div class="jc_panel_body">
+#set ($syndications = $template.getSyndications())
+#foreach ($syndicationInfo in $syndications)
+  <a href="$syndicationInfo.link" target="_blank" id="syndication-title">
+    $syndicationInfo.title
+  </a><br>
+  <span id="syndication-text">$syndicationInfo.description</span><br>
+  <span id="syndication-text">$syndicationInfo.publishDate</span><br>
+#end
+</div>
+<br>

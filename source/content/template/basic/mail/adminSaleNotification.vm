@@ -1,0 +1,290 @@
+#set ($adminSaleConfirmation = $template.getOrder())
+<html>
+<head>
+<title>${adminSaleConfirmation.siteName}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+body, td, th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
+	margin: 0;
+	padding: 0;
+}
+li {
+	list-style: none outside none
+}
+.shopping-cart-info-table td {
+	padding:4px;
+}
+.shopping-cart-info-title {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+.shopping-cart-total-label {
+	font-size: 1.4em;
+	font-weight: bold;
+	text-align: right;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" style="padding: 5px">
+<br>
+<table width="800" border="0" cellpadding="0" class="shopping-cart-info-table">
+  <tr>
+    <td width="150">
+      <span class="shopping-cart-info-title">Order number</span>
+    </td>
+    <td>
+    $adminSaleConfirmation.orderNum
+    </td>
+  </tr>
+  <tr>
+    <td width="150">
+      <span class="shopping-cart-info-title">Date</span>
+    </td>
+    <td>
+      $adminSaleConfirmation.orderDatetime
+    </td>
+  </tr>
+  <tr>
+    <td width="150">
+      <span class="shopping-cart-info-title">Currency</span>
+    </td>
+    <td>
+      $adminSaleConfirmation.currencyCode
+    </td>
+  </tr>
+  <tr>
+    <td width="150">
+      <span class="shopping-cart-info-title">Payment type</span>
+    </td>
+    <td>
+	  #if ($adminSaleConfirmation.paymentGatewayProvider)
+	    #if ($adminSaleConfirmation.paymentGatewayProvider != 'PayPalEngine')
+	      Credit card
+	    #else
+	      PayPal
+	    #end
+	  #else
+	    Cash on delivery
+	  #end
+    </td>
+  </tr>
+</table>
+<br>
+<table width="600" border="0" cellpadding="0" class="shopping-cart-info-table">
+  <tr>
+    <td><span class="shopping-cart-info-title">Customer information</span></td>
+  </tr>
+</table>
+<table width="800" border="0" cellpadding="3" class="jc_tran_table_normal">
+  <tr>
+    <td width="150">Email address</td>
+    <td>
+    $adminSaleConfirmation.custEmail
+    </td>
+  </tr>
+  <tr>
+    <td width="150" valign="top">Address</td>
+    <td valign="top">
+    $adminSaleConfirmation.custFirstName $adminSaleConfirmation.custLastName<br>
+    $adminSaleConfirmation.custAddressLine1<br>
+    #if ($adminSaleConfirmation.custAddressLine2 != '')
+      $adminSaleConfirmation.custAddressLine2<br>
+    #end
+    $adminSaleConfirmation.custCityName $adminSaleConfirmation.custStateName<br>
+    $adminSaleConfirmation.custCountryName<br>
+    $adminSaleConfirmation.custZipCode
+    </td>
+  </tr>
+</table>
+<br>
+<table width="800" border="0" cellpadding="0" class="shopping-cart-info-table">
+  <tr>
+    <td>
+      <span class="shopping-cart-info-title">Billing information</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      #if ($adminSaleConfirmation.billingCustUseAddress == 'C')
+        Same as customer information
+      #end
+    </td>
+  </tr>
+</table>
+#if ($adminSaleConfirmation.billingCustUseAddress == 'O')
+<table width="800" border="0" cellpadding="0" class="shopping-cart-info-table">
+  <tr>
+    <td width="150" valign="top">
+      <span class="shopping-cart-info-title">Address</span>
+    </td>
+    <td valign="top">
+    $adminSaleConfirmation.billingCustFirstName $adminSaleConfirmation.billingCustLastName<br>
+    $adminSaleConfirmation.billingCustAddressLine1<br>
+    #if ($adminSaleConfirmation.billingCustAddressLine2 != '')
+      $adminSaleConfirmation.billingCustAddressLine2<br>
+    #end
+    $adminSaleConfirmation.billingCustCityName $adminSaleConfirmation.billingCustStateName<br>
+    $adminSaleConfirmation.billingCustCountryName<br>
+    $adminSaleConfirmation.billingCustZipCode
+    </td>
+  </tr>
+</table>
+#end
+<br>
+<table width="800" border="0" cellpadding="0" class="shopping-cart-info-table">
+  <tr>
+    <td>
+      <span class="shopping-cart-info-title">Shipping information</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      #if ($adminSaleConfirmation.shippingCustUseAddress == 'C')
+        Same as customer information
+      #elseif ($adminSaleConfirmation.shippingCustUseAddress == 'B')
+        Same as billing information
+      #end
+    </td>
+  </tr>
+</table>
+#if ($adminSaleConfirmation.shippingCustUseAddress == 'O')
+<table width="800" border="0" cellpadding="0" class="shopping-cart-info-table">
+  <tr>
+    <td width="150" valign="top">
+      <span class="shopping-cart-info-title">Address</span>
+    </td>
+    <td valign="top">
+    $adminSaleConfirmation.shippingCustFirstName $adminSaleConfirmation.shippingCustLastName<br>
+    $adminSaleConfirmation.shippingCustAddressLine1<br>
+    #if ($adminSaleConfirmation.shippingCustAddressLine2 != '')
+      $adminSaleConfirmation.shippingCustAddressLine2<br>
+    #end
+    $adminSaleConfirmation.shippingCustCityName $adminSaleConfirmation.shippingCustStateName<br>
+    $adminSaleConfirmation.shippingCustCountryName<br>
+    $adminSaleConfirmation.shippingCustZipCode
+    </td>
+  </tr>
+</table>
+#end
+<br>
+<table width="600" border="0" cellpadding="0" class="shopping-cart-info-table">
+  <tr>
+    <td><span class="shopping-cart-info-title">Shipping method</span></td>
+  </tr>
+  <tr>
+    <td>
+      ${adminSaleConfirmation.shippingMethodName}
+	</td>
+  </tr>
+</table>
+<br>
+
+<table width="700" border="0" cellpadding="0" class="shopping-cart-info-table" style="border: 1px solid #DCDCDC;">
+  <tr>
+    <td bgcolor="#35517B"><span style="color: #ffffff; font-size: 1.2em; font-weight: bold;">Item details</span></td>
+  </tr>
+  #foreach( $itemInfo in $adminSaleConfirmation.itemDetails )
+  <tr>
+    <td><hr></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="100%" border="0" cellpadding="0">
+        <tr>
+          <td width="80px">
+            <div align="center" style="padding-right: 1em;">
+              #if ($itemInfo.imageId)
+                 <img src="$siteInfo.getPublicURLPrefix()/$template.getContextPath()/services/ImageProvider.do?type=I&imageId=$itemInfo.imageId&maxsize=75">
+              #end
+            </div>
+          </td>
+          <td valign="top">
+            <table width="100%" border="0" cellpadding="0">
+              <tr>
+                <td>
+                  <font face=Arial size=3><b>${itemInfo.itemShortDesc}</b><br></font>
+                  #foreach( $itemAttribute in $itemInfo.itemAttributes )
+                  ${itemAttribute.customAttribDesc} - ${itemAttribute.customAttribValue}<br>
+                  #end
+                </td>
+                <td width="80" valign="top"><div align="right">${itemInfo.itemPrice}</div></td>
+                <td width="80" valign="top">
+                  <div align="center">
+                    ${itemInfo.itemQty}
+                  </div>
+                </td>
+                <td width="80" valign="top"><div align="right">${itemInfo.itemSubTotal}</div></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  #end
+  #foreach( $couponInfo in $adminSaleConfirmation.couponDetails )
+  <tr>
+    <td><hr></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="100%" border="0" cellpadding="0" class="shopping-cart-info-table">
+        <tr>
+          <td width="80"><div style="width: 80px"></div></td>
+          <td valign="top" width="100%">
+            <table width="100%" border="0" cellpadding="0">
+              <tr>
+                <td><font face=Arial size=3><b>${couponInfo.couponCode}&nbsp;${couponInfo.couponName}</b></font></td>
+                <td></td>
+                <td></td>
+                <td><div align="right">${couponInfo.couponAmount}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  #end
+  <tr>
+    <td bgcolor="#F2F2F2">
+      <table width="300" border="0" align="right" class="shopping-cart-info-table">
+        <tr>
+          <td><div align="right">Cart sub-total</div></td>
+          <td><div align="right">$adminSaleConfirmation.subTotal</div></td>
+        </tr>
+        <tr>
+          <td><div align="right">Shipping</div></td>
+          <td><div align="right">$adminSaleConfirmation.shippingTotal</div></td>
+        </tr>
+        #foreach( $taxInfo in $adminSaleConfirmation.taxDetails )
+        <tr>
+          <td><div align="right">$taxInfo.taxName</div></td>
+          <td><div align="right">$taxInfo.taxAmount</div></td>
+        </tr>
+        #end
+        <tr>
+          <td colspan="2"><hr></td>
+        </tr>
+        <tr>
+          <td><div align="right"><span class="shopping-cart-total-label">Order total</span></div></td>
+          <td><div align="right"><span class="shopping-cart-total-label">$adminSaleConfirmation.orderTotal</span></div></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br>
+</body>
+</html>

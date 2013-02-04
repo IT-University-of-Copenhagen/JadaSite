@@ -1,0 +1,489 @@
+#set ($myAccountBean = $form)
+<script type="text/javascript" language="JavaScript"><!--
+function submitForm(type) {
+	$('#myAccountAddressActionForm ipnut[name=process]').val(type);
+	$('#myAccountAddressActionForm').submit();
+}
+
+function selectShipping(value) {
+	if (value == 'O') {
+		$('#shippingContainer').css('display', 'block');
+	}
+	else {
+		$('#shippingContainer').css('display', 'none');
+	}
+}
+
+function selectBilling(value) {
+	if (value == 'O') {
+		$('#billingContainer').css('display', 'block');
+	}
+	else {
+		$('#billingContainer').css('display', 'none');
+	}
+}
+
+$(function() {
+ 	if ("$form.billingUseAddress" == 'O') {
+ 		$('#billingContainer').css("display","block");
+ 	}
+ 	$('#billingUseAddress').val('$form.billingUseAddress').attr("selected", "selected");
+
+ 	if ("$form.shippingUseAddress" == 'O') {
+ 		$('#shippingContainer').css("display","block");
+ 	}
+ 	$('#shippingUseAddress').val('$form.shippingUseAddress').attr("selected", "selected");
+});
+
+function populateStateCodes(countryId, stateCodeId, stateNameId) {
+	var countryObject = document.getElementById(countryId);
+	var stateCodeObject = document.getElementById(stateCodeId);
+	var stateNameObject = document.getElementById(stateNameId);
+	
+	var countryCode = countryObject.value;
+	if (countryCode != '') {
+		jQuery.ajax( {
+	      timeout: 30000,
+	      url: "/$siteInfo.contextPath/content/content/update.do?process=getStates&prefix=$siteInfo.siteDomainPrefix" + "&countryCode=" + countryCode,
+	      type: 'GET',
+	      dataType: 'json',
+	      success: function(response) {
+		    var has = false;
+		    if (response.states.length > 0) {
+			    has = true;
+		    }
+	
+		    while (stateCodeObject.options.length > 0) {
+			    stateCodeObject.remove(0);
+		    }
+			if (has) {
+				var selection = document.createElement('option');
+				selection.text = '$template.getLanguageByValue("Please select")';
+				selection.value = '';
+				stateCodeObject.options[stateCodeObject.length] = selection;	
+				for (i = 0; i < response.states.length; i++) {
+					selection = document.createElement('option');
+					selection.text = response.states[i].stateName;
+					selection.value = response.states[i].stateCode;
+					stateCodeObject.options[stateCodeObject.length] = selection;
+				}
+				stateCodeObject.style.display = 'block';
+				stateCodeObject.disabled = false;
+				stateNameObject.style.display = 'none';
+				stateNameObject.disabled = true;
+				stateNameObject.value = '';
+			}
+			else {
+				stateNameObject.style.display = 'block';
+				stateNameObject.disabled = false;
+				stateCodeObject.style.display = 'none';
+				stateCodeObject.disabled = true;
+			}
+	      }
+	    }
+	  );
+	}
+}
+
+//--></script>
+<form id="myAccountAddressActionForm" name="myAccountAddressActionForm" method="post" action="/$siteInfo.contextPath/myaccount/address/myAccountAddress.do?process=update&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">
+<input type="hidden" name="process" value=""/>
+<div id="my-account-container">
+  <div id="my-account-nav-container">
+  	#parse("/myaccount/myAccountNav.vm")
+  </div>
+  <div id="my-account-body-container">
+    <div id="my-account-header-container">$template.getLanguageByValue("Address information")</div>
+    <span id="my-account-message">$form.getMessage("message")</span>
+    <div id="my-account-body-inner-container">
+      <span class="my-account-title">$template.getLanguageByValue("My information")</span><br>
+      <br>
+		<table border="0" cellpadding="3" class="my-account-table">
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("First Name")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="custFirstName" value="$template.nn($form.custFirstName)" style="width: 240px" length="40" class="my-account-form-input"/>
+	          <span class="my-account-error">
+	            $form.getMessage("custFirstName")
+	          </span>
+		    </td>
+		    <td valign="top" width="100"><span class="my-account-form-label">$template.getLanguageByValue("Last Name")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="custLastName" value="$template.nn($form.custLastName)" style="width: 240px" length="40" class="my-account-form-input"/>
+	          <span class="my-account-error">
+	            $form.getMessage("custLastName")
+	          </span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Address") 1*</span></td>
+		    <td valign="top">
+		      <input type="text" name="custAddressLine1" value="$template.nn($form.custAddressLine1)" style="width: 240px" length="30" class="my-account-form-input"/>
+	          <span class="my-account-error">
+	            $form.getMessage("custAddressLine1")
+	          </span>
+		    </td>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Address") 2</span></td>
+		    <td valign="top"><input type="text" name="custAddressLine2" value="$template.nn($form.custAddressLine2)" style="width: 240px" maxlength="30" class="my-account-form-input"/></td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Country")*</span></td>
+		    <td valign="top">
+		      <select id="custCountryCode" name="custCountryCode" class="my-account-form-input" style="width: 240px" onchange="populateStateCodes('custCountryCode', 'custStateCode', 'custStateName')">
+		        #if ($template.isEmpty($form.countries))
+		        <option value="">$template.getLanguageByValue("Please select")</option>
+		        #end
+		        #foreach ($country in $form.countries)
+			        #set ($selected = "")
+			        #if ($country.value == $form.custCountryCode)
+			          #set ($selected = "selected='selected'")
+			        #end
+			        <option value="$country.value" $selected/>$country.label</option>
+		        #end
+		      </select>
+	          <span class="my-account-error">
+	            $form.getMessage("custCountryCode")
+	          </span>
+		    </td>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("State/Province")*</span></td>
+		    <td valign="top">
+		      #if (!$template.isEmpty($form.custStates))
+		          <select id="custStateCode" name="custStateCode" class="my-account-form-input" style="width: 120px; display: block"> 
+		            <option value="">$template.getLanguageByValue("Please select")</option>
+		            #foreach ($custState in $form.custStates)
+				        #set ($selected = "")
+				        #if ($custState.value == $form.custStateCode)
+				          #set ($selected = "selected='selected'")
+				        #end
+		            	<option value="$custState.value" $selected/>$custState.label</option>
+		            #end
+		          </select>
+		          <input type="text" id="custStateName" name="custStateName" value="$template.nn($form.custStateName)" class="my-account-form-input" style="width: 240px; display: none" length="40" disabled="true"/>
+			  #else
+		          <select id="custStateCode" name="custStateCode" class="my-account-form-input" style="width: 120px; display: none" disabled="true"> 
+		            <option value="">$template.getLanguageByValue("Please select")</option>
+		            #foreach ($custState in $form.custStates)
+				        #set ($selected = "")
+				        #if ($custState.value == $form.custStateCode)
+				          #set ($selected = "selected='selected'")
+				        #end
+		            	<option value="$custState.value" $selected/>$custState.label</option>
+		            #end
+		          </select>
+		          <input type="text" id="custStateName" name="custStateName" value="$template.nn($form.custStateName)" class="my-account-form-input" style="width: 240px; display: block" length="40"/>
+		      #end
+	          <span class="my-account-error">
+	            $form.getMessage("custStateCode")
+	          </span>
+	           </td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Phone")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="custPhoneNum" value="$template.nn($form.custPhoneNum)" class="my-account-form-input" style="width: 240px" length="15"/>
+	          <span class="my-account-error">
+	            $form.getMessage("custPhoneNum")
+	          </span>
+		    </td>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("City")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="custCityName" value="$template.nn($form.custCityName)" class="my-account-form-input" style="width: 240px" length="30"/>
+	          <span class="my-account-error">
+	            $form.getMessage("custCityName")
+	          </span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Fax")</span></td>
+		    <td valign="top">
+		      <input type="text" name="custFaxNum" value="$template.nn($form.custFaxNum)" class="my-account-form-input" style="width: 240px" length="15"/>
+	          <span class="my-account-error">
+	            $form.getMessage("custFaxNum")
+	          </span>
+		    </td>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Zip/Postal")*</span></td>
+		    <td valign="top">
+	          <input type="text" name="custZipCode" value="$template.nn($form.custZipCode)" class="my-account-form-input" style="width: 50px" length="10"/>
+	          <span class="my-account-error">
+	            $form.getMessage("custZipCode")
+	          </span>
+			</td>
+		  </tr>
+		</table>
+		<br>
+		<table width="700" border="0" cellpadding="3" class="my-account-table">
+		  <tr>
+		    <td><span class="my-account-title">$template.getLanguageByValue("Billing information")</span></td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <select id="billingUseAddress" name="billingUseAddress" value="$template.nn($form.billingUseAddress)" class="my-account-form-input" onchange="selectBilling(this.value)">
+		        <option value="C">$template.getLanguageByValue("Same as my information")</option>
+		        <option value="O">$template.getLanguageByValue("Choose a different address")</option>
+		      </select>
+		    </td>
+		  </tr>
+		</table>
+		<div id="billingContainer" style="display:none"> <br>
+		  <table width="700" border="0" cellpadding="3" class="my-account-table">
+		  <tr>
+		    <td valign="top" width="100"><span class="my-account-form-label">$template.getLanguageByValue("First Name")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="billingCustFirstName" value="$template.nn($form.billingCustFirstName)" class="my-account-form-input" style="width: 240px" length="40"/>
+	          <span class="my-account-error">
+	            $form.getMessage("billingCustFirstName")
+	          </span>
+		    </td>
+		    <td valign="top" width="100"><span class="my-account-form-label">$template.getLanguageByValue("Last Name")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="billingCustLastName" value="$template.nn($form.billingCustLastName)" class="my-account-form-input" style="width: 240px" length="40"/>
+	          <span class="my-account-error">
+	            $form.getMessage("billingCustLastName")
+	          </span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Address") 1*</span></td>
+		    <td valign="top">
+		      <input type="text" name="billingCustAddressLine1" value="$template.nn($form.billingCustAddressLine1)" class="my-account-form-input" style="width: 240px" length="30"/>
+	          <span class="my-account-error">
+	            $form.getMessage("billingCustAddressLine1")
+	          </span>
+		    </td>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Address") 2</span></td>
+		    <td valign="top"><input type="text" name="billingCustAddressLine2" value="$template.nn($form.billingCustAddressLine2)" class="my-account-form-input" style="width: 240px" length="30"/></td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Country")*</span></td>
+		    <td valign="top">
+		      <select id="billingCustCountryCode" name="billingCustCountryCode" value="$template.nn($form.billingCustCountryCode)" class="my-account-form-input" style="width: 240px" onchange="populateStateCodes('billingCustCountryCode', 'billingCustStateCode', 'billingCustStateName')">
+		        #if (!$template.isEmpty($form.countries))
+		        <option value="">$template.getLanguageByValue("Please select")</option>
+		        #end
+		        #foreach ($country in $form.countries)
+		          #set ($selected = "")
+		          #if ($country.value == $form.billingCustCountryCode)
+		            #set ($selected = "selected='selected'")
+		          #end
+		          <option value="$country.value" $selected/>$country.label</option>
+		        #end
+		      </select>
+	          <span class="my-account-error">
+	            $form.getMessage("billingCustCountryCode")
+	          </span>
+		    </td>
+	        <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("State/Province")*</span></td>
+		    <td valign="top">
+		      #if (!$template.isEmpty($form.billingCustStates))
+		          <select id="billingCustStateCode" name="billingCustStateCode" value="$template.nn($form.billingCustStateCode)" class="my-account-form-input" style="width: 120px; display: block"> 
+		            <option value="">$template.getLanguageByValue("Please select")</option>
+		            #foreach ($billingCustState in $form.billingCustStates)
+		              #set ($selected = "")
+		              #if ($billingCustState.value == $form.billingCustStateCode)
+		                #set ($selected = "selected='selected'")
+		              #end
+		              <option value="$billingCustState.value" $selected/>$billingCustState.label</option>
+		            #end
+		          </select>
+		          <input type="text" id="billingCustStateName" name="billingCustStateName" value="$template.nn($form.billingCustStateName)" style="width: 240px; display: none" length="40"/>
+			  #else
+		          <select id="billingCustStateCode" name="billingCustStateCode" value="$template.nn($form.billingCustStateCode)" class="my-account-form-input" style="width: 120px; display: none"> 
+		            <option value="">$template.getLanguageByValue("Please select")</option>
+		            #foreach ($billingCustState in $form.billingCustStates)
+		              #set ($selected = "")
+		              #if ($billingCustState.value == $form.billingCustStateCode)
+		                #set ($selected = "selected='selected'")
+		              #end
+		              <option value="$billingCustState.value" $selected/>$billingCustState.label</option>
+		            #end
+		          </select>
+		          <input type="text" id="billingCustStateName" name="billingCustStateName" value="$template.nn($form.billingCustStateName)" class="my-account-form-input" style="width: 240px; display: block" length="40"/>
+		      #end
+	          <span class="my-account-error">
+	            $form.getMessage("billingCustStateCode")
+	          </span>
+	           </td>
+	  		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Phone")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="billingCustPhoneNum" value="$template.nn($form.billingCustPhoneNum)" class="my-account-form-input" style="width: 240px" length="15"/>
+	          <span class="my-account-error">
+	            $form.getMessage("billingCustPhoneNum")
+	          </span>
+		    </td>
+	  		<td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("City")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="billingCustCityName" value="$template.nn($form.billingCustCityName)" class="my-account-form-input" style="width: 240px" length="30"/>
+	          <span class="my-account-error">
+	            $form.getMessage("billingCustCityName")
+	          </span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Fax")</span></td>
+		    <td valign="top">
+		      <input type="text" name="billingCustFaxNum" value="$template.nn($form.billingCustFaxNum)" class="my-account-form-input" style="width: 240px" length="15"/>
+	          <span class="my-account-error">
+	            $form.getMessage("billingCustFaxNum")
+	          </span>
+		    </td>
+		    <td valign="top">
+		      <span class="my-account-form-label">$template.getLanguageByValue("Zip/Postal")*</span>
+	        </td>
+		    <td valign="top">
+		      <input type="text" name="billingCustZipCode" value="$template.nn($form.billingCustZipCode)" class="my-account-form-input" style="width: 50px" length="10"/>
+	          <span class="my-account-error">
+	            $form.getMessage("billingCustZipCode")
+	          </span>
+	           </td>
+		  </tr>
+		  </table>
+		</div>
+		<br>
+		<table width="700" border="0" cellpadding="0" class="my-account-table">
+		  <tr>
+		    <td><span class="my-account-title">$template.getLanguageByValue("Shipping information")</span></td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <select id="shippingUseAddress" name="shippingUseAddress" value="$template.nn($form.shippingUseAddress)" class="my-account-form-input" onchange="selectShipping(this.value)"> 
+		        <option value="C">$template.getLanguageByValue("Same as my information")</option>
+		        <option value="B">$template.getLanguageByValue("Same as billing information")</option>
+		        <option value="O">$template.getLanguageByValue("Choose a different address")</option>
+		      </select>
+		    </td>
+		  </tr>
+		</table>
+		<div id="shippingContainer" style="display:none"> <br>
+		  <table width="700" border="0" cellpadding="3" class="my-account-table">
+		  <tr>
+		    <td valign="top" width="100"><span class="my-account-form-label">$template.getLanguageByValue("First Name")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="shippingCustFirstName" value="$template.nn($form.shippingCustFirstName)" class="my-account-form-input" style="width: 240px" length="40"/>
+	          <span class="my-account-error">
+	            $form.getMessage("shippingCustFirstName")
+	          </span>
+		    </td>
+		    <td valign="top" width="100"><span class="my-account-form-label">$template.getLanguageByValue("Last Name")*</span></td>
+		    <td valign="top">
+		      <input type="text" name="shippingCustLastName" value="$template.nn($form.shippingCustLastName)" class="my-account-form-input" style="width: 240px" length="40"/>
+	          <span class="my-account-error">
+	            $form.getMessage("shippingCustLastName")
+	          </span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Address") 1*</span></td>
+		    <td valign="top">
+		      <input type="text" name="shippingCustAddressLine1" value="$template.nn($form.shippingCustAddressLine1)" class="my-account-form-input" style="width: 240px" length="30"/>
+	          <span class="my-account-error">
+	            $form.getMessage("shippingCustAddressLine1")
+	          </span>
+		    </td>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Address") 2</span></td>
+		    <td valign="top"><input type="text" name="shippingCustAddressLine2" value="$template.nn($form.shippingCustAddressLine2)" class="my-account-form-input" style="width: 240px" length="30"/></td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Country")*</span></td>
+		    <td valign="top">
+		      <select id="shippingCustCountryCode" name="shippingCustCountryCode" class="my-account-form-input" style="width: 240px" onchange="populateStateCodes('shippingCustCountryCode', 'shippingCustStateCode', 'shippingCustStateName')">
+		        #if ($template.isEmpty($form.countries)) 
+		        <option value="">$template.getLanguageByValue("Please select")</option>
+		        #end
+		        #foreach ($country in $form.countries)
+		          #set ($selected = "")
+		          #if ($country.value == $form.shippingCustCountryCode)
+		            #set ($selected = "selected='selected'")
+		          #end
+		          <option value="$country.value" $selected/>$country.label</option>
+		        #end
+		      </select>
+	          <span class="my-account-error">
+	            $form.getMessage("shippingCustCountryCode")
+	          </span>
+		    </td>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("State/Province")*</span></td>
+		    <td valign="top">
+		      #if (!$template.isEmpty($form.shippingCustStates))
+		          <select id="shippingCustStateCode" name="shippingCustStateCode" class="my-account-form-input" style="width: 120px; display: block"> 
+		            <option value="">$template.getLanguageByValue("Please select")</option>
+		            #foreach ($custState in $form.shippingCustStates)
+		            #set ($selected = "")
+		            #if ($custState.value == $form.shippingCustStateCode)
+		              #set ($selected = "selected='selected'")
+		            #end
+		            <option value="$shippingCustStates.value" $selected/>$shippingCustStates.label</option>
+		            #end
+		          </select>
+		          <input type="text" id="shippingCustStateName" name="shippingCustStateName" value="$template.nn($form.shippingCustStateName)" class="my-account-form-input" style="width: 240px; display: none" length="40"/>
+			  #else
+		          <select id="shippingCustStateCode" name="shippingCustStateCode" class="my-account-form-input" style="width: 120px; display: none"> 
+		            <option value="">$template.getLanguageByValue("Please select")</option>
+		            #foreach ($custState in $form.shippingCustStates)
+		            #set ($selected = "")
+		            #if ($custState.value == $form.shippingCustStateCode)
+		              #set ($selected = "selected='selected'")
+		            #end
+		            <option value="$shippingCustStates.value" $selected/>$shippingCustStates.label</option>
+		            #end
+		          </select>
+		          <input type="text" id="shippingCustStateName" name="shippingCustStateName" value="$template.nn($form.shippingCustStateName)" class="my-account-form-input" style="width: 240px; display: block" length="40"/>
+		      #end
+	          <span class="my-account-error">
+	            $form.getMessage("shippingCustStateCode")
+	          </span>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Phone")*</span></td>
+		    <td valign="top">
+		      <input type="text" id="shippingCustPhoneNum" value="$template.nn($form.shippingCustPhoneNum)" class="my-account-form-input" style="width: 240px" maxlength="15"/>
+	          <span class="my-account-error">
+	            $form.getMessage("shippingCustPhoneNum")
+	          </span>
+		    </td>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("City")* </span></td>
+		    <td valign="top">
+		      <input type="text" id="shippingCustCityName" value="$template.nn($form.shippingCustCityName)" class="my-account-form-input" style="width: 240px" maxlength="30"/>
+	          <span class="my-account-error">
+	            $form.getMessage("shippingCustCityName")
+	          </span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Fax")</span></td>
+		    <td valign="top">
+		      <input type="text" name="shippingCustFaxNum" value="$template.nn($form.shippingCustFaxNum)" class="my-account-form-input" style="width: 240px" length="15"/>
+	          <span class="my-account-error">
+	            $form.getMessage("shippingCustFaxNum")
+	          </span>
+		    </td>
+		    <td valign="top">
+		      <span class="my-account-form-label">$template.getLanguageByValue("Zip/Postal")*</span>
+	        </td>
+		    <td valign="top">
+		      <input type="text" name="shippingCustZipCode" value="$template.nn($form.shippingCustZipCode)" class="my-account-form-input" style="width: 50px" length="10"/>
+	          <span class="my-account-error">
+	            $form.getMessage("shippingCustZipCode")
+	          </span>
+	           </td>
+		  </tr>
+		  </table>
+		</div>
+		<br>
+		<br>
+	    <table width="200" cellspacing="0" cellpadding="0" class="my-account-table">
+	      <tr>
+	        <td>
+	          <a href="javascript:submitForm('update');" class="my-account-submit">
+	            $template.getLanguageByValue("Update")
+	          </a>
+	        </td>
+	      </tr>
+	    </table>
+    </div>
+  </div>
+  <div class="container-reset"></div>
+</div>
+</html:form>
+

@@ -1,0 +1,51 @@
+<script language="JavaScript">
+function profilePost(query) {
+	var url = document.siteProfile.action;
+	if (url.indexOf('?') == -1) {
+		url += '?';
+	}
+	else {
+		url += '&';
+	}
+	url += query;
+	window.location.href = url;
+}
+
+function selectLanguage() {
+	var object = document.siteProfile.langName;
+	var langName = object.options[object.selectedIndex].value;
+	profilePost('langName=' + langName);
+}
+
+function selectCurrency() {
+	var object = document.siteProfile.currencyCode;
+	var currencyCode = object.options[object.selectedIndex].value;
+	profilePost('currencyCode=' + currencyCode);
+}
+</script>
+<form name="siteProfile" method="post" action="$template.getRepostURL()">
+#if ($template.getCount($siteInfo.languages) > 1)
+<span id="profile-language-text">$template.getLanguageByValue('Language')</span>
+<select id="profile-language" name="langName" onChange="selectLanguage();">
+    #foreach( $languageInfo in $siteInfo.languages )
+      #set( $selected = "" )
+      #if ($siteInfo.siteProfileClassName == $languageInfo.siteProfileClassName)
+        #set ( $selected = "selected" )
+      #end
+      <option value="$languageInfo.siteProfileClassName" $selected>$languageInfo.siteProfileClassNativeName</option>
+    #end
+</select>
+#end
+#if ($template.isShoppingCart())
+<span id="profile-currency-text">$template.getLanguageByValue('Currency')</span>
+<select class="profile-currency" name="currencyCode" onChange="selectCurrency();">
+    #foreach( $currencyInfo in $siteInfo.currencies )
+      #set( $selected = "" )
+      #if ($siteInfo.siteCurrencyClassName == $currencyInfo.siteCurrencyClassName)
+        #set ( $selected = "selected" )
+      #end
+      <option value="$currencyInfo.siteCurrencyClassName" $selected>$currencyInfo.siteCurrencyClassName</option>
+    #end
+</select>
+#end
+</form>

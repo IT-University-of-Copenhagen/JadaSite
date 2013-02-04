@@ -1,0 +1,132 @@
+#set ($CHECKOUT_STEP_NONE = 1)
+#set ($CHECKOUT_STEP_MYINFORMATION = 2)
+#set ($CHECKOUT_STEP_SHIPPING = 3)
+#set ($CHECKOUT_STEP_CREDITCARD = 4)
+#set ($CHECKOUT_STEP_PAYPALACTIVATE = 5)
+#set ($CHECKOUT_STEP_DONE = 6)
+<span style="font-size: 1em; font-weight: bold">$template.getLanguageByValue('Items in your cart')</span>
+#foreach ($cartItem in $form.shoppingCartItemInfos)
+  <hr>
+  <div style="display: table">
+	<div style="width: 80px; float: left;">
+	  #if ($cartItem.imageId)
+		<div id="shopping-cart-item-image">
+		  <img src="/$siteInfo.contextPath/services/ImageProvider.do?type=I&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName&imageId=$cartItem.imageId&maxsize=60">
+		</div>
+	  #end
+	</div>
+    <div style="margin-left: 80px;">
+	  <span class="shopping-cart-summary-text">
+	  $cartItem.itemShortDesc<br>
+	  $template.getLanguageByValue('Quantity'): $cartItem.itemQty <br>
+	  $template.getLanguageByValue('Item Price'): 
+	  </span>
+	  #if ($cartItem.special)
+		<span id="shopping-cart-regular-price">$cartItem.itemPrice</span> <span id="shopping-cart-special-price">$cartItem.itemSpecPrice</span>
+	  #else
+		<span id="shopping-cart-summary-price">$cartItem.itemPrice</span>
+	  #end
+    </div>
+  </div>
+#end
+<br>
+<div>
+	#if ($form.checkoutSteps > $CHECKOUT_STEP_MYINFORMATION)
+	<div style="float: right"><a href="#" onclick="return resetMyInformation();">change</a></div>
+	#end
+	<b>$template.getLanguageByValue('My information')</b>
+	<hr>
+	#if ($form.custEmail)
+	$form.custEmail<br>
+	$form.custFirstName $form.custLastName<br>
+	$form.custAddressLine1<br>
+	#if ($form.custAddressLine2)
+	  $form.custAddressLine2<br>
+	#end
+	$form.custStateName $form.custCityName<br>
+	$form.custCountryName<br>
+	#end
+	<br>
+</div>
+<div>
+	#if ($form.checkoutSteps > $CHECKOUT_STEP_MYINFORMATION)
+	<div style="float: right"><a href="#" onclick="return resetMyInformation();">change</a></div>
+	#end
+	<b>$template.getLanguageByValue('Billing information')</b>
+	<hr>
+	#if ($form.billingUseAddress)
+	  #if ($form.billingUseAddress == 'O')
+	    $form.billingCustFirstName $form.billingCustLastName<br>
+	    $form.billingCustAddressLine1<br>
+	    #if ($form.billingCustAddressLine2)
+	      $form.billingCustAddressLine2<br>
+	    #end
+	    $form.billingCustStateName $form.billingCustCityName<br>
+	    $form.billingCustCountryName
+	  #else
+	    $template.getLanguageByValue("Same as my information")<br>
+	  #end
+	#end
+	<br>
+</div>
+<div>
+	#if ($form.checkoutSteps > $CHECKOUT_STEP_MYINFORMATION)
+	<div style="float: right"><a href="#" onclick="return resetMyInformation();">change</a></div>
+	#end
+	<b>$template.getLanguageByValue('Shipping information')</b>
+	<hr>
+	#if ($form.shippingUseAddress)
+	  #if ($form.shippingUseAddress == 'O')
+	    $form.shippingCustFirstName $form.shippingCustLastName<br>
+	    $form.shippingCustAddressLine1<br>
+	    #if ($form.shippingCustAddressLine2)
+	      $form.shippingCustAddressLine2<br>
+	    #end
+	    $form.shippingCustStateName $form.shippingCustCityName<br>
+	    $form.shippingCustCountryName
+	  #else
+	    #if ($form.shippingUseAddress == 'C')
+	      $template.getLanguageByValue("Same as my information")<br>
+	    #elseif ($form.shippingUseAddress == 'B')
+	      $template.getLanguageByValue("Same as billing information")
+	    #end
+	  #end
+	#end
+	<br>
+</div>
+<div>
+	#if ($form.checkoutSteps > $CHECKOUT_STEP_SHIPPING)
+	<div style="float: right"><a href="#" onclick="return resetShipping();">change</a></div>
+	#end
+	<b>$template.getLanguageByValue('Shipping method')</b>
+	<hr>
+	#if ($form.shippingMethodName)
+	$template.nn($form.shippingMethodName)<br>
+	#end
+	<br>
+</div>
+#if ($form.creditCardOrder)
+<div>
+	#if ($form.checkoutSteps > $CHECKOUT_STEP_CREDITCARD)
+	<div style="float: right"><a href="#" onclick="return resetCreditCard();">change</a></div>
+	#end
+	<b>$template.getLanguageByValue('Credit Card Information')</b>
+	<hr>
+	#if ($form.CustCreditCardFullName)
+	$template.nn($form.custCreditCardFullName)<br>
+	$template.nn($form.custCreditCardNum)<br>
+	$template.nn($form.custCreditCardExpiryMonth) - $template.nn($form.custCreditCardExpiryYear)<br>
+	#end
+	<br>
+</div>
+#end
+<b>Summary</b>
+<hr>
+<div style="float: left">$template.getLanguageByValue('Item Total'):</div><div style="float: right">$form.priceTotal</div><br>
+#foreach ($taxInfo in $form.shoppingCartTaxInfos)
+<div style="float: left">$taxInfo.taxName:</div><div style="float: right">$taxInfo.taxAmount</div><br>
+#end
+<div style="float: left">$template.getLanguageByValue('Shipping'):</div><div style="float: right">$form.shippingTotal</div><br>
+<div style="float: left"><b>$template.getLanguageByValue('Order total'):</b></div><div style="float: right"><b>$form.orderTotal</b></div>
+</div>
+<br>

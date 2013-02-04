@@ -1,0 +1,22 @@
+<form name="shoppingCartShippingForm" method="post" id="shoppingCartShippingForm" action="/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do">
+<input type="hidden" name="process" value="updateShipping"/> 
+<input type="hidden" name="prefix" value="$siteInfo.siteDomainPrefix"/>
+
+<div class="shopping-cart-col1">
+  <div class="shopping-cart-col">
+    <span class="shopping-cart-info-title">$template.getLanguageByValue("Shipping method")</span>
+  </div>
+  <div class="shopping-cart-col">
+    <select id="shippingMethodId" name="shippingMethodId" class="shopping-cart-input" onchange="javascript:submitForm('recalculate')">
+    </select>
+    <span class="shopping-cart-error" id="msg-shippingMethodId"></span>
+  </div>
+  <span class="shopping-cart-error" id="shipping-message"></span>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-col-large">
+  <a href="" onclick="return submitShipping();" class="shopping-cart-button">
+    $template.getLanguageByValue("Update and Continue")
+  </a>
+</div>
+</form>

@@ -1,0 +1,66 @@
+<script type="text/javascript">
+
+jQuery.ajax( {
+    timeout: 30000,
+    url: '/$template.getContextPath()/content/poll/pollAction.do?process=get&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName',
+    type: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      var line = '';
+      if (response.pollDetails) {
+        line += '<span id="poll-text-title">' + response.pollTopic + '</span><br><br>';
+        line += '<form name="jc_poll_form" method="post" action="" style="display: inline">';
+        line += '<input type="hidden" name="pollHeaderId" value="' + response.pollHeaderId + '">';
+        for (i = 0; i < response.pollDetails.length; i++) {
+		  line += '<input type="radio" id="poll-input" name="pollOption" value="' + response.pollDetails[i].pollDetailId + '"><span id="poll-text">&nbsp;' +  response.pollDetails[i].pollOption + '</span><br>';
+        }
+        line += '<br>';
+        line += '<a href="javascript:void(null);" class="poll-submit-button" onclick="javascript:jc_poll_update();return false;">$template.getLanguageByValue('Vote')</a>';
+        line += '&nbsp;';
+        line += '<a href="javascript:void(null);" class="poll-result-link" onclick="javascript:jc_poll_update();return false;">$template.getLanguageByValue('or see results')</a>';
+        line += '</form>';
+      }
+      $('#poll-info-container').html(line);
+    }
+  }
+);
+
+function jc_poll_update() {
+ 	var pollHeaderId = document.jc_poll_form.pollHeaderId.value;
+	var pollDetailId = '';
+	for (i = 0; i < document.jc_poll_form.pollOption.length; i++) {
+		if (document.jc_poll_form.pollOption[i].checked) {
+			pollDetailId = document.jc_poll_form.pollOption[i].value;
+		}
+	}
+	jQuery.ajax( {
+	    timeout: 30000,
+	    url: '/$template.getContextPath()/content/poll/pollAction.do?process=update&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName&pollHeaderId=' + pollHeaderId + '&pollDetailId=' + pollDetailId,
+	    type: 'GET',
+	    dataType: 'json',
+	    success: function(response) {
+			var line = '';
+			line += '<span id="poll-text-title">' + response.pollTopic + '</span><br>';
+			line += '<br>';
+			line += '<table width="100%" border="0" cellpadding="0" cellspacing="0">';
+			for (i = 0; i < response.pollDetails.length; i++) {
+				line += '<tr>';
+				line += '<td><span id="poll-result-text">' + response.pollDetails[i].pollOption + '</span></td>';
+				line += '<td align="right"><span id="poll-result-text">' + response.pollDetails[i].percentage + '</span></td>';
+				line += '</tr>';
+			}
+			line += '</table>'
+			line += '<br>';
+			line += '<span id="poll-disclaimer">$template.getLanguageByValue('This is not a scientific poll')</span>';
+			$('#poll-info-container').html(line);
+	    }
+	  }
+	);
+}
+
+</script>
+<div class="jc_panel_header">$template.getLanguageByValue('Quick poll')</div>
+<div class="jc_panel_body">
+  <div id="poll-info-container"></div>
+</div>
+<br>

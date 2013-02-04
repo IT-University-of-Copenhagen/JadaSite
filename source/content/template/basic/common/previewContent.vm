@@ -1,0 +1,20 @@
+<div id="preview-content-container">
+  #if ($info.contentDefaultImageUrl)
+    #if ($info.feature)
+      <div id="preview-content-image-feature-container" style="float: $orientation;">
+        <a href="$info.contentUrl" class="preview-content-image-link"><img src="$info.contentDefaultImageUrl&maxsize=200" border="0"></a>
+      </div>
+    #else
+      <div id="preview-content-image-normal-container" style="float: $orientation;">
+        <a href="$info.contentUrl" class="preview-content-image-link"><img src="$info.contentDefaultImageUrl&maxsize=150" border="0"></a>
+      </div>
+    #end
+  #end
+  <a href="$info.contentUrl" class="preview-content-title-link">$info.contentTitle</a><br>
+  <span id="preview-content-signature">$template.getLanguageByValue('By') $info.contentUpdateName</span><br>
+  <span id="preview-content-signature">$template.getLanguageByValue('Updated') $info.recUpdateDatetime</span><br>
+  <br>
+  <span id="preview-content-shortdesc">$info.contentShortDesc</span> <br>
+  <br>
+  <a href="$info.contentUrl" class="preview-content-small">$template.getLanguageByValue('more')</a>
+</div>

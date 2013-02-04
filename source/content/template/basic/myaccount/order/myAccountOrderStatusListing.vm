@@ -1,0 +1,59 @@
+#set ($myAccountBean = $form)
+<div id="my-account-container">
+  <div id="my-account-nav-container">
+  	#parse("/myaccount/myAccountNav.vm")
+  </div>
+  <div id="my-account-body-container">
+    <form method="post" action="/$siteInfo.contextPath/myaccount/order/myAccountOrderStatusListing.do?process=update">
+    <html:hidden property="process" value=""/>
+    <div id="my-account-header-container">$template.getLanguage("content.text.myaccount.menu.orderStatus")</div>
+    <div id="my-account-body-inner-container">
+      <table border="0" cellspacing="0" cellpadding="0" id="my-account-order-listing-table">
+        <tr> 
+          <td colspan="5" align="right">
+            #if ($form.pageNo > 1)
+            #set ($num = $form.pageNo - 1)
+            <a class="my-account-order-status-nav-link" href="/${contentBean.contextPath}/myaccount/order/myAccountOrderStatusListing.do?process=list&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName&srPageNo=$num">&lt;</a>
+            #end
+            
+            #set ($range = [$form.startPage..$form.endPage])
+            #foreach ($index in $range)
+              #if ($index == $form.pageNo)
+                <span id="my-account-order-status-nav">$index</span>
+              #else
+                <a class="my-account-order-status-nav-link" href="/$siteInfo.contextPath/myaccount/order/myAccountOrderStatusListing.do?process=list&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName&srPageNo=$index">$index</a>
+              #end
+            #end
+            &nbsp;
+            #if ($form.pageNo < $form.pageCount)
+              #set ($num = $form.pageNo + 1)
+              <a class="my-account-order-status-nav-link" href="/$siteInfo.contextPath/myaccount/order/myAccountOrderStatusListing.do?process=list&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName&srPageNo=$num">&gt;</a>
+            #end
+          </td>
+        </tr>
+        <tr> 
+          <td nowrap><span class="my-account-order-listing-table-title">$template.getLanguageByValue("Order date")</span></td>
+          <td nowrap><span class="my-account-order-listing-table-title">$template.getLanguageByValue("Order number")</span></td>
+          <td nowrap><span class="my-account-order-listing-table-title">$template.getLanguageByValue("Status")</span></td>
+          <td nowrap><span class="my-account-order-listing-table-title">$template.getLanguageByValue("Ship date")</span></td>
+          <td nowrap align="right"><span class="my-account-order-listing-table-title">$template.getLanguageByValue("Total")</span></td>
+        </tr>
+        #foreach ($order in $form.orders)
+        <tr> 
+          <td nowrap><span class="my-account-order-listing-table-value">$order.orderDatetime</span></td>
+          <td nowrap>
+            <a class="my-account-order-status-link" href="/$siteInfo.contextPath/myaccount/order/myAccountOrderStatus.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName&orderHeaderId=$order.orderHeaderId">
+              $order.orderNum
+            </a>
+          </td>
+          <td nowrap><span class="my-account-order-listing-table-value">$order.orderStatus</span></td>
+          <td nowrap><span class="my-account-order-listing-table-value">$template.nn($order.shipDatetime)</span></td>
+          <td nowrap align="right"><span class="my-account-order-listing-table-value">$order.orderTotal</span></td>
+        </tr>
+        #end
+      </table>
+    </div>
+    </form>
+  </div>
+  <div class="container-reset"></div>
+</div>

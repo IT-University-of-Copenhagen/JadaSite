@@ -1,0 +1,33 @@
+#set ( $itemInfos = $template.getMostPopularItems() ) 
+#if (!$template.isEmpty($itemInfos))
+  <div class="jc_panel_header">$template.getLanguageByValue('Most popular items')</div>
+  <div class="jc_panel_body">
+    #foreach( $itemInfo in $itemInfos )
+				#if ($velocityCount > 1)
+					<div class="jc_dotted_line_seperator"></div>
+				#end
+				<br>
+				<div id="most-popular-item-image-panel">
+					<a href="#"><img src="$itemInfo.itemDefaultImageUrl&maxsize=60" border="0" width="60px" class="image-preview"/></a>
+				</div>
+				<div id="most-popular-item-info-panel">
+					<span id="most-popular-item-desc">$itemInfo.itemShortDesc</span>
+					<div class="jc_rating_outer">
+						<div class="jc_rating_inner" style="width: $itemInfo.commentRatingPercentageNumber%">&nbsp;</div>
+						<span id="most-popular-item-rating">$template.getLanguageByValue('Rating') $itemInfo.commentRating</span>
+					</div>
+					<br>
+					#if ($itemInfo.special)
+						<strike><span id="most-popular-item-regular-price">$itemInfo.itemPrice</span></strike> <span id="most-popular-item-special-price">$itemInfo.itemSpecPrice</span><br>
+					#else
+						<span id="most-popular-item-price">$itemInfo.itemPrice</span><br>
+					#end
+					<br>
+					<a href="$itemInfo.itemUrl" border="0" class="most-popular-item-button">$template.getLanguageByValue('View more')</a>
+					<br>
+				</div>
+				<div class="container-reset"></div>
+    #end
+  </div>
+  <br>
+#end

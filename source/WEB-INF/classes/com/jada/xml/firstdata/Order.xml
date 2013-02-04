@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+	<description/>
+	<class name="com.jada.xml.firstdata.Order">
+		<map-to xml="order"/>
+		<field name="merchantInfo" type="com.jada.xml.firstdata.MerchantInfo">
+			<bind-xml name="merchantinfo" node="element"/>
+		</field>
+		<field name="orderOptions" type="com.jada.xml.firstdata.OrderOptions">
+			<bind-xml name="orderoptions" node="element"/>
+		</field>
+		<field name="payment" type="com.jada.xml.firstdata.Payment">
+			<bind-xml name="payment" node="element"/>
+		</field>
+		<field name="creditCard" type="com.jada.xml.firstdata.CreditCard">
+			<bind-xml name="creditcard" node="element"/>
+		</field>
+		<field name="transactionDetails" type="com.jada.xml.firstdata.TransactionDetails">
+			<bind-xml name="transactiondetails" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.firstdata.MerchantInfo">
+		<map-to xml="merchantinfo"/>
+		<field name="configFile" type="java.lang.String">
+			<bind-xml name="configfile" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.firstdata.OrderOptions">
+		<map-to xml="orderoptions"/>
+		<field name="orderType" type="java.lang.String">
+			<bind-xml name="ordertype" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.firstdata.Payment">
+		<map-to xml="payment"/>
+		<field name="chargeTotal" type="java.lang.String">
+			<bind-xml name="chargetotal" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.firstdata.TransactionDetails">
+		<map-to xml="transactiondetails"/>
+		<field name="oid" type="java.lang.String">
+			<bind-xml name="oid" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.firstdata.CreditCard">
+		<map-to xml="creditcard"/>
+		<field name="cardNumber" type="java.lang.String">
+			<bind-xml name="cardnumber" node="element"/>
+		</field>
+		<field name="cardExpMonth" type="java.lang.String">
+			<bind-xml name="cardexpmonth" node="element"/>
+		</field>
+		<field name="cardExpYear" type="java.lang.String">
+			<bind-xml name="cardexpyear" node="element"/>
+		</field>
+		<field name="cvmValue" type="java.lang.String">
+			<bind-xml name="cvmvalue" node="element"/>
+		</field>
+		<field name="cvmIndicator" type="java.lang.String">
+			<bind-xml name="cvmindicator" node="element"/>
+		</field>
+	</class>
+</mapping>

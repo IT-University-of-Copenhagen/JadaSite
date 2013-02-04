@@ -1,0 +1,13 @@
+#set ( $contentInfos = $template.getTopRatedContent() ) 
+#if (!$template.isEmpty($contentInfos))
+  <div class="jc_panel_header">$template.getLanguageByValue('Top rated articles')</div>
+  <div class="jc_panel_body">
+    #foreach( $contentInfo in $contentInfos )
+      #if ($velocityCount > 1)
+        <div class="dotted-line-separator"></div>
+      #end
+      <a href="$contentInfo.contentUrl" class="top-rated-article-link">$contentInfo.contentTitle</a><br>
+    #end
+  </div>
+  <br>
+#end

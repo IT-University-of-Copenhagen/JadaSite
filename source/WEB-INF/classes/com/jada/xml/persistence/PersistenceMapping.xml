@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping>
+	<class name="com.jada.xml.persistence.Persistence">
+		<map-to xml="persistence"/>
+		<field name="persistenceUnit" type="com.jada.xml.persistence.PersistenceUnit">
+			<bind-xml name="persistence-unit" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.persistence.PersistenceUnit">
+		<map-to xml="persistence-unit"/>
+		<field name="classNames" type="string" collection="array">
+			<bind-xml name="class" node="element" xmlns="http://java.sun.com/xml/ns/persistence"/>
+		</field>
+		<field name="name" type="java.lang.String">
+			<bind-xml name="name" node="attribute" xmlns="http://java.sun.com/xml/ns/persistence"/>
+		</field>
+		<field name="provider" type="java.lang.String">
+			<bind-xml name="provider" node="element" xmlns="http://java.sun.com/xml/ns/persistence"/>
+		</field>
+		<field name="properties" type="com.jada.xml.persistence.Properties">
+			<bind-xml name="properties" node="element" xmlns="http://java.sun.com/xml/ns/persistence"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.persistence.Properties">
+		<map-to xml="properties"/>
+		<field name="property" type="com.jada.xml.persistence.Property" collection="array">
+			<bind-xml name="property" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.persistence.Property">
+		<map-to xml="property"/>
+		<field name="name" type="java.lang.String">
+			<bind-xml name="name" node="attribute"/>
+		</field>
+		<field name="value" type="java.lang.String">
+			<bind-xml name="value" node="attribute"/>
+		</field>
+	</class>
+</mapping>

@@ -1,0 +1,36 @@
+<form name="shoppingCartPayPalAccountForm" method="post" id="shoppingCartPayPalAccountForm" action="/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do">
+<input type="hidden" name="process" value="activatePayPalUser"/> 
+<input type="hidden" name="prefix" value="$siteInfo.siteDomainPrefix"/>
+<div class="shopping-cart-col-large">
+    <div class="shopping-cart-large">
+      <span class="shopping-cart-input-label">$template.getLanguageByValue("Password")*</span>
+    </div>
+    <div class="shopping-cart-large">
+      <input type="password" name="custPassword" size="20" class="shopping-cart-info-label"/>
+      <span class="shopping-cart-error" id="msg-custPassword"></span>
+    </div>
+</div>
+<div class="shopping-cart-col-large">
+    <div class="shopping-cart-large">
+      <span class="shopping-cart-input-label">$template.getLanguageByValue("Verification Password")*</span>
+    </div>
+    <div class="shopping-cart-large">
+      <input type="password" name="custVerifyPassword" size="20" class="shopping-cart-info-label"/>
+      <span class="shopping-cart-error" id="msg-custVerifyPassword"></span>
+    </div>
+</div>
+<div class="shopping-cart-col-large">
+    <div class="shopping-cart-large">
+      <span class="shopping-cart-input-label">$template.getLanguageByValue("Public name")*</span>
+    </div>
+    <div class="shopping-cart-large">
+      <input type="text" name="custPublicName" value="$template.nn($form.custPublicName)" size="20" styleClass="shopping-cart-info-label"/>
+      <span class="shopping-cart-error" id="msg-custPublicName"></span>
+    </div>
+</div>
+<div class="shopping-cart-col-large">
+  <a href="" onclick="return submitPayPalAccount();" class="shopping-cart-button">
+    $template.getLanguageByValue("Update and Continue")
+  </a>
+</div>
+</form>

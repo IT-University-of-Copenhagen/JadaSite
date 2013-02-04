@@ -1,0 +1,276 @@
+<div id="shopping-cart-container">
+<div id="shopping-cart-confirm-header-container">
+  <span id="shopping-cart-confirm-header">$template.getLanguageByValue("My Cart")</span>&nbsp;&nbsp;
+  #if (!$form.print)
+  <a href="/$siteInfo.contextPath/content/checkout/shoppingCartConfirmation.do?process=confirm&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName&print=Y&shoppingCart.orderNum=$template.nn($form.orderNum)"> 
+    $template.getLanguageByValue("print view")
+  </a>
+  #end
+</div>
+<br>
+<div id="shopping-cart-info-container">
+#if (!$form.print)
+<br>
+<span id="shopping-cart-confirm-message">$template.getLanguageByValue("Thank You.  Transaction has been successfully completed.")</span><br>
+<br>
+#end
+<span class="shopping-cart-info-title">$template.getLanguageByValue("My order")</span>
+<div class="container-reset"></div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Order number")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">$form.orderNum</span>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Date")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">$form.orderDatetime</span>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Currency")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">$form.currencyCode</span>
+</div>
+<div class="container-reset"></div>
+#if (!$form.paymentGatewayProvider)
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Payment type")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">$template.getLanguageByValue("Cash On Delivery")</span>
+</div>
+<div class="container-reset"></div>
+#end
+#if ($form.paymentGatewayProvider)
+#if ($form.paymentGatewayProvider != 'PayPalEngine')
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Payment type")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">$template.getLanguageByValue("Credit card")</span>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Credit card")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">$form.custCreditCardNum</span>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Authorization number")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">$form.authCode</span>
+</div>
+<div class="container-reset"></div>
+#else
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Payment type")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">PayPal</span>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Payment reference")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">$form.authCode</span>
+</div>
+<div class="container-reset"></div>
+#end
+#end
+
+<span class="shopping-cart-info-title">$template.getLanguageByValue("My information")</span>
+<div class="container-reset"></div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Email address")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">$form.custEmail</span>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Address")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">
+    $form.custAddress.custFirstName $form.custAddress.custLastName<br>
+    $form.custAddress.custAddressLine1<br>
+    #if (!$template.isEmpty($form.custAddress.custAddressLine2))
+      $form.custAddress.custAddressLine2<br>
+    #end
+    $form.custAddress.custCityName $form.custAddress.custStateName<br>
+    $form.custAddress.custCountryName<br>
+    $form.custAddress.custZipCode
+  </span>
+</div>
+<div class="container-reset"></div>
+
+<span class="shopping-cart-info-title">$template.getLanguageByValue("Billing information")</span>
+<div class="container-reset"></div>
+#if ($form.billingAddress.custUseAddress == 'C')
+  <div class="shopping-cart-confirm-col">
+    <span class="shopping-cart-info-label">$template.getLanguageByValue("Same as my information")</span>
+  </div>
+#end
+<div class="container-reset"></div>
+#if ($form.billingAddress.custUseAddress == 'O')
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Address")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">
+    $form.billingAddress.custFirstName $form.billingAddress.custLastName<br>
+    $form.billingAddress.custAddressLine1<br>
+    #if ($template.isEmpty($form.billingAddress.custAddressLine2))
+      ${shoppingCartForm.billingAddress.custAddressLine2}<br>
+    #end
+    $form.billingAddress.custCityName $form.billingAddress.custStateName<br>
+    $form.billingAddress.custCountryName<br>
+    $form.billingAddress.custZipCode
+  </span>
+</div>
+<div class="container-reset"></div>
+#end
+
+<span class="shopping-cart-info-title">$template.getLanguageByValue("Shipping information")</span>
+<div class="container-reset"></div>
+#if ($form.shippingAddress.custUseAddress == 'C')
+    <span class="shopping-cart-info-value">$template.getLanguageByValue("Same as my information")</span>
+#elseif ($form.shippingAddress.custUseAddress == 'B')
+    <span class="shopping-cart-info-value">$template.getLanguageByValue("Same as billing information")</span>
+#end
+<div class="container-reset"></div>
+#if ($form.shippingAddress.custUseAddress == 'O')
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-label">$template.getLanguageByValue("Address")</span>
+</div>
+<div class="shopping-cart-confirm-col">
+  <span class="shopping-cart-info-value">
+    $form.shippingAddress.custFirstName $form.shippingAddress.custLastName<br>
+    $form.shippingAddress.custAddressLine1<br>
+    #if (!$template.isEmpty($form.shippingAddress.custAddressLine2))
+      ${shoppingCartForm.shippingAddress.custAddressLine2}<br>
+    #end
+    $form.shippingAddress.custCityName $form.shippingAddress.custStateName<br>
+    $form.shippingAddress.custCountryName<br>
+    $form.shippingAddress.custZipCode
+  </span>
+</div>
+<div class="container-reset"></div>
+#end
+<br>
+</div>
+<br>
+
+
+
+<div id="shopping-cart-detail-container">
+<div id="shopping-cart-detail-header-container">$template.getLanguageByValue("Item details")</div>
+<table width="100%" border="0" cellpadding="0" id="shopping-cart-detail-table">
+  #foreach ($shoppingCartItemInfo in $form.shoppingCartItemInfos)
+  <tr>
+    <td><hr id="shopping-cart-detail-seperator"></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="100%" border="0" cellpadding="0" id="shopping-cart-detail-item-table">
+        <tr>
+          <td>
+            <div id="shopping-cart-detail-image-container" style="float: left">
+              #if ($shoppingCartItemInfo.imageId)
+                <img src="/$siteInfo.contextPath/services/ImageProvider.do?type=I&imageId=$shoppingCartItemInfo.imageId&maxsize=75">
+              #end
+            </div>
+          </td>
+          <td>
+            <table width="100%" border="0" cellpadding="0" id="shopping-cart-detail-item-desc-table">
+              <tr>
+                <td valign="top">
+	              <span id="shopping-cart-detail-item-desc">$shoppingCartItemInfo.itemShortDesc</span><br>
+	              #foreach ($shoppingCartItemAttribute in $shoppingCartItemInfo.shoppingCartItemAttributes)
+	              	<span id="shopping-cart-detail-item-attrib">$shoppingCartItemAttribute.customAttribDesc - $shoppingCartItemAttribute.customAttribValue</span><br>
+	              #end
+                </td>
+                <td width="80" valign="top" align="right"><span id="shopping-cart-detail-item-price">$shoppingCartItemInfo.itemPrice</span></td>
+                <td width="80" valign="top" align="right">
+                  <span id="shopping-cart-detail-item-qty">
+                    $shoppingCartItemInfo.itemQty
+                  </span>
+                </td>
+                <td width="80" valign="top" align="right"><span id="shopping-cart-detail-item-subtotal">$shoppingCartItemInfo.itemSubTotal</span></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  #end
+  #foreach ($shoppingCartCouponInfo in $form.shoppingCartCouponInfos)
+  <tr>
+    <td><hr class="shopping-cart-detail-seperator"></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="100%" border="0" cellpadding="0" id="shopping-cart-detail-other-table">
+        <tr>
+          <td><div id="shopping-cart-detail-image-container"></div></td>
+          <td valign="top" width="100%">
+            <table width="100%" border="0" cellpadding="0" id="shopping-cart-detail-other-desc-table">
+              <tr>
+                <td><span id="shopping-cart-detail-other-desc">$shoppingCartCouponInfo.couponCode&nbsp;$shoppingCartCouponInfo.couponName</span></td>
+                <td><span id="shopping-cart-detail-other-price">$shoppingCartCouponInfo.couponAmount</span></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  #end
+  <tr>
+    <td id="shopping-cart-summary-container">
+      <table width="300" border="0" align="right" cellpadding="0" id="shopping-cart-total-table">
+        <tr>
+          <td align="right"><span class="shopping-cart-subtotal-label">$template.getLanguageByValue("Cart sub-total")</span></td>
+          <td align="right"><span class="shopping-cart-subtotal-value">$form.priceTotal</span></td>
+        </tr>
+        <tr>
+          <td align="right"><span class="shopping-cart-subtotal-label">$template.getLanguageByValue("Shipping")</span></td>
+          <td align="right"><span class="shopping-cart-subtotal-value">$form.shippingOrderTotal</span></td>
+        </tr>
+        #foreach ($shoppingCartTaxInfo in $form.shoppingCartTaxInfos)
+        <tr>
+          <td align="right"><span class="shopping-cart-subtotal-label">$shoppingCartTaxInfo.taxName</span></td>
+          <td align="right"><span class="shopping-cart-subtotal-value">$shoppingCartTaxInfo.taxAmount</span></td>
+        </tr>
+        #end
+        <tr>
+          <td colspan="2"><hr class="shopping-cart-detail-seperator"></td>
+        </tr>
+        <tr>
+          <td align="right"><span class="shopping-cart-total-label">$template.getLanguageByValue("Order total")</span></td>
+          <td align="right"><span class="shopping-cart-total-label">$form.orderTotal</span></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</div>
+<br>
+<div id="shopping-cart-footer-container">
+  $form.shoppingCartMessage
+</div>
+</div>

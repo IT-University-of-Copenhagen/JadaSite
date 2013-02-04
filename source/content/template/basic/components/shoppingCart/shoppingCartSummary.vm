@@ -1,0 +1,33 @@
+#set ($shoppingCartSummaryInfo = $template.getShoppingCartSummary())
+<div class="jc_panel_header">$template.getLanguageByValue('View your cart')</div>
+<div class="jc_panel_body">
+<img src="$template.getServletResourcePrefix()/basic/images/cart.gif">
+&nbsp;&nbsp;
+<a href="/$template.getContextPath()/content/checkout/shoppingCart.do?process=start&prefix=$siteInfo.siteDomainPrefix" class="jc_shopping_cart_summary_link">$template.getLanguageByValue('My Cart')</a><br>
+<br>
+<span class="shopping-cart-summary-text">$template.getLanguageByValue('Items in your cart'):</span>
+#foreach ($cartItem in $shoppingCartSummaryInfo.cartItems)
+	<hr>
+	#if ($cartItem.itemDefaultImageUrl)
+		<div id="shopping-cart-item-image">
+		<img src="$cartItem.itemDefaultImageUrl&maxsize=50"><br>
+		</div>
+	#end
+	<span class="shopping-cart-summary-text">
+	$cartItem.itemShortDesc<br>
+	$template.getLanguageByValue('Quantity'): $cartItem.itemOrderedQty <br>
+	$template.getLanguageByValue('Item Price'): 
+	</span>
+	#if ($cartItem.special)
+		<span id="shopping-cart-regular-price">$cartItem.itemPrice</span> <span id="shopping-cart-special-price">$cartItem.itemSpecPrice</span>
+	#else
+		<span id="shopping-cart-summary-price">$cartItem.itemPrice</span>
+	#end
+#end
+<span class="shopping-cart-summary-text">
+	<hr>
+	$template.getLanguageByValue('Item Total'): $shoppingCartSummaryInfo.itemCount <br>
+	$template.getLanguageByValue('Estimated Total'): $shoppingCartSummaryInfo.priceSubTotal
+</span>
+</div>
+<br>

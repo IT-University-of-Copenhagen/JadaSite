@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NamedQueries>
+	<namedQueryRecord>
+		<name>category.item.language</name>
+		<query><![CDATA[
+	select	item.itemId
+	from	Item item
+	inner	join item.categories category 
+	inner	join item.itemPriceSearches itemPriceSearch
+	inner	join item.itemDescSearches itemDescSearch
+	where	item.site.siteId = :siteId
+	and		item.itemTypeCd in ('01','02','04','05')
+	and		item.itemSellable = 'Y'
+	and		item.published = 'Y'
+	and		sysdate() between item.itemPublishOn and item.itemExpireOn
+	and		itemPriceSearch.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId 
+	and		itemDescSearch.siteProfileClass.siteProfileClassId = :siteProfileClassId
+	and		sysdate() between itemPriceSearch.itemPricePublishOn and itemPriceSearch.itemPriceExpireOn
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.item.language.noshare</name>
+		<query><![CDATA[
+	select	item.itemId
+	from	Item item
+	inner	join item.categories category 
+	inner	join item.itemPriceSearches itemPriceSearch
+	inner	join item.itemDescSearches itemDescSearch
+	inner	join item.siteDomains siteDomain
+	where	item.site.siteId = :siteId
+	and		item.itemTypeCd in ('01','02','04','05')
+	and		item.itemSellable = 'Y'
+	and		item.published = 'Y'
+	and		siteDomain.siteDomainId = :siteDomainId
+	and		sysdate() between item.itemPublishOn and item.itemExpireOn
+	and		itemPriceSearch.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId 
+	and		itemDescSearch.siteProfileClass.siteProfileClassId = :siteProfileClassId
+	and		sysdate() between itemPriceSearch.itemPricePublishOn and itemPriceSearch.itemPriceExpireOn
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.item.language.suffix</name>
+		<query><![CDATA[
+	group	by item.itemId
+	having	sum(itemPriceSearch.itemPrice + itemPriceSearch.itemPrice * itemPriceSearch.exchangeFactor * :exchangeRate) between :minPrice and :maxPrice
+		]]></query>
+	</namedQueryRecord>
+	
+	<namedQueryRecord>
+	<name>category.attribute.subquery</name>
+	<query><![CDATA[
+	and		exists ( 
+	from	Item a 
+	left	outer	join a.itemAttributeDetails itemAttribDetail 
+	where	a.itemId = item.itemId 
+	and		itemAttribDetail.customAttributeOption.customAttribOptionId = :customAttribOptionId  
+	)  
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.content.language</name>
+		<query><![CDATA[
+	select	content.contentId
+	from	Content content
+	inner	join content.categories category 
+	inner	join content.contentDescSearches contentDescSearch
+	where	content.site.siteId = :siteId
+	and		category.catId = :catId
+	and		content.published = 'Y'
+	and		sysdate() between content.contentPublishOn and content.contentExpireOn
+	and		contentDescSearch.siteProfileClass.siteProfileClassId = :siteProfileClassId
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.item.language.create</name>
+		<query><![CDATA[
+	insert
+	into	ItemDescSearch (
+			itemShortDesc,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			item)
+	select	itemLanguage.itemShortDesc,
+			itemLanguage.recUpdateBy,
+			sysdate(),
+			itemLanguage.recCreateBy,
+			sysdate(),
+			itemLanguage.item
+	from	ItemLanguage itemLanguage
+	where	itemLanguage.item.site.siteId = :siteId
+	and		itemLanguage.siteProfileClass = :siteProfileClass
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.item.language.create1</name>
+		<query><![CDATA[
+	update	ItemDescSearch
+	set		siteProfileClass.siteProfileClassId = :siteProfileClassId
+	where	siteProfileClass is null
+		]]></query>
+	</namedQueryRecord>
+	
+	<namedQueryRecord>
+		<name>category.content.language.create</name>
+		<query><![CDATA[
+	insert
+	into	ContentDescSearch (
+			contentTitle,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			content)
+	select	contentLanguage.contentTitle,
+			contentLanguage.recUpdateBy,
+			sysdate(),
+			contentLanguage.recCreateBy,
+			sysdate(),
+			contentLanguage.content
+	from	ContentLanguage contentLanguage
+	where	contentLanguage.content.site.siteId = :siteId
+	and		contentLanguage.siteProfileClass = :siteProfileClass
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.content.language.create1</name>
+		<query><![CDATA[
+	update	ContentDescSearch contentDescSearch
+	set		siteProfileClass.siteProfileClassId = :siteProfileClassId
+	where	siteProfileClass is null
+		]]></query>
+	</namedQueryRecord>
+	
+	<namedQueryRecord>
+		<name>category.item.price.create</name>
+		<query><![CDATA[
+	insert	
+	into	ItemPriceSearch (
+			itemPrice,
+			exchangeFactor,
+			itemPricePublishOn,
+			itemPriceExpireOn,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			item)
+	select	a.itemPrice, 
+			1,
+			a.itemPricePublishOn,
+			a.itemPriceExpireOn,
+			a.recUpdateBy,
+			current_date(),
+			a.recCreateBy,
+			current_date(),
+			b.item
+	from	ItemPriceCurrency a, ItemPriceCurrency b
+	where	a.item.site.siteId = :siteId
+	and		a.item.itemId = b.item.itemId
+	and		a.itemPriceTypeCode = 'S'
+	and		a.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId1
+	and		b.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId2
+	and		b.itemPriceTypeCode = 'R'
+	and		a.item.itemTypeCd not in ('05')
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+	<name>category.item.price.create1</name>
+		<query><![CDATA[
+	update	ItemPriceSearch itemPriceSearch
+	set		siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId
+	where	siteCurrencyClass is null
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.item.price.create2</name>
+		<query><![CDATA[
+	insert	
+	into	ItemPriceSearch (
+			itemPrice,
+			exchangeFactor,
+			itemPricePublishOn,
+			itemPriceExpireOn,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			item)
+	select	b.itemPrice, 
+			1,
+			to_date('1970-01-01', '%Y-%m-%d'),
+			date_add_interval(a.itemPricePublishOn, -1, DAY),
+			a.recUpdateBy,
+			current_date(),
+			a.recCreateBy,
+			current_date(),
+			a.item
+	from	ItemPriceCurrency a, ItemPriceCurrency b
+	where	a.item.site.siteId = :siteId
+	and		a.item.itemId = b.item.itemId
+	and		a.itemPriceTypeCode = 'S'
+	and		a.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId1
+	and		b.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId2
+	and		b.itemPriceTypeCode = 'R'
+	and		a.item.itemTypeCd not in ('05')
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+	<name>category.item.price.create3</name>
+		<query><![CDATA[
+	insert	
+	into	ItemPriceSearch (
+			itemPrice,
+			exchangeFactor,
+			itemPricePublishOn,
+			itemPriceExpireOn,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			item)
+	select	b.itemPrice, 
+			1,
+			date_add_interval(a.itemPriceExpireOn, 1, DAY),
+			to_date('2999-12-31', '%Y-%m-%d'),
+			a.recUpdateBy,
+			current_date(),
+			a.recCreateBy,
+			current_date(),
+			a.item
+	from	ItemPriceCurrency a, ItemPriceCurrency b
+	where	a.item.site.siteId = :siteId
+	and		a.item.itemId = b.item.itemId
+	and		a.itemPriceTypeCode = 'S'
+	and		a.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId1
+	and		b.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId2
+	and		b.itemPriceTypeCode = 'R'
+	and		a.item.itemTypeCd not in ('05')
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+	<name>category.item.price.create4</name>
+		<query><![CDATA[
+	insert	
+	into	ItemPriceSearch (
+			itemPrice,
+			exchangeFactor,
+			itemPricePublishOn,
+			itemPriceExpireOn,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			item)
+	select	a.itemPrice, 
+			1,
+			to_date('1970-01-01', '%Y-%m-%d'),
+			to_date('2999-12-31', '%Y-%m-%d'),
+			a.recUpdateBy,
+			current_date(),
+			a.recCreateBy,
+			current_date(),
+			a.item
+	from	ItemPriceCurrency a
+	where	a.item.site.siteId = :siteId
+	and		a.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId
+	and		a.itemPriceTypeCode = 'R'
+	and		a.item.itemTypeCd not in ('05')
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+	<name>category.item.price.create5</name>
+		<query><![CDATA[
+	delete
+	from	ItemPriceSearch itemPriceSearch
+	where	itemPriceSearch.item in (
+			select	a.item
+			from	ItemPriceCurrency a
+			where	a.item.site.siteId = :siteId
+			and		a.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId1
+			and		a.itemPriceTypeCode = 'S'
+	)
+	and		itemPriceSearch.siteCurrencyClass is null
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+	<name>category.item.price.create6</name>
+		<query><![CDATA[
+	insert	
+	into	ItemPriceSearch (
+			itemPrice,
+			exchangeFactor,
+			itemPricePublishOn,
+			itemPriceExpireOn,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			item)
+	select	itemPrice, 
+			exchangeFactor,
+			itemPricePublishOn,
+			itemPriceExpireOn,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			a.item.itemSkuParent
+	from	ItemPriceSearch a
+	where	a.item.site.siteId = :siteId
+	and		a.siteCurrencyClass is null
+	and		a.item.itemSkuParent.itemTypeCd in ('05')
+		]]></query>
+	</namedQueryRecord>
+	
+	
+	<namedQueryRecord>
+		<name>category.item.language.remove</name>
+		<query><![CDATA[
+	delete 
+	from    ItemDescSearch itemDescSearch
+	where   exists (
+			select	item
+			from	Item item
+			where	itemDescSearch.item.itemId = item.itemId
+			and		item.siteId = :siteId
+	)
+	and	  siteProfileClass = :siteProfileClass
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.content.language.remove</name>
+		<query><![CDATA[
+	delete 
+	from    ContentDescSearch contentDescSearch
+	where   exists (
+			select	content
+			from	Content content
+			where	contentDescSearch.content.contentId = content.contentId
+			and		content.siteId = :siteId
+	)
+	and	  siteProfileClass = :siteProfileClass
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.item.price.remove</name>
+		<query><![CDATA[
+	delete 
+	from    ItemPriceSearch itemPriceSearch
+	where   exists (
+			select	item
+			from	Item item
+			where	itemPriceSearch.item.itemId = item.itemId
+			and		item.siteId = :siteId
+	)
+	and	  siteCurrencyClass = :siteCurrencyClass
+		]]></query>
+	</namedQueryRecord>
+	
+	<namedQueryRecord>
+		<name>content.topRated</name>
+		<query><![CDATA[
+	select distinct content.contentId
+	from   Content content
+	inner  join content.categories category
+	where  content.siteId = :siteId
+	and    content.published = 'Y'
+	and	 sysdate() between content.contentPublishOn and content.contentExpireOn
+	and	 category in (
+	       select	  category 
+	       from	Category category
+	       inner	join category.siteDomains siteDomain 
+	       where	siteDomain.siteDomainId = :siteDomainId 
+	       )
+	order  by content.contentRating desc
+		]]></query>
+	</namedQueryRecord>
+
+	<namedQueryRecord>
+		<name>content.mostViewed</name>
+		<query><![CDATA[
+	select distinct content.contentId
+	from   Content content
+	inner  join content.categories category
+	where  content.siteId = :siteId 
+	and    content.published = 'Y'
+	and	 sysdate() between content.contentPublishOn and content.contentExpireOn 
+	and	 category in (
+	       select	  category
+	       from	Category category
+	       inner	join category.siteDomains siteDomain
+	       where	siteDomain.siteDomainId = :siteDomainId 
+	       )
+	order  by content.contentHitCounter desc
+		]]></query>
+	</namedQueryRecord>
+
+	<namedQueryRecord>
+		<name>item.mostPopular</name>
+		<query><![CDATA[
+	select distinct item.itemId
+	from   Item item
+	where  item.siteId = :siteId 
+	and    item.itemTypeCd in ('01', '02', '04', '05')
+	and    item.published = 'Y'
+	and	 sysdate() between item.itemPublishOn and item.itemExpireOn
+	order  by item.itemHitCounter desc
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>item.mostPopular.noshare</name>
+		<query><![CDATA[
+	select distinct item.itemId
+	from   Item item
+	inner  join item.categories category
+	inner	join item.siteDomains siteDomain
+	where  item.siteId = :siteId 
+	and    item.itemTypeCd in ('01', '02', '04', '05')
+	and    item.published = 'Y'
+	and    siteDomain.siteDomainId = :siteDomainId
+	and	 sysdate() between item.itemPublishOn and item.itemExpireOn
+	and	 category in (
+	       select	  category 
+	       from	Category category 
+	       inner	join category.siteDomains siteDomain 
+	       where	siteDomain.siteDomainId = :catSiteDomainId 
+	       ) 
+	order  by item.itemHitCounter desc
+		]]></query>
+	</namedQueryRecord>
+	
+	<namedQueryRecord>
+		<name>tester</name>
+		<query><![CDATA[
+	insert
+	into	ItemDescSearch (
+			itemShortDesc,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			item)
+	select	itemLanguage.itemShortDesc,
+			:userId,
+			sysdate(),
+			'admin',
+			sysdate(),
+			itemLanguage.item
+	from	ItemLanguage itemLanguage
+	where	itemLanguage.item.site.siteId = :siteId
+	and		itemLanguage.siteProfileClass = :siteProfileClass
+		]]></query>
+	</namedQueryRecord>
+	
+	<namedQueryRecord>
+		<name>tester</name>
+		<query><![CDATA[
+	insert
+	into	ItemDescSearch (
+			itemShortDesc,
+			recUpdateBy,
+			recUpdateDatetime,
+			recCreateBy,
+			recCreateDatetime,
+			item)
+	select	itemLanguage.itemShortDesc,
+			:userId,
+			sysdate(),
+			'admin',
+			sysdate(),
+			itemLanguage.item
+	from	ItemLanguage itemLanguage
+	where	itemLanguage.item.site.siteId = :siteId
+	and		itemLanguage.siteProfileClass = :siteProfileClass
+		]]></query>
+	</namedQueryRecord>
+	
+	
+
+	<namedQueryRecord>
+		<name>category.item.default *** not used ***</name>
+		<query><![CDATA[
+	select	item.itemId 
+	from	Item item 
+	inner	join item.categories category 
+	left	join item.itemLanguages itemLanguage 
+	where	item.site.siteId = :siteId 
+	and		category.catId = :catId 
+	and		item.published = 'Y' 
+	and		item.itemPublishOn <= sysdate() 
+	and		item.itemExpireOn >= sysdate() 
+	and		itemLanguage.siteProfileClass.siteProfileClassId = :defaultSiteProfileClassId
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.item.language *** not used ***</name>
+		<query><![CDATA[
+	select	item.itemId 
+	from	Item item 
+	inner	join item.categories category 
+	left	join item.itemLanguages itemLanguage 
+	left	outer join item.itemPriceCurrencies itemPriceCurrency 
+	where	( 
+			item.site.siteId = :siteId 
+	and		category.catId = :catId 
+	and		item.published = 'Y' 
+	and		item.itemPublishOn <= sysdate() 
+	and		item.itemExpireOn >= sysdate() 
+			
+	and		( 
+			itemLanguage.siteProfileClass.siteProfileClassId = :siteProfileClassId 
+	and		itemLanguage.itemShortDesc != null 
+	or		( 
+			not exists ( 
+				from	Item a 
+				left	join a.itemLanguages b 
+				where	a.itemId = item.itemId 
+				and		b.siteProfileClass.siteProfileClassId = :siteProfileClassId 
+				and		b.itemShortDesc != null 
+			) 
+			and 	itemLanguage.siteProfileClass.siteProfileClassId = :defaultSiteProfileClassId 
+			) 
+			) 
+	) 
+	
+	
+	and		( 
+			( 
+			itemPriceCurrency.itemPriceTypeCode = 'S' 
+	and		itemPriceCurrency.siteCurrencyClass.siteCurrencyClassId = :siteProfileClassId 
+	and		exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'S' 
+			and		b.itemPricePublishOn <= sysdate() 
+			and		b.itemPriceExpireOn >= sysdate() 
+			) 
+	and		not exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'S' 
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId 
+			and		b.itemPricePublishOn <= sysdate() 
+			and		b.itemPriceExpireOn >= sysdate() 
+			) 
+	and		exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'S' 
+			and		b.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId 
+			and		b.itemPrice > :minPrice 
+			and		b.itemPrice <= :maxPrice 
+			) 
+	) 
+			
+			
+	or 		( 
+			itemPriceCurrency.itemPriceTypeCode = 'S' 
+	and		itemPriceCurrency.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId 
+	and		exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'S' 
+			and		b.itemPricePublishOn <= sysdate() 
+			and		b.itemPriceExpireOn >= sysdate() 
+			) 
+	and		exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'S' 
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId 
+			and		b.itemPricePublishOn <= sysdate() 
+			and		b.itemPriceExpireOn >= sysdate() 
+			) 
+	and		exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'S' 
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId 
+			and		b.itemPrice > :minPrice 
+			and		b.itemPrice <= :maxPrice 
+			) 
+	) 
+			
+	or 		( 
+			itemPriceCurrency.itemPriceTypeCode = 'R' 
+	and		itemPriceCurrency.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId 
+	and		not exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'S' 
+			and		b.itemPricePublishOn <= sysdate() 
+			and		b.itemPriceExpireOn >= sysdate() 
+			) 
+	and		not exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'R' 
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId 
+			) 
+	and		exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'R' 
+			and		b.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId 
+			and		b.itemPrice > :minPrice 
+			and		b.itemPrice <= :maxPrice 
+			) 
+	) 
+	
+	or 		( 
+			itemPriceCurrency.itemPriceTypeCode = 'R' 
+	and		itemPriceCurrency.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId 
+	and		not exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'S' 
+			and		b.itemPricePublishOn <= sysdate() 
+			and		b.itemPriceExpireOn >= sysdate() 
+			)		 
+	and		exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'R' 
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId 
+			) 
+	and		exists ( 
+			from	Item a 
+			left	outer join a.itemPriceCurrencies b 
+			where	a.itemId = item.itemId 
+			and		b.itemPrice is not null 
+			and		b.itemPriceTypeCode = 'R' 
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId 
+			and		b.itemPrice > :minPrice 
+			and		b.itemPrice <= :maxPrice 
+			) 
+			) 
+	) 
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.item.language ** not used **</name>
+		<query><![CDATA[
+	select	category.catId, item.itemId, itemLanguage.itemLangId, itemLanguage.itemShortDesc 
+	from	Item item 
+	inner	join item.categories category 
+	left	join item.itemLanguages itemLanguage 
+	where	( 
+			item.site.siteId = :siteId 
+	and		category.catId = :catId 
+	and		item.published = 'Y'  
+	and		item.itemPublishOn <= sysdate() 
+	and		item.itemExpireOn >= sysdate() 
+			 
+	and		itemLanguage.siteProfileClass.siteProfileClassId = :defaultSiteProfileClassId 
+	) 
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.content.default ** not used **</name>
+		<query><![CDATA[
+	select	content.contentId 
+	from	Content content 
+	inner	join content.categories category 
+	left	join content.contentLanguages contentLanguage 
+	where	content.site.siteId = :siteId 
+	and		category.catId = :catId 
+	and		content.published = 'Y' 
+	and		content.contentPublishOn <= sysdate() 
+	and		content.contentExpireOn >= sysdate()	 
+	and		contentLanguage.siteProfileClass.siteProfileClassId = :defaultSiteProfileClassId 
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.content.language ** not used **</name>
+		<query><![CDATA[
+	select	content.contentId 
+	from	Content content 
+	inner	join content.categories category 
+	left	join content.contentLanguages contentLanguage 
+	where	( 
+			content.site.siteId = :siteId 
+	and		category.catId = :catId 
+	and		content.published = 'Y' 
+	and		content.contentPublishOn <= sysdate() 
+	and		content.contentExpireOn >= sysdate() 
+			
+	and		( 
+			contentLanguage.siteProfileClass.siteProfileClassId = :siteProfileClassId 
+	and		contentLanguage.contentTitle != null 
+	or		( 
+			not exists ( 
+				from	Content a 
+				left	join a.contentLanguages b 
+				where	a.contentId = content.contentId 
+				and		b.siteProfileClass.siteProfileClassId = :siteProfileClassId 
+				and		b.contentTitle != null 
+			) 
+			and 	contentLanguage.siteProfileClass.siteProfileClassId = :defaultSiteProfileClassId 
+			) 
+			) 
+	) 
+		]]></query>
+	</namedQueryRecord>
+	<namedQueryRecord>
+		<name>category.price.subquery ** not used **</name>
+		<query><![CDATA[
+	and		exists (
+	from	Item a
+	left	outer	join a.itemAttributeDetails itemAttribDetail
+	left	outer 	join a.itemPriceCurrencies itemPriceCurrency 
+	where	a.itemId = item.itemId
+	and		(
+			(
+			itemPriceCurrency.itemPriceTypeCode = 'S'
+	and		itemPriceCurrency.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId
+	and		exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'S'
+			and		b.itemPricePublishOn <= sysdate()
+			and		b.itemPriceExpireOn >= sysdate()
+			)
+	and		not exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'S'
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId
+			and		b.itemPricePublishOn <= sysdate()
+			and		b.itemPriceExpireOn >= sysdate()
+			)
+	and		exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'S'
+			and		b.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId
+			and		b.itemPrice > :minPrice
+			and		b.itemPrice <= :maxPrice
+			)
+	)
+			
+			
+	or 		(
+			itemPriceCurrency.itemPriceTypeCode = 'S'
+	and		itemPriceCurrency.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId
+	and		exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'S'
+			and		b.itemPricePublishOn <= sysdate()
+			and		b.itemPriceExpireOn >= sysdate()
+			)
+	and		exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'S'
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId
+			and		b.itemPricePublishOn <= sysdate()
+			and		b.itemPriceExpireOn >= sysdate()
+			)
+	and		exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'S'
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId
+			and		b.itemPrice > :minPrice
+			and		b.itemPrice <= :maxPrice
+			)
+	)
+			
+	or 		(
+			itemPriceCurrency.itemPriceTypeCode = 'R'
+	and		itemPriceCurrency.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId
+	and		not exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'S'
+			and		b.itemPricePublishOn <= sysdate()
+			and		b.itemPriceExpireOn >= sysdate()
+			)
+	and		not exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'R'
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId
+			)
+	and		exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'R'
+			and		b.siteCurrencyClass.siteCurrencyClassId = :siteCurrencyClassId
+			and		b.itemPrice > :minPrice
+			and		b.itemPrice <= :maxPrice
+			)
+	)
+	
+	or 		(
+			itemPriceCurrency.itemPriceTypeCode = 'R'
+	and		itemPriceCurrency.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId
+	and		not exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'S'
+			and		b.itemPricePublishOn <= sysdate()
+			and		b.itemPriceExpireOn >= sysdate()
+			)		
+	and		exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'R'
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId
+			)
+	and		exists (
+			from	Item a
+			left	outer join a.itemPriceCurrencies b
+			where	a.itemId = item.itemId
+			and		b.itemPrice is not null
+			and		b.itemPriceTypeCode = 'R'
+			and		b.siteCurrencyClass.siteCurrencyClassId = :defaultSiteCurrencyClassId
+			and		b.itemPrice > :minPrice
+			and		b.itemPrice <= :maxPrice
+			)
+			)
+	)
+	)
+		]]></query>
+	</namedQueryRecord>
+<fieldx>hello</fieldx>
+
+</NamedQueries>

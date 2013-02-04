@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping xmlns="http://castor.exolab.org/" xmlns:cst="http://castor.exolab.org/">
+	<description xmlns="">Castor generated mapping file</description>
+	<class name="com.jada.xml.paymentexpress.TxnResult">
+		<description xmlns="">Default mapping for class com.jada.xml.paymentexpress.TxnResult</description>
+		<map-to xml="Txn"/>
+		<field name="transaction" type="com.jada.xml.paymentexpress.Transaction" collection="array">
+			<bind-xml name="Transaction" node="element"/>
+		</field>
+		<field name="reCo" type="java.lang.String">
+			<bind-xml name="ReCo" node="element"/>
+		</field>
+		<field name="responseText" type="java.lang.String">
+			<bind-xml name="ResponseText" node="element"/>
+		</field>
+		<field name="helpText" type="java.lang.String">
+			<bind-xml name="HelpText" node="element"/>
+		</field>
+		<field name="success" type="java.lang.String">
+			<bind-xml name="Success" node="element"/>
+		</field>
+		<field name="dpsTxnRef" type="java.lang.String">
+			<bind-xml name="DpsTxnRef" node="element"/>
+		</field>
+		<field name="txnRef" type="java.lang.String">
+			<bind-xml name="TxnRef" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.paymentexpress.Transaction">
+		<description>Default mapping for class com.jada.xml.paymentexpress.Transaction</description>
+		<map-to xml="Transaction"/>
+		<field name="authorized" type="java.lang.String">
+			<bind-xml name="Authorized" node="element"/>
+		</field>
+		<field name="reCo" type="java.lang.String">
+			<bind-xml name="ReCo" node="element"/>
+		</field>
+		<field name="rxDate" type="java.lang.String">
+			<bind-xml name="RxDate" node="element"/>
+		</field>
+		<field name="rxDateLocal" type="java.lang.String">
+			<bind-xml name="RxDateLocal" node="element"/>
+		</field>
+		<field name="localTimeZone" type="java.lang.String">
+			<bind-xml name="LocalTimeZone" node="element"/>
+		</field>
+		<field name="merchantReference" type="java.lang.String">
+			<bind-xml name="MerchantReference" node="element"/>
+		</field>
+		<field name="cardName" type="java.lang.String">
+			<bind-xml name="CardName" node="element"/>
+		</field>
+		<field name="retry" type="java.lang.String">
+			<bind-xml name="Retry" node="element"/>
+		</field>
+		<field name="statusRequired" type="java.lang.String">
+			<bind-xml name="StatusRequired" node="element"/>
+		</field>
+		<field name="authCode" type="java.lang.String">
+			<bind-xml name="AuthCode" node="element"/>
+		</field>
+		<field name="amountBalance" type="java.lang.String">
+			<bind-xml name="AmountBalance" node="element"/>
+		</field>
+		<field name="amount" type="java.lang.String">
+			<bind-xml name="Amount" node="element"/>
+		</field>
+		<field name="currencyId" type="java.lang.String">
+			<bind-xml name="CurrencyId" node="element"/>
+		</field>
+		<field name="inputCurrencyId" type="java.lang.String">
+			<bind-xml name="InputCurrencyId" node="element"/>
+		</field>
+		<field name="inputCurrencyName" type="java.lang.String">
+			<bind-xml name="InputCurrencyName" node="element"/>
+		</field>
+		<field name="currencyRate" type="java.lang.String">
+			<bind-xml name="CurrencyRate" node="element"/>
+		</field>
+		<field name="currencyName" type="java.lang.String">
+			<bind-xml name="CurrencyName" node="element"/>
+		</field>
+		<field name="cardHolderName" type="java.lang.String">
+			<bind-xml name="CardHolderName" node="element"/>
+		</field>
+		<field name="dateSettlement" type="java.lang.String">
+			<bind-xml name="DateSettlement" node="element"/>
+		</field>
+		<field name="txnType" type="java.lang.String">
+			<bind-xml name="TxnType" node="element"/>
+		</field>
+		<field name="cardNumber" type="java.lang.String">
+			<bind-xml name="CardNumber" node="element"/>
+		</field>
+		<field name="txnMac" type="java.lang.String">
+			<bind-xml name="TxnMac" node="element"/>
+		</field>
+		<field name="dateExpiry" type="java.lang.String">
+			<bind-xml name="DateExpiry" node="element"/>
+		</field>
+		<field name="productId" type="java.lang.String">
+			<bind-xml name="ProductId" node="element"/>
+		</field>
+		<field name="acquirerDate" type="java.lang.String">
+			<bind-xml name="AcquirerDate" node="element"/>
+		</field>
+		<field name="acquirerTime" type="java.lang.String">
+			<bind-xml name="AcquirerTime" node="element"/>
+		</field>
+		<field name="acquirerId" type="java.lang.String">
+			<bind-xml name="AcquirerId" node="element"/>
+		</field>
+		<field name="acquirer" type="java.lang.String">
+			<bind-xml name="Acquirer" node="element"/>
+		</field>
+		<field name="acquirerReCo" type="java.lang.String">
+			<bind-xml name="AcquirerReCo" node="element"/>
+		</field>
+		<field name="acquirerResponseText" type="java.lang.String">
+			<bind-xml name="AcquirerResponseText" node="element"/>
+		</field>
+		<field name="testMode" type="java.lang.String">
+			<bind-xml name="TestMode" node="element"/>
+		</field>
+		<field name="cardId" type="java.lang.String">
+			<bind-xml name="CardId" node="element"/>
+		</field>
+		<field name="cardHolderResponseText" type="java.lang.String">
+			<bind-xml name="CardHolderResponseText" node="element"/>
+		</field>
+		<field name="cardHolderHelpText" type="java.lang.String">
+			<bind-xml name="CardHolderHelpText" node="element"/>
+		</field>
+		<field name="cardHolderResponseDescription" type="java.lang.String">
+			<bind-xml name="CardHolderResponseDescription" node="element"/>
+		</field>
+		<field name="merchantResponseText" type="java.lang.String">
+			<bind-xml name="MerchantResponseText" node="element"/>
+		</field>
+		<field name="merchantHelpText" type="java.lang.String">
+			<bind-xml name="MerchantHelpText" node="element"/>
+		</field>
+		<field name="merchantResponseDescription" type="java.lang.String">
+			<bind-xml name="MerchantResponseDescription" node="element"/>
+		</field>
+		<field name="urlFail" type="java.lang.String">
+			<bind-xml name="UrlFail" node="element"/>
+		</field>
+		<field name="urlSuccess" type="java.lang.String">
+			<bind-xml name="UrlSuccess" node="element"/>
+		</field>
+		<field name="enablePostResponse" type="java.lang.String">
+			<bind-xml name="EnablePostResponse" node="element"/>
+		</field>
+		<field name="pxPayName" type="java.lang.String">
+			<bind-xml name="PxPayName" node="element"/>
+		</field>
+		<field name="pxPayLogoSrc" type="java.lang.String">
+			<bind-xml name="PxPayLogoSrc" node="element"/>
+		</field>
+		<field name="pxPayUserId" type="java.lang.String">
+			<bind-xml name="PxPayUserId" node="element"/>
+		</field>
+		<field name="pxPayXsl" type="java.lang.String">
+			<bind-xml name="PxPayXsl" node="element"/>
+		</field>
+		<field name="pxPayBgColor" type="java.lang.String">
+			<bind-xml name="PxPayBgColor" node="element"/>
+		</field>
+		<field name="pxPayOptions" type="java.lang.String">
+			<bind-xml name="PxPayOptions" node="element"/>
+		</field>
+		<field name="acquirerPort" type="java.lang.String">
+			<bind-xml name="AcquirerPort" node="element"/>
+		</field>
+		<field name="acquirerTxnRef" type="java.lang.String">
+			<bind-xml name="AcquirerTxnRef" node="element"/>
+		</field>
+		<field name="groupAccount" type="java.lang.String">
+			<bind-xml name="GroupAccount" node="element"/>
+		</field>
+		<field name="dpsTxnRef" type="java.lang.String">
+			<bind-xml name="DpsTxnRef" node="element"/>
+		</field>
+		<field name="allowRetry" type="java.lang.String">
+			<bind-xml name="AllowRetry" node="element"/>
+		</field>
+		<field name="dpsBillingId" type="java.lang.String">
+			<bind-xml name="DpsBillingId" node="element"/>
+		</field>
+		<field name="billingId" type="java.lang.String">
+			<bind-xml name="BillingId" node="element"/>
+		</field>
+		<field name="transactionId" type="java.lang.String">
+			<bind-xml name="TransactionId" node="element"/>
+		</field>
+		<field name="pxHostId" type="java.lang.String">
+			<bind-xml name="PxHostId" node="element"/>
+		</field>
+	</class>
+</mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+	<description/>
+	<class name="com.jada.xml.query.NamedQueries">
+		<map-to xml="NamedQueries"/>
+		<field name="namedQueryRecord" type="com.jada.xml.query.NamedQueryRecord" collection="array">
+			<bind-xml name="namedQueryRecord" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.query.NamedQueryRecord">
+		<field name="name" type="java.lang.String">
+			<bind-xml name="name" node="element"/>
+		</field>
+		<field name="query" type="java.lang.String">
+			<bind-xml name="query" node="element"/>
+		</field>
+	</class>
+</mapping>

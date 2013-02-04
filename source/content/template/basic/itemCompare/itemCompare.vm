@@ -1,0 +1,61 @@
+#set ($itemComparePageInfo = $template.getItemCompare())
+<div class="left-panel">
+  <span id="item-compare-title">$template.getLanguageByValue('Compare Result')</div><br>
+  <br>
+	<table width="0" border="0" cellspacing="0" cellpadding="0" id="item-compare-grid-table">
+		<tr> 
+			<td id="item-compare-title-column" width="100"></td>
+			#foreach ($itemCompareItemInfo in $itemComparePageInfo.itemCompareItemInfos)
+			<td id="item-compare-info-column" width="150" align="center">
+				#if ($itemCompareItemInfo.itemInfo.itemDefaultImageUrl)
+					<img src="$itemCompareItemInfo.itemInfo.itemDefaultImageUrl&maxsize=100">
+				#end
+			</td>
+			#end
+		</tr>
+		<tr> 
+			<td id="item-compare-title-column"></td>
+			#foreach ($itemCompareItemInfo in $itemComparePageInfo.itemCompareItemInfos)
+			<td id="item-compare-info-column" width="150" align="center">
+				<span id="item-compare-info-itemdesc">$itemCompareItemInfo.itemInfo.itemShortDesc</span>
+				<br>
+				<span id="item-compare-info-itemprice">$itemCompareItemInfo.itemInfo.itemPrice</span>
+				<div class="jc_rating_outer">
+				  <div style="text-align: left">
+					<div class="jc_rating_inner" style="width: $itemCompareItemInfo.itemInfo.commentRatingPercentage%">&nbsp;</div>
+				  </div>
+				  <span id="item-compare-info-rating">Rating $itemCompareItemInfo.itemInfo.commentRating</span>
+				</div>
+				<br>
+			</td>
+			#end
+		</tr>
+		#foreach ($customAttributeInfo in $itemComparePageInfo.customAttributeInfos)
+			#set( $index = $velocityCount - 1 )
+			<tr>
+				<td class="item-compare-title-column"><span id="item-compare-info-attrib-label">$customAttributeInfo.customAttribDesc</span></td>
+				#foreach ($itemCompareItemInfo in $itemComparePageInfo.itemCompareItemInfos)
+				<td id="item-compare-info-column">
+					<span id="item-compare-info-attrib-value">$template.getArrayEntry($itemCompareItemInfo.itemAttribValues, $index)</span>
+				</td>
+			#end
+			</tr>
+		#end
+		<tr> 
+			<td id="item-compare-title-column" width="100"></td>
+			#foreach ($itemCompareItemInfo in $itemComparePageInfo.itemCompareItemInfos)
+			<td width="150" id="item-compare-info-column" align="center">
+				<br>
+				#if ($itemInfo.outOfStock)
+					<span id="item-compare-info-outofstock">$template.getLanguageByValue('Out of Stock')</span><br>
+				#else
+					#if ($template.isShoppingCart())
+						<a href="/$template.getContextPath()/content/checkout/shoppingCart.do?process=buy&itemIds=$itemCompareItemInfo.itemInfo.itemId&prefix=$siteInfo.siteDomainPrefix" border="0" class="item-addtocart-link">$template.getLanguageByValue('Add to Cart')</a><br>
+					#end
+				#end
+				<br>
+			</td>
+			#end
+		</tr>
+	</table>
+</div>

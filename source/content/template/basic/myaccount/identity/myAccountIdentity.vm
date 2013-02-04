@@ -1,0 +1,94 @@
+#set ($myAccountBean = $form)
+<script type="text/javascript" language="JavaScript"><!--
+function submitForm(type) {
+    document.myAccountIdentityActionForm.process.value = type;
+    document.myAccountIdentityActionForm.submit();
+}
+
+//--></script>
+<div id="my-account-container">
+  <div id="my-account-nav-container">
+  	#parse("/myaccount/myAccountNav.vm")
+  </div>
+  <div id="my-account-body-container">
+    <form name="myAccountIdentityActionForm" method="post" action="/$siteInfo.contextPath/myaccount/identity/myAccountIdentity.do?process=update&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">
+    <input type="hidden" name="process" value=""/>
+    <div id="my-account-header-container">$template.getLanguageByValue("Email and password")</div>
+    <span id="my-account-message">$form.getMessage("message")</span>
+    <div id="my-account-body-inner-container">
+      <table cellspacing="0" cellpadding="0" class="my-account-table">
+        <tr> 
+          <td nowrap><span class="my-account-form-title">$template.getLanguageByValue("Email address (login name)")</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="my-account-form-value">
+            $form.custEmail
+            <input type="hidden" name="custEmail" value="$template.nn($form.custEmail)"/>
+            </span>
+          </td>
+        </tr>
+        <tr> 
+          <td nowrap><span class="my-account-form-title">$template.getLanguageByValue("Public name")</span><br>
+          <span class="my-account-form-label">$template.getLanguageByValue("Name that will be known to public")</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" name="custPublicName" value="$template.nn($form.custPublicName)" size="20" length="20" class="my-account-form-input"/>
+            <span class=my-account-error>
+              $form.getMessage("custPublicName")
+            </span>
+          </td>
+        </tr>
+        <tr> 
+          <td><span class="my-account-form-title">$template.getLanguageByValue("Password")</span><br>
+          <span class="my-account-form-label">$template.getLanguage("content.text.myaccount.identity.password.desc")</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="password" name="custPassword" value="$template.nn($form.custPassword)" size="20" length="20" class="my-account-form-input"/>
+            <span class=my-account-error>
+              $form.getMessage("custPassword")
+            </span>
+          </td>
+        </tr>
+        <tr> 
+          <td nowrap><span class="my-account-form-title">$template.getLanguageByValue("Re-enter password")</span></td>
+        </tr>
+        <tr>
+          <td>
+            <input type="password" name="custPassword1" value="$template.nn($form.custPassword1)" size="20" length="20" class="my-account-form-input"/>
+          </td>
+        </tr>
+        <tr> 
+          <td>
+            <span class="my-account-error">
+              $form.getMessage("custPassword1")
+            </span>
+          </td>
+        </tr>
+        <tr> 
+          <td>
+            <span class="my-account-error">
+              $form.getMessage("custPasswordNoMatch")
+            </span>
+          </td>
+        </tr>
+      </table>
+      <table width="200" cellspacing="0" cellpadding="0" class="my-account-table">
+        <tr>
+          <td>
+            <a href="javascript:submitForm('update');" class="my-account-submit">
+              $template.getLanguageByValue("Update")
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    </form>
+  </div>
+  <div class="container-reset"></div>
+</div>

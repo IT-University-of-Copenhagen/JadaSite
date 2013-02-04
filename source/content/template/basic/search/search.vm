@@ -1,0 +1,27 @@
+#set ($searchInfo = $template.getSearch())
+<div class="left-panel">
+	<br>
+	<span id="search-result-message">$template.getLanguageByValue('Result for') $searchInfo.query: $searchInfo.hitsCount $template.getLanguageByValue('matches')</span>
+	<br>
+	<br>
+	#foreach ($searchData in $searchInfo.searchDatas)
+		<div id="search-result-container">
+			#set ($info = $searchData)
+			#set ($orientation = "left")
+			#if ($searchData.infoType == "content")
+				#parse("common/previewContent.vm")
+			#else
+				#parse("common/previewItem.vm")
+			#end
+		</div>
+		<div id="search-result-seperator"></div>
+	#end
+	#parse("search/searchNavigation.vm")
+</div>
+<div class="right-panel">
+	#if ($template.isShoppingCart())
+		#parse("components/shoppingCart/shoppingCartSummary.vm") 
+	#end
+</div>
+<div class="container-reset">
+</div>

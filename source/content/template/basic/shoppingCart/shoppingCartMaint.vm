@@ -1,0 +1,428 @@
+#set ($shoppingCartActionForm = $form)
+
+<script type="text/javascript" language="JavaScript"><!--
+function submitForm(type) {
+    document.shoppingCartActionForm.process.value = type;
+    document.shoppingCartActionForm.submit();
+}
+function submitRemoveItemForm(type, itemNaturalKey) {
+    document.shoppingCartActionForm.process.value = type;
+    document.shoppingCartActionForm.itemNaturalKey.value = itemNaturalKey;
+    document.shoppingCartActionForm.submit();
+}
+function submitRemoveCouponForm(type, couponId) {
+    document.shoppingCartActionForm.process.value = type;
+    document.shoppingCartActionForm.couponId.value = couponId;
+    document.shoppingCartActionForm.submit();
+}
+
+function populateStateCodes(countryId, stateCodeId, stateNameId) {
+	var countryObject = document.getElementById(countryId);
+	var stateCodeObject = document.getElementById(stateCodeId);
+	var stateNameObject = document.getElementById(stateNameId);
+	var countryCode = countryObject.value;
+	if (countryCode != '') {
+		jQuery.ajax( {
+		      timeout: 30000,
+		      url: "/$siteInfo.contextPath/content/content/update.do?process=getStates&prefix=" + "$siteInfo.siteDomainPrefix" + "&countryCode=" + countryCode,
+		      type: 'GET',
+		      dataType: 'json',
+		      success: function(response) {
+			    var has = false;
+			    if (response.states.length > 0) {
+				    has = true;
+			    }
+
+			    while (stateCodeObject.options.length > 0) {
+				    stateCodeObject.remove(0);
+			    }
+				if (has) {
+					var selection = document.createElement('option');
+					selection.text = '$template.getLanguageByValue("Please select")';
+					selection.value = '';
+					stateCodeObject.options[stateCodeObject.length] = selection;	
+					for (i = 0; i < response.states.length; i++) {
+						selection = document.createElement('option');
+						selection.text = response.states[i].stateName;
+						selection.value = response.states[i].stateCode;
+						stateCodeObject.options[stateCodeObject.length] = selection;
+					}
+					stateCodeObject.style.display = 'block';
+					stateCodeObject.disabled = false;
+					stateNameObject.style.display = 'none';
+					stateNameObject.disabled = true;
+					stateNameObject.value = '';
+				}
+				else {
+					stateNameObject.style.display = 'block';
+					stateNameObject.disabled = false;
+					stateCodeObject.style.display = 'none';
+					stateCodeObject.disabled = true;
+				}
+		      }
+		    }
+		);
+	}
+}
+//--></script>
+<div id="shopping-cart-container">
+<div id="shopping-cart-header">
+  $template.getLanguageByValue("My Cart")
+</div>
+#if ($shoppingCartActionForm.sequenceInterrupt)
+<span class="tran-error-normal">
+You have interrupted the checkout process.  This check is to ensure transaction is not submitted more than once.
+It is important to follow the process in order to maintain a smooth and efficient shopping experience.
+<br><br>
+In particular, you should avoid performing the following.
+<br>
+<ol>
+<li>Use of browser navigation button, also known as back button.</li>
+<li>Linking into any checkout pages via previously saved bookmark.</li>
+</ol>
+</span>
+<br>
+#end
+<span class="tran-error-normal">
+  $template.nn($shoppingCartActionForm.getMessage("message"))
+</span>
+<form name="shoppingCartActionForm" method="post" action="/$siteInfo.contextPath/content/checkout/shoppingCart.do?prefix=$siteInfo.siteDomainPrefix">
+<input type="hidden" name="process" value=""/> 
+<input type="hidden" name="itemNaturalKey" value=""/> 
+<input type="hidden" name="couponId" value=""/>
+#if (!$shoppingCartActionForm.shippingQuoteLock)
+<div id="shopping-cart-coupon-container">
+  <table border="0" id="shopping-cart-coupon-table">
+	<tr>
+	  <td><span id="shopping-cart-coupon-title">$template.getLanguageByValue("Coupon")</span></td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="text" name="couponCode" size="20" id="shopping-cart-coupon-value"/>
+	    <a href="javascript:submitForm('applyCoupon')" class="shopping-cart-coupon-button">
+	    $template.getLanguageByValue("Apply Coupon")
+		  </a></td>
+	</tr>
+	<tr>
+	  <td>
+	    <span class="tran-error-normal">$template.nn($shoppingCartActionForm.getMessage("couponCode"))</span>
+	  </td>
+	 </tr>
+  </table>
+  <div class="container-reset"></div>
+</div>
+<br>
+#end
+#if ($shoppingCartActionForm.shippingQuoteLock)
+<a class="shopping-cart-shipping-quote-button" href="javascript:submitForm('cancelShippingQuote', '$shoppingCartItemInfo.itemNaturalKey')">
+  $template.getLanguageByValue("Prefer to pick up order")
+</a>
+<br>
+#end
+<div id="shopping-cart-detail-container">
+<div id="shopping-cart-detail-header-container">$template.getLanguageByValue("Item details")</div>
+<table border="0" cellpadding="0" id="shopping-cart-detail-table">
+  <tr>
+    <td align="right">
+      <a href="$siteInfo.contextPath/web/fe/$siteInfo.siteDomainPrefix/$siteInfo.langName/home" class="shopping-cart-continue-button">
+        $template.getLanguageByValue("Continue Shopping")
+      </a>
+    </td>
+  </tr>
+  #foreach ($shoppingCartItemInfo in $shoppingCartActionForm.shoppingCartItemInfos)
+  <tr>
+    <td><hr id="shopping-cart-detail-seperator"></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="100%" border="0" cellpadding="0" id="shopping-cart-detail-item-table">
+        <tr>
+          <td>
+            <div id="shopping-cart-detail-image-container" style="float: left">
+              #if ($shoppingCartItemInfo.imageId)
+                <img src="/$siteInfo.contextPath/services/ImageProvider.do?type=I&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName&imageId=$shoppingCartItemInfo.imageId&maxsize=75">
+              #end
+            </div>
+		  </td>
+		  <td>
+            <table border="0" cellpadding="0" id="shopping-cart-detail-item-desc-table">
+              <tr>
+                <td valign="top">
+	              <span id="shopping-cart-detail-item-desc">$shoppingCartItemInfo.itemShortDesc</span><br>
+	              #foreach ($shoppingCartItemAttribute in $shoppingCartItemInfo.shoppingCartItemAttributes)
+	              	<span id="shopping-cart-detail-item-attrib">$shoppingCartItemAttribute.customAttribDesc - $shoppingCartItemAttribute.customAttribValue</span><br>
+	              #end
+                </td>
+                <td width="80" valign="top" align="right"><span id="shopping-cart-detail-item-price">$shoppingCartItemInfo.itemPrice</span></td>
+                <td width="80" valign="top" align="right">
+                  <span id="shopping-cart-detail-item-qty">
+                    <input type="hidden" name="itemNaturalKeys" value="$shoppingCartItemInfo.itemNaturalKey">
+                    <input name="itemQtys" type="text" value="$shoppingCartItemInfo.itemQty" size="2">
+                  </span>
+                  <span class="tran-error-normal">$shoppingCartItemInfo.itemQtyError</span>
+                </td>
+                <td width="80" valign="top" align="right"><span id="shopping-cart-detail-item-subtotal">$shoppingCartItemInfo.itemSubTotal</span></td>
+              </tr>
+              <tr>
+                <td colspan="4" align="right">
+                  <a class="shopping-cart-detail-item-remove" href="javascript:submitRemoveItemForm('removeItem', '$shoppingCartItemInfo.itemNaturalKey')">
+                    $template.getLanguageByValue("Remove")
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  #end
+  #foreach ($shoppingCartCouponInfo in $shoppingCartActionForm.shoppingCartCouponInfos)
+  <tr>
+    <td><hr id="shopping-cart-detail-seperator"></td>
+  </tr>
+  <tr>
+    <td>
+      <table border="0" cellpadding="0" id="shopping-cart-detail-other-table">
+        <tr>
+          <td><div id="shopping-cart-detail-image-container"></div></td>
+          <td valign="top" width="100%">
+            <table border="0" cellpadding="0" id="shopping-cart-detail-other-desc-table">
+              <tr>
+                <td align="right"><span id="shopping-cart-detail-other-desc">$shoppingCartCouponInfo.couponCod}&nbsp;$shoppingCartCouponInfo.couponName</span></td>
+                <td align="right"><span id="shopping-cart-detail-other-price">$shoppingCartCouponInfo.couponAmount</span></td>
+              </tr>
+              <tr>
+                <td colspan="2" align="right">
+                  <a class="shopping-cart-detail-other-remove" href="javascript:submitRemoveCouponForm('removeCoupon', '$shoppingCartCouponInfo.couponId')">
+                    $template.getLanguageByValue("Remove")
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  #end
+  <tr>
+    <td id="shopping-cart-summary-container">
+      #if (!$shoppingCartActionForm.customerSignin)
+      <div id="shopping-cart-estimate-container">
+      <table border="0" cellpadding="0" id="shopping-cart-estimate-table">
+        <tr>
+          <td><span id="shopping-cart-estimate-header">Shipping and tax estimate</span></td>
+        </tr>
+        <tr>
+          <td>
+          <span class="tran-error-normal">
+            $template.nn($shoppingCartActionForm.getMessage("estimateShippingLocation"))
+          </span>
+          </td>
+        </tr>
+        <c:if test="${shoppingCartActionForm.includeShippingPickUp}">
+        <tr>
+          <td><span class="shopping-cart-estimate-label">$template.getLanguageByValue("Pick up")</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="shopping-cart-estimate-input">
+            <input type="checkbox" name="estimatePickUp"/>
+            </span>
+          </td>
+        </tr>
+        </c:if>
+        <tr>
+          <td><span class="shopping-cart-estimate-label">$template.getLanguageByValue("Country")</span></td>
+        </tr>
+        <tr>
+          <td>
+      	    <select id="estimateCountryCode" class="shopping-cart-estimate-input" name="estimateCountryCode" onchange="populateStateCodes('estimateCountryCode', 'estimateStateCode', 'estimateStateName')">
+      	      #if ($template.getCount($shoppingCartActionForm.countries) > 1)
+              <option value="">$template.getLanguageByValue("Please select")</input>
+              #end
+              #foreach ($country in $shoppingCartActionForm.countries)
+                <option value="$country.value">$country.label</option>
+              #end
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="shopping-cart-estimate-label">$template.getLanguageByValue("State/Province")</span></td>
+        </tr>
+        <tr>
+          <td>
+            #if (!$template.isEmpty($shoppingCartActionForm.estimateStates))
+              <select id="estimateStateCode" name="estimateStateCode" class="shopping-cart-estimate-input"> 
+                <option value="">$template.getLanguageByValue("Please select")</input>
+                #foreach ($state in $shoppingCartActionForm.estimateStates)
+                  <option value="$state.value">$state.label</option>
+                #end
+              </select>
+              <input type="text" id="estimateStateName" name="estimateStateName" class="shopping-cart-estimate-input" style="display: none; maxlength=40" disabled="true"/>
+      		  #else
+              <select id="estimateStateCode" name="estimateStateCode" style="display: none;" disabled="true" class="shopping-cart-estimate-input"> 
+                <option value="">$template.getLanguageByValue("Please select")</input>
+                #foreach ($state in $shoppingCartActionForm.estimateStates)
+                  <option value="$state.value">$state.label</option>
+                #end
+              </select>
+              <input type="text" id="estimateStateName" name="estimateStateName" maxlength="40" class="shopping-cart-estimate-input"/>
+            #end
+          </td>
+        </tr>
+        <tr>
+          <td><span class="shopping-cart-estimate-label">$template.getLanguageByValue("Zip/Postal")</span></td>
+        </tr>
+        <tr>
+          <td>
+             <input type="text" property="estimateZipCode" maxlength="10" class="shopping-cart-estimate-input"/>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="shopping-cart-estimate-label">$template.getLanguageByValue("Shipping method")</span></td>
+        </tr>
+        <tr>
+          <td>
+      	    <select id="estimateShippingMethod" class="shopping-cart-estimate-input" name="shippingMethodId"> 
+              <option value="">$template.getLanguageByValue("Please select")</input>
+              #foreach ($shippingMethod in $shoppingCartActionForm.shippingMethods)
+                <option value="$shippingMethod.value">$shippingMethod.label</option>
+              #end
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="javascript:submitForm('estimate')" class="shopping-cart-estimate-button">
+      	    Estimate
+      	    </a>
+      	  </td>
+        </tr>
+      </table>
+      </div>
+      #end
+      
+      
+      <div id="shopping-cart-total-container">
+      <table width="300px" border="0" cellpadding="0" id="shopping-cart-total-table">
+        <tr>
+          <td align="right"><span class="shopping-cart-subtotal-label">$template.getLanguageByValue("Cart sub-total")</span></td>
+          <td align="right"><span class="shopping-cart-subtotal-value">$shoppingCartActionForm.priceTotal</span></td>
+        </tr>
+        <tr>
+          <td align="right"><span class="shopping-cart-subtotal-label">$template.getLanguageByValue("Shipping")</span></td>
+          <td align="right"><span class="shopping-cart-subtotal-value">$shoppingCartActionForm.shippingOrderTotal</span></td>
+        </tr>
+        #foreach ($shoppingCartTaxInfo in $shoppingCartActionForm.shoppingCartTaxInfos)
+        <tr>
+          <td align="right"><span class="shopping-cart-subtotal-label">$shoppingCartTaxInfo.taxName</span></td>
+          <td align="right"><span class="shopping-cart-subtotal-value">$shoppingCartTaxInfo.taxAmount</span></td>
+        </tr>
+        #end
+        <tr>
+          <td colspan="2"><hr class="shopping-cart-detail-seperator"></td>
+        </tr>
+        <tr>
+          <td align="right"><span class="shopping-cart-total-label">$template.getLanguageByValue("Order total")</span></td>
+          <td align="right"><span class="shopping-cart-total-value">$shoppingCartActionForm.orderTotal</span></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="2" align="right">
+ 	        <a href="javascript:submitForm('updateQty')" class="shopping-cart-update-button">
+	          $template.getLanguageByValue("Update Shopping Cart")
+	        </a>
+	        <br>
+          </td>
+        </tr>
+      </table>
+      </div>
+    </td>
+  </tr>
+</table>
+</div>
+<div id="shopping-cart-checkout-container">
+  #if (!$template.isEmpty($shoppingCartActionForm.shoppingCartItemInfos))
+  #if ($shoppingCartActionForm.payPal)
+    <div class="shopping-cart-normal-view">
+      <a href="/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do?process=payPalAuthorize&prefix=$siteInfo.siteDomainPrefix">
+        <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" border="0"/>
+      </a>
+    </div>
+    &nbsp;
+  #end
+  #if ($shoppingCartActionForm.creditCard)
+    <a href="/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName" class="shopping-cart-checkout-button">
+      $template.getLanguageByValue("Check-out with Credit Card")
+    </a>
+  #end
+  #if ($shoppingCartActionForm.cashPayment)
+    &nbsp;
+    <a href="/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName&cash=Y" class="shopping-cart-checkout-button">
+      $template.getLanguageByValue("Cash On Delivery")
+    </a>
+  #end
+  #end
+</div>
+<br>
+#if (!$template.isEmpty($shoppingCartActionForm.crossSellItems))
+<div id="shopping-cart-crosssell-header">$template.getLanguageByValue("You may also be interested in")</div>
+<div id="shopping-cart-crosssell-container">
+  <div id="shopping-cart-crosssell-left-arrow-container">
+    <a id="crossSellPrevious" href="javascript:void(0);"><img src="/$siteInfo.contextPath/content/template/basic/images/left-1.gif" border="0"></a>
+  </div>
+  <div id="jc_crossSellItem" class="shopping-cart-crosssell-content-container">
+    <ol class="shopping-cart-crosssell-element">
+      #foreach ($crossSellItem in $shoppingCartActionForm.crossSellItems)
+         <li>
+           <div class="shopping-cart-crosssell-item-container">
+             #if ($crossSellItem.itemDefaultImageUrl)
+               <a href="$crossSellItem.itemUrl"><img src="$crossSellItem.itemDefaultImageUrl&maxsize=150" border="0"></a><br>
+             #end
+             <span id="shopping-cart-crosssell-item-desc"><a href="$crossSellItem.itemUrl">$crossSellItem.itemShortDesc</a></span><br>
+             <div class="jc_rating_outer">
+               <div class="jc_rating_inner" style="width: $crossSellItem.commentRatingPercentage%">&nbsp;</div>
+             </div>
+             $template.getLanguageByValue("Rating") $crossSellItem.commentRating
+             <br>
+             #if ($crossSellItem.itemPriceRange)
+               <span id="shopping-cart-crosssell-item-price-range">
+                 $template.getLanguageByValue("From") $crossSellItem.itemPriceFrom $template.getLanguageByValue("to") $crossSellItem.itemPriceTo<br>
+               </span>
+             #else
+               #if ($crossSellItem.special)
+                 <span id="shopping-cart-crosssell-item-regular-price">$crossSellItem.itemPrice</span> <span id="shopping-cart-crosssell-item-spec-price">$crossSellItem.itemSpecPrice</span><br>
+               #else
+                 <span id="shopping-cart-crosssell-item-price">$crossSellItem.itemPrice</span><br>
+               #end
+             #end
+             #foreach ($itemTierPrice in $crossSellItem.itemTierPrices)
+               <span id="shopping-cart-crosssell-item-tier-price">
+                 $itemTierPrice.itemTierQty / $itemTierPrice.itemTierPrice<br>
+               </span>
+             #end
+             #if ($crossSellItem.outOfStock)
+               <span id="shopping-cart-crosssell-outofstock">$template.getLanguageByValue("Out of Stock")</span><br>
+             #end
+             <a href="$crossSellItem.itemUrl" id="shopping-cart-button">$template.getLanguageByValue("View more")</a>
+          </div>
+	    </li>
+      #end
+    </ol>
+  </div>
+  <div id="shopping-cart-crosssell-right-arrow-container">
+    <a id="crossSellNext" href="javascript:void(0);"><img src="/$siteInfo.contextPath/content/template/basic/images/right-1.gif" border="0"></a>
+  </div>
+  <div class="container-reset"></div>
+</div>
+#end
+<div id="shopping-cart-footer-container">
+  $shoppingCartActionForm.shoppingCartMessage
+</div>
+</form>
+</div>

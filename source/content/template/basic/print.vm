@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>$template.getPageTitle()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="Keywords" content="$template.getPageTitle()">
+<meta name="Description" content="$siteInfo.siteName">
+
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery_1.7.1.min.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery-ui_1.8.17.min.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery.ui.widget_1.8.16.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery.ui.accordion_1.8.16.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/superfish_1.4.8.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jcarousellite_1.0.1.min.js')"></script> 
+<script type="text/javascript" src="$template.getResourcePrefix('js/hoverIntent.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery.lightbox-0.5.min.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('jcCommon.js')"></script>
+
+<link rel="stylesheet" type="text/css" href="$template.getResourcePrefix('css/jquery.lightbox-0.5.css')" media="screen" />
+<link rel="stylesheet" type="text/css" href="$template.getResourcePrefix('css/superfish.css')" media="screen">
+<link rel="stylesheet" type="text/css" href="$template.getResourcePrefix('css/superfish-vertical.css')" media="screen">
+<link rel="stylesheet" type="text/css" href="$template.getResourcePrefix('styles.css')">
+
+</head>
+<body>
+  <div id="print-body-container">
+    <div id="print-sitename-container">
+      <span class="jc_text_large_title">$siteInfo.siteName</span>
+    </div>
+    <div id="print-content-container">                      
+      #if ($template.isPageCustom())
+        #parse($template.customPage)
+      #elseif ($template.isPageEmpty())
+        <-!-!-!EMPTYPLACEHOLDER!-!-!->
+      #end
+    </div>
+  </div>
+  <div id="print-footer-container">$siteInfo.siteFooter</div>
+</body>
+</html>

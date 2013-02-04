@@ -1,0 +1,29 @@
+<input id="commentRating" type="hidden" name="commentRating" value="0">
+<div style="height: 15px">
+	<div id="ratingSelector" class="jc_rating_inner" style="width: 0px; height: 15px"> </div>
+	<div style="position:relative; top: -15px;">
+		<img src="$template.getServletResourcePrefix()/basic/images/stars-rating-transparent.gif" width="75" height="15" border="0" usemap ="#ratingMap" />
+	</div>
+</div>
+<map name="ratingMap">
+  <area shape="rect" coords="0,0,15,15" onmouseover="ratingOver(1);" onmouseout="ratingOut(1);" onclick="ratingSelect(1)" alt="1"/>
+  <area shape="rect" coords="15,0,30,15" onmouseover="ratingOver(2);" onmouseout="ratingOut(2);" onclick="ratingSelect(2)" alt="2"/>
+  <area shape="rect" coords="30,0,45,15" onmouseover="ratingOver(3);" onmouseout="ratingOut(3);" onclick="ratingSelect(3)" alt="3"/>
+  <area shape="rect" coords="45,0,60,15" onmouseover="ratingOver(4);" onmouseout="ratingOut(4);" onclick="ratingSelect(4)" alt="4"/>
+  <area shape="rect" coords="60,0,75,15" onmouseover="ratingOver(5);" onmouseout="ratingOut(5);" onclick="ratingSelect(5)" alt="5"/>
+</map>
+<script>
+function ratingSelect(location) {
+	var commentRating = document.getElementById('commentRating');
+	commentRating.value = location;
+}
+function ratingOver(location) {
+	var object = document.getElementById('ratingSelector');
+	object.style.width = location * 15 + 'px';
+}
+function ratingOut(location) {
+	var object = document.getElementById('ratingSelector');
+	var commentRating = document.getElementById('commentRating').value;
+	object.style.width = commentRating * 15 + 'px';
+}
+</script>

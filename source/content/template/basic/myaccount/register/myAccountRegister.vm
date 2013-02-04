@@ -1,0 +1,117 @@
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+<script type="text/javascript" language="JavaScript"><!--
+function submitForm(type) {
+    document.myAccountRegisterActionForm.process.value = type;
+    document.myAccountRegisterActionForm.submit();
+}
+
+$(document).ready(function() {
+    if ("$form.enableCaptcha" == "Y") {
+    	var options = {
+    	    		theme: "clean",
+    	    		callback: Recaptcha.focus_response_field,
+    			   	custom_translations : { instructions_visual : 'unknown',
+								            instructions_audio : 'unknown',
+								            play_again : '$template.getLanguageByValue("Play sound again")',
+								            cant_hear_this : '$template.getLanguageByValue("Download sound as MP3")',
+								            visual_challenge : '$template.getLanguageByValue("Get a visual challenge")',
+								            audio_challenge : '$template.getLanguageByValue("Get an audio challenge")',
+								            refresh_btn : '$template.getLanguageByValue("Get a new challenge")',
+								            help_btn : '$template.getLanguageByValue("Help")',
+								            incorrect_try_again : "unknown" }
+    			};
+		Recaptcha.create("$form.captchaPublicKey", "recaptcha_div", options);
+    }
+} );
+//--></script>
+<div id="my-account-container">
+<div id="my-account-public-header-container">
+  <span id="my-account-public-header">$template.getLanguageByValue("Account registration")</span>
+</div>
+<br>
+<form name="myAccountRegisterActionForm" method="post" action="/$siteInfo.contextPath/myaccount/register/myAccountRegister.do?process=update&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">
+<input type="hidden" name="process" value=""/>
+<input type="hidden" name="url" value="$template.nn($form.url)"/>
+<table width="500" cellspacing="0" cellpadding="3" id="my-account-public-table">
+  <tr id="my-account-public-table-header">
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td>
+      $template.nn($form.getMessage("message"))
+    </td>
+  </tr>
+  <tr> 
+    <td nowrap><span class="my-account-public-label">$template.getLanguageByValue("Email address (login name)")</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="text" name="custEmail1" value="$template.nn($form.custEmail1)" size="40" length="40" class="my-account-public-value"/>
+      <span class="my-account-public-error">$template.nn($form.getMessage("custEmail1"))</span>
+    </td>
+  </tr>
+  <tr> 
+    <td nowrap><span class="my-account-public-label">$template.getLanguageByValue("Re-enter Email address")</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="text" name="custEmail2" value="$template.nn($form.custEmail2)" size="40" length="40" class="my-account-public-value"/>
+      <span class="my-account-public-error">$template.nn($form.getMessage("custEmail2"))</span>
+      <span class="my-account-public-error">$template.nn($form.getMessage("emailMatch"))</span>
+    </td>
+  </tr>
+  <tr> 
+    <td><span class="my-account-public-label">$template.getLanguageByValue("Password")</span><br>
+    <span class="jc_text_normal">$template.getLanguage("content.text.passwordMessage")</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="password" name="custPassword" value="$template.nn($form.custPassword)" size="20" length="20" class="my-account-public-value"/>
+      <span class="my-account-public-error">$template.nn($form.getMessage("custPassword"))</span>
+    </td>
+  </tr>
+  <tr> 
+    <td nowrap><span class="my-account-public-label">$template.getLanguageByValue("Re-enter password")</span></td>
+  </tr>
+  <tr>
+    <td>
+      <input type="password" name="custPassword1" value="$template.nn($form.custPassword1)" size="20" length="20" class="my-account-public-value"/>
+      <span class="my-account-public-error">$template.nn($form.getMessage("custPassword1"))</span>
+    </td>
+  </tr>
+  <tr> 
+    <td>
+      <span class="my-account-public-error">$template.nn($form.getMessage("custPasswordNoMatch"))</span>
+    </td>
+  </tr>
+  <tr> 
+    <td nowrap><span class="my-account-public-label">$template.getLanguageByValue("Public name")</span><br>
+    <span class="jc_text_normal">$template.getLanguageByValue("Name that will be known to public")</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="my-account-public-label"><input type="text" name="custPublicName" value="$template.nn($form.custPublicName)" size="20" length="20"/></div>
+      <span class="my-account-public-error">$template.nn($form.getMessage("custPublicName"))</span>
+    </td>
+  </tr>
+  <tr> 
+    <td>
+      <!-- empty div element in which the reCAPTCHA object will be placed -->
+	  <div id="recaptcha_div"></div>
+	  <span class="my-account-public-error">$template.nn($form.getMessage("recaptchaUserResponse"))</span>
+	</td>
+  </tr>
+  <tr> 
+    <td class="jc_tran_reverse">
+      <a href="javascript:submitForm('update');" class="jc_shopping_cart_button">
+        $template.getLanguageByValue("Register")
+      </a>
+    </td>
+  </tr>
+</table>
+</form>
+</div>

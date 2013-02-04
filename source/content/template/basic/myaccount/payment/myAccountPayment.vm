@@ -1,0 +1,131 @@
+#set ($myAccountBean = $form)
+<script type="text/javascript" language="JavaScript"><!--
+function submitForm(type) {
+    document.myAccountPaymentActionForm.process.value = type;
+    document.myAccountPaymentActionForm.submit();
+}
+
+//--></script>
+<div id="my-account-container">
+  <div id="my-account-nav-container">
+  	#parse("/myaccount/myAccountNav.vm")
+  </div>
+  <div id="my-account-body-container">
+    <form method="post" name="myAccountPaymentActionForm" action="/$siteInfo.contextPath/myaccount/payment/myAccountPayment.do?process=update&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">
+    <input type="hidden" name="process" value=""/>
+    <div id="my-account-header-container">$template.getLanguageByValue("Payment information")</div>
+    <span id="my-account-message">$form.getMessage("message")</span>
+    <div id="my-account-body-inner-container">
+	<table cellspacing="0" cellpadding="3" class="my-account-table">
+	  <tr>
+	    <td colspan="2">
+	    <span class="my-account-form-label">$template.getLanguage("content.text.myaccount.payment.message")</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	    <span class="my-account-form-title">$template.getLanguageByValue("Name as it appears on card")</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      <input type="text" name="custCreditCardFullName" value="$template.nn($form.custCreditCardFullName)" size="20" class="my-account-form-input"/>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      <span class="my-account-error">
+	        $form.getMessage("custCreditCardFullName")
+	      </span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	    <span class="my-account-form-title">$template.getLanguageByValue("Credit card type")</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      <select name="creditCardId" class="my-account-form-input">
+	        #foreach ($creditCard in $form.creditCards)
+	          #set ($selected = "")
+	          #if ($creditCard.value == $form.creditCardId)
+	            #set ($selected = "selected")
+	          #end
+	          <option value="$creditCard.value" $selected/>$creditCard.label</option>
+	        #end
+	      </select> 
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	    <span class="my-account-form-title">$template.getLanguageByValue("Card number (no spaces)")</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      <input type="text" name="custCreditCardNum" value="$template.nn($form.custCreditCardNum)" size="20" class="my-account-form-input"/>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      <span class="my-account-error">
+	        $form.getMessage("custCreditCardNum")
+	      </span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	    <span class="my-account-form-title">$template.getLanguageByValue("Expiration date")</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td nowrap>
+	      <span class="my-account-form-title"><lang:contentMessage value="Month"/></span>
+	      <select name="custCreditCardExpiryMonth" class="my-account-form-input">
+	        #foreach ($expiryMonth in $form.expiryMonths)
+	        #set ($selected = "")
+	        #if ($expiryMonth.value == $form.custCreditCardExpiryMonth)
+	          #set ($selected = "selected")
+	        #end
+	        <option value="$expiryMonth.value" $selected/>$expiryMonth.label</option>
+	        #end
+	      </select> 
+	      <span class="my-account-form-title"><lang:contentMessage value="Year"/></span>
+	      <select name="custCreditCardExpiryYear" class="my-account-form-input"> 
+	        #foreach ($expiryYear in $form.expiryYears)
+	        #set ($selected = "")
+	        #if ($expiryYear.value == $form.custCreditCardExpiryYear)
+	          #set ($selected = "selected")
+	        #end
+	        <option value="$expiryYear.value" $selected/>$expiryYear.label</option>
+	        #end
+	      </select> 
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	    <span class="my-account-form-title">$template.getLanguageByValue("Card Code Verification Number (CCV)")</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      <input type="text" name="custCreditCardVerNum" value="$template.nn($form.custCreditCardVerNum)" size="10" class="my-account-form-input"/>
+	    </td>
+	  </tr>
+	</table>
+	<br>
+	<table width="200" cellspacing="0" cellpadding="0" class="my-account-table">
+	  <tr>
+	    <td>
+	      <a href="javascript:submitForm('update');" class="my-account-submit">
+	        $template.getLanguageByValue("Update")
+	      </a>
+	    </td>
+	  </tr>
+	</table>
+    </div>
+    </form>
+  </div>
+  <div class="container-reset"></div>
+</div>

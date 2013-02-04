@@ -1,0 +1,28 @@
+<form name="shoppingCartFinalizeForm" method="post" id="shoppingCartFinalizeForm" action="/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do">
+<input type="hidden" name="process" value="finalizePayPalOrder"/> 
+<input type="hidden" name="prefix" value="$siteInfo.siteDomainPrefix"/>
+
+<div class="shopping-cart-col-large">
+  <div class="shopping-cart-summary-col1">
+    <span class="shopping-cart-info-title">$template.getLanguageByValue("Shipping")</span>
+  </div>
+  <div class="shopping-cart-summary-col2">
+    <span>$form.shippingTotal</span>
+  </div>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-col-large">
+  <div class="shopping-cart-summary-col1">
+    <span class="shopping-cart-info-title">$template.getLanguageByValue("Order total")</span>
+  </div>
+  <div class="shopping-cart-summary-col2">
+    <span>$form.orderTotal</span>
+  </div>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-col-large">
+  <a href="" onclick="return submitFinalize();" class="shopping-cart-button">
+    $template.getLanguageByValue("Confirm Checkout")
+  </a>
+</div>
+</form>

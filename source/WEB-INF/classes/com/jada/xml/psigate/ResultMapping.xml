@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping xmlns="http://castor.exolab.org/" xmlns:cst="http://castor.exolab.org/">
+	<description xmlns="">Castor generated mapping file</description>
+	<class name="com.jada.xml.psigate.Result">
+		<description xmlns="">Default mapping for class com.jada.xml.psigate.Result</description>
+		<map-to/>
+		<field name="orderID" type="java.lang.String">
+			<bind-xml name="OrderID" node="element"/>
+		</field>
+		<field name="IPCity" type="java.lang.String">
+			<bind-xml name="IPCity" node="element"/>
+		</field>
+		<field name="transRefNumber" type="java.lang.String">
+			<bind-xml name="TransRefNumber" node="element"/>
+		</field>
+		<field name="cardExpYear" type="java.lang.String">
+			<bind-xml name="CardExpYear" node="element"/>
+		</field>
+		<field name="IPResult" type="java.lang.String">
+			<bind-xml name="IPResult" node="element"/>
+		</field>
+		<field name="errMsg" type="java.lang.String">
+			<bind-xml name="ErrMsg" node="element"/>
+		</field>
+		<field name="AVSResult" type="java.lang.String">
+			<bind-xml name="AVSResult" node="element"/>
+		</field>
+		<field name="cardAuthNumber" type="java.lang.String">
+			<bind-xml name="CardAuthNumber" node="element"/>
+		</field>
+		<field name="IPCountry" type="java.lang.String">
+			<bind-xml name="IPCountry" node="element"/>
+		</field>
+		<field name="approved" type="java.lang.String">
+			<bind-xml name="Approved" node="element"/>
+		</field>
+		<field name="cardRefNumber" type="java.lang.String">
+			<bind-xml name="CardRefNumber" node="element"/>
+		</field>
+		<field name="shipTotal" type="java.lang.String">
+			<bind-xml name="ShipTotal" node="element"/>
+		</field>
+		<field name="fullTotal" type="java.lang.String">
+			<bind-xml name="FullTotal" node="element"/>
+		</field>
+		<field name="subTotal" type="java.lang.String">
+			<bind-xml name="SubTotal" node="element"/>
+		</field>
+		<field name="cardExpMonth" type="java.lang.String">
+			<bind-xml name="CardExpMonth" node="element"/>
+		</field>
+		<field name="cardNumber" type="java.lang.String">
+			<bind-xml name="CardNumber" node="element"/>
+		</field>
+		<field name="taxTotal" type="java.lang.String">
+			<bind-xml name="TaxTotal" node="element"/>
+		</field>
+		<field name="returnCode" type="java.lang.String">
+			<bind-xml name="ReturnCode" node="element"/>
+		</field>
+		<field name="paymentType" type="java.lang.String">
+			<bind-xml name="PaymentType" node="element"/>
+		</field>
+		<field name="cardType" type="java.lang.String">
+			<bind-xml name="CardType" node="element"/>
+		</field>
+		<field name="IPRegion" type="java.lang.String">
+			<bind-xml name="IPRegion" node="element"/>
+		</field>
+		<field name="transTime" type="java.lang.String">
+			<bind-xml name="TransTime" node="element"/>
+		</field>
+		<field name="cardIDResult" type="java.lang.String">
+			<bind-xml name="CardIDResult" node="element"/>
+		</field>
+	</class>
+</mapping>

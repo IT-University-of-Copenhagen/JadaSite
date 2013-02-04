@@ -1,0 +1,85 @@
+#set ($categoryInfo = $template.getCategory())
+#if (!$categoryInfo)
+	#parse("messages/moved.vm")
+#end
+#set ($categoryTitleInfos = $template.getCategoryTitles())
+#set ($categoryChildInfos = $template.getCategoryChildren())
+<div class="left-panel">
+	#foreach ($categoryTitleInfo in $categoryTitleInfos)
+		<a href="$categoryTitleInfo.categoryUrl" class="category-breadcrumb-link">$categoryTitleInfo.catShortTitle</a>&nbsp;-&nbsp;
+	#end
+	<span id="category-breadcrumb-title">$categoryInfo.catShortTitle</span>
+
+	#if ($categoryInfo.pageNum  == 1)
+	<br>
+	<br>
+	<span id="category-title">$categoryInfo.catTitle</span><br>
+	<br>
+	<span id="category-desc">$categoryInfo.catDesc</span><br>
+	<br>
+	#end
+	#if (!$template.isEmpty($categoryInfo.categoryDatas))
+	  #parse("category/categoryNavigation.vm")
+	#end
+	<br>
+	<br>
+	<br>
+	#foreach ($categoryData in $categoryInfo.categoryDatas) 
+		#set ($info = $categoryData)
+		#set ($orientation = "top")
+		#if ($categoryData.infoType == "content")
+			<div id="category-preview-container">
+				#parse("common/previewContent.vm")
+			</div>
+		#else
+			<div id="category-border-preview-container">
+				#parse("common/previewItem.vm")
+			</div>
+		#end
+		#if ($velocityCount % 3 == 0)
+		<div class="container-reset"></div>
+		#end
+	#end
+</div>
+<div class="right-panel">
+	#if ($template.isShoppingCart())
+		#parse("components/shoppingCart/shoppingCartSummary.vm") 
+	#end
+	#if (!$template.isEmpty($categoryChildInfos))
+	<div class="jc_panel_header">$template.getLanguageByValue('Categories')</div>
+	<div class="jc_panel_body">
+	  <div id="category-children-container">
+			#foreach ($categoryChildInfo in $categoryChildInfos)
+			<a href="$categoryChildInfo.categoryUrl" class="category-children-link">$categoryChildInfo.catShortTitle ($categoryChildInfo.dataCount)</a><br>
+			#end
+		</div>
+	</div>
+	<br>
+	#end
+	#if (!$template.isEmpty($categoryInfo.categoryCustomAttributeInfos))
+	<div class="jc_panel_header">$template.getLanguageByValue('Refine search')</div>
+	<div class="jc_panel_body">
+	  <div id="category-attribute-container">
+		#foreach ($categoryCustomAttributeInfo in $categoryInfo.categoryCustomAttributeInfos)
+			<span id="category-attribute-desc">$categoryCustomAttributeInfo.customAttribDesc</span><br>
+			#if ($categoryCustomAttributeInfo.selected)
+				<a href="$categoryCustomAttributeInfo.selectedCustomAttribOptionInfo.customAttribUrl" class="category-attribute-link">$template.getLanguageByValue('Select all')</a>
+				<br>
+				<span id="category-attribute-value">$categoryCustomAttributeInfo.selectedCustomAttribOptionInfo.customAttribValue</span><br>
+			#else
+				#foreach ($customAttribOptionInfo in $categoryCustomAttributeInfo.customAttribOptionInfos)
+					<a href="$customAttribOptionInfo.customAttribUrl" class="category-attribute-link">$customAttribOptionInfo.customAttribValue ($customAttribOptionInfo.dataCount)</a>
+					<br>
+				#end
+			#end
+			<br>
+		#end
+		</div>
+	</div>
+	<br>
+	#end
+	#parse("components/compare/compareItemContainer.vm")
+	#parse("components/item/mostPopularItems.vm")
+	#parse("components/content/topRatedContent.vm")
+	#parse("components/content/mostViewedContent.vm")
+</div>

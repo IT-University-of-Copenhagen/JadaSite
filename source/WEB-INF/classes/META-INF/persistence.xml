@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="jadaSite">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.jada.jpa.entity.Cache</class>
+		<class>com.jada.jpa.entity.Category</class>
+		<class>com.jada.jpa.entity.CategoryLanguage</class>
+		<class>com.jada.jpa.entity.Comment</class>
+		<class>com.jada.jpa.entity.ContactUs</class>
+		<class>com.jada.jpa.entity.ContactUsLanguage</class>
+		<class>com.jada.jpa.entity.Content</class>
+		<class>com.jada.jpa.entity.ContentDescSearch</class>
+		<class>com.jada.jpa.entity.ContentImage</class>
+		<class>com.jada.jpa.entity.ContentImageLanguage</class>
+		<class>com.jada.jpa.entity.ContentLanguage</class>
+		<class>com.jada.jpa.entity.Control</class>
+		<class>com.jada.jpa.entity.Country</class>
+		<class>com.jada.jpa.entity.Coupon</class>
+		<class>com.jada.jpa.entity.CouponCurrency</class>
+		<class>com.jada.jpa.entity.CouponLanguage</class>
+		<class>com.jada.jpa.entity.CreditCard</class>
+		<class>com.jada.jpa.entity.CreditDetail</class>
+		<class>com.jada.jpa.entity.CreditDetailTax</class>
+		<class>com.jada.jpa.entity.CreditHeader</class>
+		<class>com.jada.jpa.entity.Currency</class>
+		<class>com.jada.jpa.entity.CustomAttribute</class>
+		<class>com.jada.jpa.entity.CustomAttributeDetail</class>
+		<class>com.jada.jpa.entity.CustomAttributeGroup</class>
+		<class>com.jada.jpa.entity.CustomAttributeLanguage</class>
+		<class>com.jada.jpa.entity.CustomAttributeOption</class>
+		<class>com.jada.jpa.entity.CustomAttributeOptionCurrency</class>
+		<class>com.jada.jpa.entity.CustomAttributeOptionLanguage</class>
+		<class>com.jada.jpa.entity.Customer</class>
+		<class>com.jada.jpa.entity.CustomerAddress</class>
+		<class>com.jada.jpa.entity.CustomerClass</class>
+		<class>com.jada.jpa.entity.CustomerCreditCard</class>
+		<class>com.jada.jpa.entity.HomePage</class>
+		<class>com.jada.jpa.entity.HomePageDetail</class>
+		<class>com.jada.jpa.entity.HomePageLanguage</class>
+		<class>com.jada.jpa.entity.IeProfileDetail</class>
+		<class>com.jada.jpa.entity.IeProfileHeader</class>
+		<class>com.jada.jpa.entity.InvoiceDetail</class>
+		<class>com.jada.jpa.entity.InvoiceDetailTax</class>
+		<class>com.jada.jpa.entity.InvoiceHeader</class>
+		<class>com.jada.jpa.entity.Item</class>
+		<class>com.jada.jpa.entity.ItemAttributeDetail</class>
+		<class>com.jada.jpa.entity.ItemAttributeDetailLanguage</class>
+		<class>com.jada.jpa.entity.ItemCurrency</class>
+		<class>com.jada.jpa.entity.ItemDescSearch</class>
+		<class>com.jada.jpa.entity.ItemImage</class>
+		<class>com.jada.jpa.entity.ItemImageLanguage</class>
+		<class>com.jada.jpa.entity.ItemLanguage</class>
+		<class>com.jada.jpa.entity.ItemPriceCurrency</class>
+		<class>com.jada.jpa.entity.ItemPriceSearch</class>
+		<class>com.jada.jpa.entity.ItemTierPrice</class>
+		<class>com.jada.jpa.entity.ItemTierPriceCurrency</class>
+		<class>com.jada.jpa.entity.Language</class>
+		<class>com.jada.jpa.entity.LanguageTranslation</class>
+		<class>com.jada.jpa.entity.Menu</class>
+		<class>com.jada.jpa.entity.MenuLanguage</class>
+		<class>com.jada.jpa.entity.OrderAddress</class>
+		<class>com.jada.jpa.entity.OrderAttributeDetail</class>
+		<class>com.jada.jpa.entity.OrderDetailTax</class>
+		<class>com.jada.jpa.entity.OrderHeader</class>
+		<class>com.jada.jpa.entity.OrderItemDetail</class>
+		<class>com.jada.jpa.entity.OrderOtherDetail</class>
+		<class>com.jada.jpa.entity.OrderTracking</class>
+		<class>com.jada.jpa.entity.PaymentGateway</class>
+		<class>com.jada.jpa.entity.PaymentTran</class>
+		<class>com.jada.jpa.entity.PollDetail</class>
+		<class>com.jada.jpa.entity.PollHeader</class>
+		<class>com.jada.jpa.entity.ProductClass</class>
+		<class>com.jada.jpa.entity.Report</class>
+		<class>com.jada.jpa.entity.Sequence</class>
+		<class>com.jada.jpa.entity.ShipDetail</class>
+		<class>com.jada.jpa.entity.ShipHeader</class>
+		<class>com.jada.jpa.entity.ShippingMethod</class>
+		<class>com.jada.jpa.entity.ShippingMethodLanguage</class>
+		<class>com.jada.jpa.entity.ShippingMethodRegion</class>
+		<class>com.jada.jpa.entity.ShippingMethodRegionType</class>
+		<class>com.jada.jpa.entity.ShippingRate</class>
+		<class>com.jada.jpa.entity.ShippingRateCurrency</class>
+		<class>com.jada.jpa.entity.ShippingRegion</class>
+		<class>com.jada.jpa.entity.ShippingRegionZip</class>
+		<class>com.jada.jpa.entity.ShippingType</class>
+		<class>com.jada.jpa.entity.Site</class>
+		<class>com.jada.jpa.entity.SiteCurrency</class>
+		<class>com.jada.jpa.entity.SiteCurrencyClass</class>
+		<class>com.jada.jpa.entity.SiteDomain</class>
+		<class>com.jada.jpa.entity.SiteDomainLanguage</class>
+		<class>com.jada.jpa.entity.SiteParam</class>
+		<class>com.jada.jpa.entity.SiteProfile</class>
+		<class>com.jada.jpa.entity.SiteProfileClass</class>
+		<class>com.jada.jpa.entity.State</class>
+		<class>com.jada.jpa.entity.Syndication</class>
+		<class>com.jada.jpa.entity.Tax</class>
+		<class>com.jada.jpa.entity.TaxLanguage</class>
+		<class>com.jada.jpa.entity.TaxRegion</class>
+		<class>com.jada.jpa.entity.TaxRegionProduct</class>
+		<class>com.jada.jpa.entity.TaxRegionProductCust</class>
+		<class>com.jada.jpa.entity.TaxRegionProductCustTax</class>
+		<class>com.jada.jpa.entity.TaxRegionZip</class>
+		<class>com.jada.jpa.entity.Template</class>
+		<class>com.jada.jpa.entity.Transaction</class>
+		<class>com.jada.jpa.entity.User</class>
+		<class>com.jada.jpa.entity.VoidOrder</class>
+		<properties>
+	        <property name="hibernate.bytecode.use_reflection_optimizer" value="false"/>
+	        <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+	        <property name="hibernate.connection.username" value="admin"/>
+	        <property name="hibernate.connection.password" value="admin"/>
+	        <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/jada?relaxAutoCommit=true&amp;emulateLocators=true&amp;autoReconnect=true&amp;characterEncoding=UTF-8"/>
+	        <property name="hibernate.dialect" value="com.jada.jpa.connection.CustomMySQLDialect"/>
+	        <property name="hibernate.current_session_context_class" value="thread"/>
+	        <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
+	        <property name="hibernate.c3p0.min_size" value="1"/>
+	        <property name="hibernate.c3p0.max_size" value="100"/>
+	        <property name="hibernate.c3p0.timeout" value="10"/>
+	        <property name="hibernate.c3p0.acquire_increment" value="5"/>
+	        <property name="hibernate.c3p0.idle_test_period" value="60"/>
+	        <property name="hibernate.c3p0.initialPoolSize" value="10"/>
+	        <property name="hibernate.c3p0.max_statements" value="50"/>
+	        <property name="hibernate.show_sql" value="false"/>
+	        <property name="hibernate.format_sql" value="true"/>
+        </properties>
+	</persistence-unit>
+</persistence>

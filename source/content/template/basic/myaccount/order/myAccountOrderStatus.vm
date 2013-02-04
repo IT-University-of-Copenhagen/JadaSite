@@ -1,0 +1,294 @@
+#set ($myAccountBean = $form)
+<div id="my-account-container">
+  <div id="my-account-nav-container">
+  	#parse("/myaccount/myAccountNav.vm")
+  </div>
+  <div id="my-account-body-container">
+    <form method="post" action="/$siteInfo.contextPath/myaccount/order/myAccountOrderStatus.do?process=update">
+    <input type="hidden" name="process" value=""/>
+    <div id="my-account-header-container">$template.getLanguageByValue("My orders")</div>
+    <div id="my-account-order-body-container">
+	<table border="0" cellpadding="3" class="my-account-table">
+	  <tr>
+	    <td width="150"><span class="my-account-form-label">$template.getLanguageByValue("Order number")</span></td>
+	    <td>
+	    <span class="my-account-form-value">$form.orderNum</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td width="150"><span class="my-account-form-label">$template.getLanguageByValue("Date")</span></td>
+	    <td>
+	    <span class="my-account-form-value">$form.orderDatetime</span>
+	    </td>
+	  </tr>
+	  #if ($form.paymentGateway != 'PayPalEngine')
+	  <tr>
+	    <td width="150"><span class="my-account-form-label">$template.getLanguageByValue("Credit card type")</span></td>
+	    <td>
+	    <span class="my-account-form-value">$form.creditCardDesc</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td width="150"><span class="my-account-form-label">$template.getLanguageByValue("Credit card")</span></td>
+	    <td>
+	    <span class="my-account-form-value">$form.custCreditCardNum</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td width="150"><span class="my-account-form-label">$template.getLanguageByValue("Authorization number")</span></td>
+	    <td>
+	    <span class="my-account-form-value">$form.authCode</span>
+	    </td>
+	  </tr>
+	  #elseif ($template.isNullOrEmpty($form.paymentGateway))
+	  <tr>
+	    <td width="150"><span class="my-account-form-label">$template.getLanguageByValue("Payment")</span></td>
+	    <td>
+	    <span class="my-account-form-value">$template.getLanguageByValue("Cash On Delivery")</span>
+	    </td>
+	  </tr>
+	  #else
+	  <tr>
+	    <td width="150"><span class="my-account-form-label">$template.getLanguageByValue("Payment")</span></td>
+	    <td>
+	    <span class="my-account-form-value">PayPal</span>
+	    </td>
+	  </tr>
+	  #end
+	</table>
+	<br>
+	<table width="600" border="0" cellpadding="3" class="my-account-table">
+	  <tr>
+	    <td colspan="2"><span class="my-account-form-title">$template.getLanguageByValue("My information")</span></td>
+	  </tr>
+	  <tr>
+	    <td width="150"><span class="my-account-form-label">$template.getLanguageByValue("Email address")</span></td>
+	    <td>
+	    <span class="my-account-form-value">$form.custEmail</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td width="150" valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Address")</span></td>
+	    <td valign="top">
+	    <span class="my-account-form-value">
+	    $form.custFirstName $form.custLastName<br>
+	    $form.custAddressLine1<br>
+	    #if (!$template.isNullOrEmpty($form.custAddressLine2))
+	      $form.custAddressLine2<br>
+	    #end
+	    $form.custCityName $form.custStateName<br>
+	    $form.custCountryName<br>
+	    $form.custZipCode
+	    </span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;</td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      <span class="my-account-form-title">$template.getLanguageByValue("Billing information")</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      #if ($form.billingCustUseAddress == 'C')
+	        <span class="my-account-form-value">$template.getLanguageByValue("Same as my information")</span>
+	      #end
+	    </td>
+	  </tr>
+	  #if ($form.billingCustUseAddress == 'O')
+	  <tr>
+	    <td width="150" valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Address")</span></td>
+	    <td valign="top">
+	    <span class="my-account-form-value">
+	    $form.billingCustFirstName $form.billingCustLastName<br>
+	    $form.billingCustAddressLine1<br>
+	    #if (!$template.isNullOrEmpty($form.billingCustAddressLine2))
+	      $form.billingCustAddressLine2<br>
+	    #end
+	    $form.billingCustCityName $form.billingCustStateName<br>
+	    $form.billingCustCountryName<br>
+	    $form.billingCustZipCode
+	    </span>
+	    </td>
+	  </tr>
+	  #end
+	  <tr>
+	    <td>&nbsp;</td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      <span class="my-account-form-title">$template.getLanguageByValue("Shipping information")</span>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      #if ($form.shippingCustUseAddress == 'C')
+	        <span class="my-account-form-value">$template.getLanguageByValue("Same as my information")</span>
+	      #elseif ($form.shippingCustUseAddress == 'B')
+	        <span class="my-account-form-value">$template.getLanguageByValue("Same as billing information")</span>
+	      #end
+	    </td>
+	  </tr>
+	  #if ($template.shippingCustUseAddress == 'O')
+	  <tr>
+	    <td width="150" valign="top"><span class="my-account-form-label">$template.getLanguageByValue("Address")</span></td>
+	    <td valign="top">
+	    <span class="my-account-form-value">
+	    $form.shippingCustFirstName $form.shippingCustLastName<br>
+	    $form.shippingCustAddressLine1<br>
+	    #if (!$template.isNullOrEmpty($form.shippingCustAddressLine2))
+	      $form.shippingCustAddressLine2<br>
+	    #end
+	    $form.shippingCustCityName $form.shippingCustStateName<br>
+	    $form.shippingCustCountryName<br>
+	    $form.shippingCustZipCode
+	    </span>
+	    </td>
+	  </tr>
+	  #end
+	  <tr>
+	    <td>&nbsp;</td>
+	    <td></td>
+	  </tr>
+	  <tr>
+		<td colspan="2"><span class="my-account-form-title">$template.getLanguageByValue("Shipping method")</span></td>
+	  </tr>
+	  <tr>
+		<td colspan="2">
+		  <span class="my-account-form-value">$form.shippingMethodName</span>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;</td>
+	    <td></td>
+	  </tr>
+	  <tr>
+		<td colspan="2"><span class="my-account-form-title">$template.getLanguageByValue("More information")</span></td>
+	  </tr>
+	  #foreach ($orderTracking in $form.orderTrackings)
+	  <tr>
+		<td>
+		  <span class="my-account-form-value">$orderTracking.orderTrackingMessage</span>
+		</td>
+		<td>
+		  <span class="my-account-form-value">$orderTracking.orderTrackingDatetime</span>
+		</td>
+	  </tr>
+	  #end
+	</table>
+	<br>
+	
+	
+	
+	
+	
+	<table width="700" border="0" cellpadding="0" id="my-account-order-table">
+	  <tr>
+	    <td id="my-account-order-table-header"><span id="my-account-order-table-title-header">$template.getLanguageByValue("Item details")</span></td>
+	  </tr>
+	  #foreach ($orderDetail in $form.orderDetails)
+	  <tr>
+	    <td><hr></td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <table width="100%" border="0" cellpadding="0" id="my-account-order-item-table">
+	        <tr>
+	          <td>
+	            <div align="center" id="my-account-order-item-image-container">
+	              #if (!$orderDetail.imageId)
+	                <img src="/$siteInfo.contextPath/services/ImageProvider.do?type=I&imageId=$orderDetail.imageId&maxsize=75">
+	              #end
+	            </div>
+	          </td>
+	          <td valign="top" width="100%">
+	            <table width="100%" border="0" cellpadding="0" id="my-account-order-item-desc-table">
+	              <tr>
+	                <td>
+	                  <span id="my-account-order-item-desc">$orderDetail.itemShortDesc</span><br>
+	                  #foreach ($orderItemAttribute in $orderDetail.orderItemAttributes)
+	                  <span id="my-account-order-item-attrib">$orderItemAttribute.customAttribDesc - $orderItemAttribute.customAttribValue</span><br>
+	                  #end
+	                </td>
+	                <td width="80" align="right"><span id="my-account-order-item-price">$orderDetail.itemTierPrice</span></td>
+	                <td width="80" align="center" id="my-account-order-item-qty">
+	                  $orderDetail.itemOrderQty
+	                </td>
+	                <td width="80" align="right"><span id="my-account-order-item-subtotal">$orderDetail.itemSubTotal</span></td>
+	              </tr>
+	            </table>
+	          </td>
+	        </tr>
+	      </table>
+	    </td>
+	  </tr>
+	  #end
+	  #foreach ($orderOtherDetail in $form.orderOtherDetails)
+	  <tr>
+	    <td><hr></td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <table width="100%" border="0" cellpadding="0" id="my-account-order-other-table">
+	        <tr>
+	          <td>
+	            <div id="my-account-order-item-image-container">
+	            </div>
+	          </td>
+	          <td valign="top" width="100%">
+	            <table width="100%" border="0" cellpadding="0" id="my-account-order-other-table">
+	              <tr>
+	                <td><span class="my-account-order-item-desc">$orderOtherDetail.itemShortDesc</span></td>
+	                <td width="80"></td>
+	                <td width="80"></td>
+	                <td width="80" align="right"><span id="my-account-order-item-subtotal">$orderOtherDetail.itemSubTotal</span></td>
+	              </tr>
+	            </table>
+	          </td>
+	        </tr>
+	
+	      </table>
+	    </td>
+	  </tr>
+	  #end
+	  <tr>
+	    <td bgcolor="#F2F2F2">
+	      <table width="300" border="0" align="right" cellpadding="0" id="my-account-order-total-table">
+	        <tr>
+	          <td align="right"><span id="my-account-order-subtotal-label">$template.getLanguageByValue("Cart sub-total")</span></td>
+	          <td align="right"><span id="my-account-order-subtotal-value">$form.priceTotal</span></td>
+	        </tr>
+	        <tr>
+	          <td align="right"><span id="my-account-order-subtotal-label">$template.getLanguageByValue("Shipping")</span></td>
+	          <td align="right"><span id="my-account-order-subtotal-value">$form.shippingTotal</span></td>
+	        </tr>
+	        #foreach ($orderTax in $form.orderTaxes)
+	        <tr>
+	          <td align="right"><span id="my-account-order-subtotal-label">$orderTax.taxName</span></td>
+	          <td align="right"><span id="my-account-order-subtotal-value">$orderTax.taxAmount</span></td>
+	        </tr>
+	        #end
+	        <tr>
+	          <td colspan="2"><hr></td>
+	        </tr>
+	        <tr>
+	          <td align="right"><span id="my-account-order-total-label">$template.getLanguageByValue("Order total")</span></td>
+	          <td align="right"><span id="my-account-order-total-value">$form.orderTotal</span></td>
+	        </tr>
+	        <tr>
+	          <td>&nbsp;</td>
+	          <td>&nbsp;</td>
+	        </tr>
+	      </table>
+	    </td>
+	  </tr>
+	</table>
+	</div>
+    </form>
+  </div>
+  <div class="container-reset"></div>
+</div>

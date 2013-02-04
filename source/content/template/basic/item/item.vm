@@ -1,0 +1,453 @@
+#set ($itemInfo = $template.getItem())
+#if (!$itemInfo)
+	#parse("messages/moved.vm")
+#end
+
+<script language="JavaScript">
+var mapping = new Array();
+#foreach( $skuItems in $template.getSkuItems() )
+	#set ($index = $velocityCount - 1)
+	#set ($map = '')
+	#foreach( $itemAttribDetailInfo in $skuItems.itemAttribDetailInfos )
+		#if ($itemAttribDetailInfo.customAttribTypeCode == $itemInfo.CUSTOM_ATTRIBUTE_TYPE_SKU_MAKEUP)
+			#set ($map = $map + '(customAttribDetailIds=' + $itemAttribDetailInfo.customAttribDetailId + ')')
+			#set ($map = $map + '(customAttribValues=' + $itemAttribDetailInfo.customAttribOptionId + ')')
+		#end
+	#end
+	mapping[$index] = ['$map', '$skuItems.itemSkuCd', '$skuItems.itemId', $skuItems.outOfStock];
+#end
+
+var itemAvailable = true;
+var errorCode = '0';
+#if ($itemInfo.itemTypeCd == '02')
+	itemAvailable = false;
+	errorCode = '2';
+#end
+var priceDisplayContainer = '';
+
+function checkItemAvailability() {
+	var elements = document.itemForm.elements;
+	var data = '';
+	for (var i = 0; i < elements.length; i++) {
+		if (elements[i].name != 'customAttribDetailIds' && elements[i].name != 'customAttribValues') {
+			continue;
+		}
+		if (elements[i].className != 'sku') {
+			continue;
+		}
+		if (elements[i].value == '') {
+			errorCode = 2;
+			return;
+		}
+		data += "(" + elements[i].name + "=" + elements[i].value + ")";
+	}
+	
+	itemAvailable = false;
+	
+	if (mapping.length == 0) {
+		errorCode = 1;
+	}
+	var found = false;
+	for (var i = 0; i < mapping.length; i++) {
+		if (mapping[i][0] == data) {
+			found = true;
+			if (mapping[i][3] == true) {
+				errorCode = 1;
+			}
+			else {
+				itemAvailable = true;
+				errorCode = 0;
+			}
+			var container = document.getElementById('itemPriceContainer');
+			container.style.display = 'none';
+			if (priceDisplayContainer != '') {
+				container = document.getElementById(priceDisplayContainer);
+				container.style.display = 'none';
+			}
+			priceDisplayContainer = mapping[i][1];
+			container = document.getElementById(priceDisplayContainer);
+			container.style.display = 'block';
+			break;
+		}
+	}
+	if (!found) {
+		errorCode = 1;
+		var container = document.getElementById('itemPriceContainer');
+		container.style.display = 'block';
+		if (priceDisplayContainer != '') {
+			container = document.getElementById(priceDisplayContainer);
+			container.style.display = 'none';
+		}
+	}
+}
+
+function verifyInput() {
+	var elements = document.itemForm.elements;
+	for (var i = 0; i < elements.length; i++) {
+		if (elements[i].id.indexOf('itemAttribDetailIds') != 0) {
+			continue;
+		}
+		if (elements[i].value == '') {
+			showMessage("$template.getLanguageByValue('Please make your selection.')");
+			return false;
+		}
+	}
+	return true;
+}
+
+function buyItem() {
+	if (itemAvailable) {
+		if (!verifyInput()) {
+			return;
+		}
+		document.itemForm.submit();
+	}
+	else {
+		if (errorCode == '1') {
+			showMessage("$template.getLanguageByValue('Item is not available at this time.')");
+		}
+		if (errorCode == '2') {
+			showMessage("$template.getLanguageByValue('Please make your selection.')");
+		}
+	}
+	return false;
+}
+
+function showMessage(message) {
+	var object = document.getElementById('itemMessage');
+	object.innerHTML = message;
+}
+
+function setImage(path) {
+	var spotlight = document.getElementById('item-spotlight-container');
+	spotlight.innerHTML = '<img name="jc_image_preview" src="' + path.replace(/maxsize=60/, 'maxsize=200') + '"/>';
+}
+
+
+$(function() {
+    $(".all-images ul > li .image-preview-container img").click(function() {
+        $("#spotlight").attr("src", $(this).attr("src").replace('maxsize=45', 'maxsize=200'));
+        $("#lightbox").attr("href", $(this).attr("src").replace('maxsize=45', ''));
+    });
+	
+    $(".all-images").jCarouselLite({
+        btnNext: ".next",
+        btnPrev: ".prev",
+        circular: false
+    });
+    
+    $('#lightbox').lightBox({
+      imageBtnClose: "$template.getResourcePrefix('images/lightbox-btn-close.gif')"
+    });
+});
+
+</script>
+
+<div class="left-panel">
+  <div id="item-image-container">
+	<div id="item-spotlight-container">
+		<a href="$itemInfo.itemDefaultImageUrl" id="lightbox"><img id="spotlight" name="jc_image_preview" src="$itemInfo.itemDefaultImageUrl&maxsize=200"></a>
+	</div>
+    #if ($itemInfo.itemDefaultImageUrl)
+    <div class="container-reset"></div>
+    <div class="prev" style="float: left; margin-top: 15px; margin-right: 3px"><img src="$template.getResourcePrefix('images/left-arrow.gif')" width="15" height="20" alt=""></div>
+    <div class="all-images" style="float: left">
+      <ul>
+        #if ($itemInfo.itemDefaultImageUrl)
+        	<li><div class="image-preview-container"><img class="imageinfo" src="$itemInfo.itemDefaultImageUrl&maxsize=45" alt=""></div></li>
+        #end
+        #foreach( $itemImageUrl in $itemInfo.itemImageUrls )
+        	<li><div class="image-preview-container"><img src="$itemImageUrl&maxsize=45" alt=""></div></li>
+        #end
+      </ul>
+    </div>
+    <div class="next" style="float: left; margin-top: 15px"><img src="$template.getResourcePrefix('images/right-arrow.gif')" width="15" height="20" alt=""></div>
+    <div class="container-reset"></div>
+	  #end
+  </div>
+  <div id="item-detail-container">
+		<span id="item-shortdesc">$itemInfo.itemShortDesc</span><br>
+		<span id="item-itemnnum">$template.getLanguageByValue('Item Number') - $itemInfo.itemNum</span><br>
+		<div class="rating-outer">
+			<div class="rating-inner" style="width: $itemInfo.commentRatingPercentageNumber%">&nbsp;</div>
+		</div>
+	  <span id="item-rating">$template.getLanguageByValue('Rating') $itemInfo.commentRating</span>
+	  <br>
+		#if ($itemInfo.commentCount > 0) 
+			<a href="$itemInfo.itemCommentUrl" class="item-review-link">$template.getLanguageByValue('Review on this item')</a>&nbsp;
+			<img src="$template.getServletResourcePrefix()/basic/images/comment.gif" width="15" height="13">
+			<span id="item-comment-count">($itemInfo.commentCount)</span>
+		#else
+			<a href="$itemInfo.itemCommentUrl" class="item-comment-link">$template.getLanguageByValue('Be first to comment on this item')</a>
+		#end
+		<br>
+		<br>
+		<div id="itemPriceContainer">
+		#if ($itemInfo.itemPriceRange)
+			<span id="item-price-range">$template.getLanguageByValue('From') $itemInfo.itemPriceFrom $template.getLanguageByValue('to') $itemInfo.itemPriceTo</span>
+		#else
+			#if ($itemInfo.special)
+				<span id="item-regular-price">$itemInfo.itemPrice</span> <span id="item-special-price">$itemInfo.itemSpecPrice</span>
+			#else
+				<span id="item-price">$itemInfo.itemPrice</span>
+			#end
+		#end
+		<br>
+		#foreach( $itemTierPrice in $itemInfo.itemTierPrices )
+		<span id="item-tier-price">
+			$itemTierPrice.itemTierQty / $itemTierPrice.itemTierPrice<br>
+		</span>
+		#end
+		<br>
+		</div>   
+		#foreach( $skuItems in $template.getSkuItems() )
+		<div id="$skuItems.itemSkuCd" style="display: none">
+		#if ($skuItems.special)
+			<span id="item-regular-price">$skuItems.itemPrice</span> <span id="item-special-price">$skuItems.itemSpecPrice</span>
+		#else
+			<span id="item-price">$skuItems.itemPrice</span>
+		#end
+		<br>
+		#foreach( $itemTierPrice in $skuItems.itemTierPrices )
+		<span class="item-tier-price">
+			$itemTierPrice.itemTierQty / $itemTierPrice.itemTierPrice<br>
+		</span>
+		#end
+		<br>
+		</div>
+		#end
+		## Custom Attributes start here
+		<form action="/$template.getContextPath()/content/checkout/shoppingCart.do?prefix=$siteInfo.siteDomainPrefix" method="post" name="itemForm">
+		<input name="process" type="hidden" value="buy"/>
+		<input name="prefix" type="hidden" value="$siteInfo.siteDomainPrefix"/>
+		<input name="itemIds" type="hidden" value="$itemInfo.itemId"/>
+		<input name="itemNaturalKeys" type="hidden" value="$itemInfo.itemNaturalKey"/>
+	    
+    #if (!$template.isEmpty($itemInfo.itemAttribDetailInfos))
+      <table border="0" cellspacing="0" cellpadding="3" id="item-attribute-table">
+      #foreach( $itemAttribDetailInfo in $itemInfo.itemAttribDetailInfos )
+        #if ( $itemAttribDetailInfo.customAttribTypeCode == $itemInfo.CUSTOM_ATTRIBUTE_TYPE_CUST_SELECT_DROPDOWN  )
+        <tr>
+			    <td>
+			      <span id="item-attribute-desc">$itemAttribDetailInfo.customAttribDesc</span>
+			    </td>
+				  <td>
+				    <input name="customAttribTypeCodes" type="hidden" value="$itemAttribDetailInfo.customAttribTypeCode"/>
+				    <input name="itemAttribDetailIds" type="hidden" value="$itemAttribDetailInfo.itemAttribDetailId"/>
+				    <input name="customAttribDetailIds" type="hidden" value="$itemAttribDetailInfo.customAttribDetailId"/>
+			      <select id="itemAttribDetailIds_$itemAttribDetailInfo.itemAttribDetailId" name="customAttribValues" class="item-attribute-option">
+			        <option value="">$template.getLanguageByValue('Select')</option>
+			        <option value="">---</option>
+			        #foreach( $customAttribOption in $itemAttribDetailInfo.customAttribOptions )
+			          <option value="$customAttribOption.value">$customAttribOption.label</option>
+			        #end
+			      </select>
+				  </td>
+        </tr>
+        #end
+        #if ( $itemInfo.itemTypeCd == "02" && $itemAttribDetailInfo.customAttribTypeCode == $itemInfo.CUSTOM_ATTRIBUTE_TYPE_SKU_MAKEUP )
+		    <tr>
+			    <td>
+			      <span id="item-attribute-desc">$itemAttribDetailInfo.customAttribDesc</span>
+			    </td>
+				  <td>
+				  <input name="customAttribTypeCodes" type="hidden" value="$itemAttribDetailInfo.customAttribTypeCode"/>
+				  <input name="itemAttribDetailIds" class="sku" type="hidden" value="$itemAttribDetailInfo.itemAttribDetailId"/>
+				  <input name="customAttribDetailIds" class="sku" type="hidden" value="$itemAttribDetailInfo.customAttribDetailId"/>
+			      <select name="customAttribValues" class="sku" onchange="javascript:checkItemAvailability();" class="item-attribute-option">
+			        <option value="">$template.getLanguageByValue('Select')</option>
+			        <option value="">---</option>
+			        #foreach( $customAttribOption in $itemAttribDetailInfo.customAttribOptions )
+			          <option value="$customAttribOption.value">$customAttribOption.label</option>
+			        #end
+			      </select>
+				  </td>
+	      </tr>
+		    #end
+        #if  ( $itemAttribDetailInfo.customAttribTypeCode == $itemInfo.CUSTOM_ATTRIBUTE_TYPE_CUST_INPUT )
+		    <tr>
+			    <td>
+			      <span id="item-attribute-desc">$itemAttribDetailInfo.customAttribDesc</span>
+			    </td>
+				  <td>
+				  <input name="customAttribTypeCodes" type="hidden" value="$itemAttribDetailInfo.customAttribTypeCode"/>
+				  <input name="itemAttribDetailIds" type="hidden" value="$itemAttribDetailInfo.itemAttribDetailId"/>
+				  <input name="customAttribDetailIds" type="hidden" value="$itemAttribDetailInfo.customAttribDetailId"/>
+				  <input name="customAttribValues" type="text" value="" class="item-attribute-option"/>
+				  </td>
+	      </tr>
+	      #end
+		  #end
+		  </table>
+	  #end
+	  ## Custom Attributes end here
+		#if ($itemInfo.outOfStock)
+			<span id="item-outofstock">$template.getLanguageByValue('Out of Stock')</span><br>
+		#else
+			#if ($template.isShoppingCart())
+				<br>
+				<a href="javascript:void(0);" border="0" class="item-addtocart-link" onclick="return buyItem();">$template.getLanguageByValue('Add to Cart')</a>
+				<div id="itemMessage" class="item-addtocart-error"></div>
+				<br>
+			#end
+		#end
+		</form>
+		<a class="item-compare-link" onclick="jc_item_compare_add('$template.getContextPath()', '$siteInfo.siteDomainPrefix', '$itemInfo.itemId'); return false;" href="javascript:void(0)" border="0">$template.getLanguageByValue('Add to compare')</a>
+		#set ($title = $itemInfo.itemShortDesc)
+  </div>
+  <div class="container-reset"></div>
+	<br>
+	<br>
+	<br>
+	<span id="item-desc-title">$template.getLanguageByValue('Product description')</span><br>
+	<hr>
+	<span id="item-desc">$itemInfo.itemDesc</span><br>
+	<br>
+	<br>
+	<span id="item-moreinfo-title">$template.getLanguageByValue('More information')</span><br>
+	<hr>
+	#if (!$template.isEmpty($itemInfo.itemAttribDetailInfos))
+	<table border="0" cellspacing="0" cellpadding="0" width="500px" id="item-grid-table">
+		#foreach( $itemAttribDetailInfo in $itemInfo.itemAttribDetailInfos )
+		#if ( $itemAttribDetailInfo.customAttribTypeCode == $itemInfo.CUSTOM_ATTRIBUTE_TYPE_USER_INPUT )
+		<tr width="50%"> 
+			<td width="150px">
+				<span id="item-grid-attribute-desc">$itemAttribDetailInfo.customAttribDesc</span>
+			</td>
+			<td>
+				<span class="item-grid-attribute-option">$itemAttribDetailInfo.itemAttribDetailValue</span>
+			</td>
+		</tr>
+		#elseif ( $itemAttribDetailInfo.customAttribTypeCode == $itemInfo.CUSTOM_ATTRIBUTE_TYPE_USER_SELECT_DROPDOWN )
+		<tr width="50%">
+			<td>
+				<span id="item-grid-attribute-desc">$itemAttribDetailInfo.customAttribDesc</span>
+			</td>
+			<td>
+				<span id="item-grid-attribute-option">$itemAttribDetailInfo.itemAttribDetailValue</span>
+			</td>
+		</tr>
+		#end
+		#end
+	</table>
+	#end
+
+	#set ($upSellItems = $template.getUpSellItems())
+	#if (!$template.isEmpty($upSellItems))
+	<script>
+	$(function() {
+			$("#item-upsell-container").jCarouselLite({
+					btnNext: "#item-upsell-right-arrow-container",
+					btnPrev: "#item-upsell-left-arrow-container"
+			});
+	});
+	</script>
+	<br>
+	<br>
+	<span id="item-upsell-title">$template.getLanguageByValue('You may also be interested in')</span>
+	<hr>
+	<div class="container-reset"></div>
+	<div id="item-upsell-left-arrow-container"><img src="$template.getResourcePrefix('images/left-arrow.gif')" alt=""></div>
+	<div id="item-upsell-container" style="float: left">
+		<ul class="item-upsell-product-container">
+			#foreach( $upSellItem in $upSellItems )
+				<li>
+				  <div class="item-upsell-image-container">
+				    #if ($upSellItem.itemDefaultImageUrl)
+				     <a href="$info.itemUrl"><img style="margin-top: 10px" src="$upSellItem.itemDefaultImageUrl&maxsize=110" alt=""></a>
+				    #end
+				  </div>
+				  <br>
+				  <div id="item-upsell-content-container">
+				    <a href="$info.itemUrl" class="preview-item-title-link">$upSellItem.itemShortDesc</a><br>
+						#if ($info.itemPriceRange)
+							<span id="preview-item-pricerange">$template.getLanguageByValue('From') $upSellItem.itemPriceFrom $template.getLanguageByValue('to') $upSellItem.itemPriceTo</span><br>
+						#else
+						#if ($upSellItem.special)
+								<span id="preview-item-regular-price">$upSellItem.itemPrice</span> <span id="preview-item-special-price">$upSellItem.itemSpecPrice</span><br>
+							#else
+								<span id="preview-item-price">$upSellItem.itemPrice</span><br>
+							#end
+						#end
+						#foreach ($itemTierPrice in $upSellItem.itemTierPrices)
+							<span id="preview-item-tier-price">
+							$itemTierPrice.itemTierQty / $itemTierPrice.itemTierPrice<br>
+							</span>
+						#end
+						#if ($upSellItem.outOfStock)
+						<span id="preview-item-outofstock">$template.getLanguageByValue('Out of Stock')</span><br>
+						#end
+				  </div>
+				  <br>
+				</li>
+			#end
+		</ul>  
+	</div>
+	<div id="item-upsell-right-arrow-container"><img src="$template.getResourcePrefix('images/right-arrow.gif')" alt=""></div>
+	<div class="container-reset"></div>
+	#end
+
+	<br>
+	<br>
+	#parse("common/share.vm")
+	<br>
+  <br>
+</div>
+<div class="right-panel">
+	#if ($template.isShoppingCart())
+		#parse("components/shoppingCart/shoppingCartSummary.vm")
+	#end
+	#set ($relatedItems = $template.getRelatedItems())
+	#if (!$template.isEmpty($relatedItems))
+	<div class="jc_panel_header">
+	  $template.getLanguageByValue('Related items')
+      <div id="item-related-control">
+        <a id="item-related-previous" href="javascript:void(0);"><img src="$template.getServletResourcePrefix()/basic/images/navigation-up.jpg" border="0"></a>
+        <a id="item-related-next" href="javascript:void(0);"><img src="$template.getServletResourcePrefix()/basic/images/navigation-down.jpg" border="0"></a>
+      </div>
+	</div>
+	<div class="jc_panel_body">
+		<div id="item-related-container">
+			<ul class="item-related-carousel-element">
+				#foreach( $relatedItem in $template.getRelatedItems() )
+				<li>
+					<div id="item-related-item-container">
+						<div id="item-related-image-container">
+						  <a href="$relatedItem.itemUrl"><img src="$relatedItem.itemDefaultImageUrl&maxsize=60" border="0" width="60px"/></a>
+						</div>
+						<div id="item-related-body-container">
+							<span id="item-related-itemshortdesc">$relatedItem.itemShortDesc</span>
+							<div class="rating-outer">
+							  <div class="rating-inner" style="width: $relatedItem.commentRatingPercentage%">&nbsp;</div>
+							  <span id="item-related-rating">$template.getLanguageByValue('Rating') $relatedItem.commentRating</span>
+							</div>
+							<br>
+							#if ($relatedItem.special)
+								<span id="item-related-regular-price">$relatedItem.itemPrice</span> <span id="item-related-special-price">$relatedItem.itemSpecPrice</span><br>
+							#else
+								<span id="item-related-price">$relatedItem.itemPrice</span><br>
+							#end
+							<br>
+							<a href="$relatedItem.itemUrl" border="0" class="item-related-viewmore-link">$template.getLanguageByValue('View more')</a>
+							<br>
+						</div>
+					</div>
+			  	</li>
+				#end
+			</ul>
+		</div>
+	</div>
+	<script>
+	$(function() {
+		$("#item-related-container").jCarouselLite({
+				btnNext: "#item-related-next",
+				btnPrev: "#item-related-previous",
+				vertical: true,
+				visible: 3
+		});
+	});
+	</script>
+	<br>
+    #end
+  #parse("components/compare/compareItemContainer.vm")
+</div>

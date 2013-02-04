@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+#set ($pageHeaderInfo = $template.getPageHeader()) 
+<title>$pageHeaderInfo.getPageTitle()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Keywords" content="$pageHeaderInfo.getMetaKeywords()">
+<meta name="Description" content="$pageHeaderInfo.getMetaDescription()">
+
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery_1.7.1.min.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery-ui_1.8.17.min.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery.ui.widget_1.8.16.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery.ui.accordion_1.8.16.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/superfish_1.4.8.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jcarousellite_1.0.1.min.js')"></script> 
+<script type="text/javascript" src="$template.getResourcePrefix('js/hoverIntent.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('js/jquery.lightbox-0.5.min.js')"></script>
+<script type="text/javascript" src="$template.getResourcePrefix('jcCommon.js')"></script>
+
+<link rel="stylesheet" type="text/css" href="$template.getResourcePrefix('css/jquery.lightbox-0.5.css')" media="screen" />
+<link rel="stylesheet" type="text/css" href="$template.getResourcePrefix('css/superfish.css')" media="screen">
+<link rel="stylesheet" type="text/css" href="$template.getResourcePrefix('css/superfish-vertical.css')" media="screen">
+<link rel="stylesheet" type="text/css" href="$template.getResourcePrefix('styles.css')">
+
+</head>
+
+<body>
+<div id="domain-container">
+  #parse("common/domains.vm")
+</div>
+<div id="top-navigation-container">
+  <div id="top-navigation-container1">
+		<div id="horizontal-menu-container">
+			#parse("components/menus/horizontalMenu.vm")
+		</div>
+		<div id="profile-container">
+		  #parse("common/profile.vm")
+		</div>
+		<div class="container-reset"></div>
+  </div>
+</div>
+<div id="body-container">
+  <div id="sitename-container">
+    <a href="$siteInfo.homeUrl">
+      <img src="$siteInfo.siteLogoUrl&maxsize=120" border="0">
+    </a>
+    $siteInfo.siteName
+  </div>
+  <div id="query-container">
+    #parse("search/query.vm")
+  </div>
+  <div class="container-reset"></div>
+  <hr>
+  <br>
+  <div id="content-container">
+	#if ($template.isPageHome())
+		#parse("home/home.vm")
+	#elseif ($template.isPageContactUs())
+		#parse("contactUs/contactUs.vm")
+	#elseif ($template.isPageContent())
+		#parse("content/content.vm")
+	#elseif ($template.isPageContentComment())
+		#parse("content/contentComment.vm")
+	#elseif ($template.isPageContentCommentUpdate())
+		#parse("content/contentComment.vm")
+	#elseif ($template.isPageItem())
+		#parse("item/item.vm")
+	#elseif ($template.isPageItemComment())
+		#parse("item/itemComment.vm")
+	#elseif ($template.isPageItemCommentUpdate())
+		#parse("item/itemComment.vm")
+	#elseif ($template.isPageCategory())
+		#parse("category/category.vm")
+	#elseif ($template.isPageItemCompare())
+		#parse("itemCompare/itemCompare.vm")
+	#elseif ($template.isPageSearch())
+		#parse("search/search.vm")
+	#elseif ($template.isPageCustom())
+	  #parse($template.customPage)
+	#elseif ($template.isPageEmpty())
+		<-!-!-!EMPTYPLACEHOLDER!-!-!->
+	#end
+	<div class="container-reset"></div>
+  </div>
+</div>
+<br>
+<div id="footer-container">
+	$siteInfo.siteFooter
+</div>
+</body>
+</html>

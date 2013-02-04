@@ -1,0 +1,38 @@
+<div id="preview-item-container">
+	#if ($info.itemDefaultImageUrl)
+		#if ($info.feature)
+			<div id="preview-item-image-feature-container">
+				<a href="$info.itemUrl" class="preview-item-image-link"><img src="$info.itemDefaultImageUrl&maxsize=200" border="0"></a>
+			</div>
+		#else
+			<div id="preview-item-image-normal-container">
+				<a href="$info.itemUrl" class="preview-item-image-link"><img src="$info.itemDefaultImageUrl&maxsize=150" border="0"></a>
+			</div>
+		#end
+	#end
+	<a href="$info.itemUrl" class="preview-item-title-link">$info.itemShortDesc</a><br>
+	<div class="rating-outer">
+	<div class="rating-inner" style="width: $info.commentRatingPercentage%">&nbsp;</div>
+	</div>
+  <span id="preview-item-rating">$template.getLanguageByValue('Rating') $info.commentRating</span>
+	<br>
+	#if ($info.itemPriceRange)
+		<span id="preview-item-pricerange">$template.getLanguageByValue('From') $info.itemPriceFrom $template.getLanguageByValue('to') $info.itemPriceTo</span><br>
+	#else
+	#if ($info.special)
+			<span id="preview-item-regular-price">$info.itemPrice</span> <span id="preview-item-special-price">$info.itemSpecPrice</span><br>
+		#else
+			<span id="preview-item-price">$info.itemPrice</span><br>
+		#end
+	#end
+	#foreach ($itemTierPrice in $info.itemTierPrices)
+		<span id="preview-item-tier-price">
+		$itemTierPrice.itemTierQty / $itemTierPrice.itemTierPrice<br>
+		</span>
+	#end
+	#if ($info.outOfStock)
+	<span id="preview-item-outofstock">$template.getLanguageByValue('Out of Stock')</span><br>
+	#end
+	<a class="preview-item-compare-link" onclick="jc_item_compare_add('$template.getContextPath()', '$siteInfo.siteDomainPrefix', '$info.itemId'); return false;" href="javascript:void(0)" border="0">$template.getLanguageByValue('Add to compare')</a><br>
+	<a href="$info.itemUrl" border="0" class="preview-item-viewmore-link">$template.getLanguageByValue('View more')</a>
+</div>

@@ -1,0 +1,6 @@
+<script type="text/javascript" language="JavaScript">
+$(document).ready(function() {
+	jc_item_compare_paint('$template.getContextPath()', '$siteInfo.siteDomainPrefix');
+} );
+</script>
+<div id='item-compare-select-container'></div>

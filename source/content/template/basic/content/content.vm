@@ -1,0 +1,78 @@
+#set ($contentInfo = $template.getContent())
+#if (!$contentInfo)
+	#parse("messages/moved.vm")
+#end
+
+<script language="JavaScript">
+
+$(function() {
+    $(".all-images ul > li .image-preview-container img").click(function() {
+        $("#spotlight").attr("src", $(this).attr("src").replace('maxsize=45', 'maxsize=200'));
+        $("#lightbox").attr("href", $(this).attr("src").replace('maxsize=45', ''));
+    });
+	
+    $(".all-images").jCarouselLite({
+        btnNext: ".next",
+        btnPrev: ".prev",
+        circular: false
+    });
+    
+    $('#lightbox').lightBox({
+      imageBtnClose: "$template.getResourcePrefix('images/lightbox-btn-close.gif')"
+    });
+});
+
+</script>
+<div class="left-panel">
+  #if ($contentInfo.contentDefaultImageUrl)
+	<div id="content-image-container">
+		<p>
+		<div id="item-spotlight-container">
+			<a href="$contentInfo.contentDefaultImageUrl" id="lightbox"><img id="spotlight" name="jc_image_preview" src="$contentInfo.contentDefaultImageUrl&maxsize=200"></a>
+		</div>
+	    #if ($contentInfo.contentDefaultImageUrl)
+	    <div class="container-reset"></div>
+	    <div class="prev" style="float: left; margin-top: 15px; margin-right: 3px"><img src="$template.getResourcePrefix('images/left-arrow.gif')" width="15" height="20" alt=""></div>
+	    <div class="all-images" style="float: left">
+	      <ul>
+	        #if ($contentInfo.contentDefaultImageUrl)
+	        	<li><div class="image-preview-container"><img class="imageinfo" src="$contentInfo.contentDefaultImageUrl&maxsize=45" alt=""></div></li>
+	        #end
+	        #foreach( $contentImageUrl in $contentInfo.contentImageUrls )
+	        	<li><div class="image-preview-container"><img src="$contentImageUrl&maxsize=45" alt=""></div></li>
+	        #end
+	      </ul>
+	    </div>
+	    <div class="next" style="float: left; margin-top: 15px"><img src="$template.getResourcePrefix('images/right-arrow.gif')" width="15" height="20" alt=""></div>
+	    <div class="container-reset"></div>
+	    #end	
+	</div>
+  #end
+	<span id="content-title"><p>$contentInfo.contentTitle</p></span>
+	<span id="content-signature">$template.getLanguageByValue('By') $contentInfo.contentUpdateName</span><br>
+	<span id="content-signature">$template.getLanguageByValue('Updated') $contentInfo.recUpdateDatetime</span><br>
+	<br>
+	#if ($contentInfo.commentCount > 0) 
+		<a href="$contentInfo.contentCommentUrl" class="content-comment-url">$template.getLanguageByValue('Comments on this story')</a>&nbsp;
+		<img src="$template.getServletResourcePrefix()/basic/images/comment.gif" width="15" height="13">
+		#set ($contentComments = $template.getContentComment)
+		<span id="content-comment-count">($contentInfo.commentCount)</span>
+	#else
+		##<a href="$contentInfo.contentCommentUrl" class="content-comment-url">$template.getLanguage('content.text.contentComment.link')</a>
+	#end
+	<br>
+	<span id="content-shortdesc"><p>$contentInfo.contentShortDesc</p></span>
+	<span id="content-desc"><p>$contentInfo.contentDesc</p></span>
+	<br>
+	#set ($title = $contentInfo.contentTitle)
+	#parse("common/share.vm")
+</div>
+<div class="right-panel">
+	<br>
+	#if ($template.isShoppingCart())
+		#parse("components/shoppingCart/shoppingCartSummary.vm")
+	#end
+	#parse("components/content/relatedContent.vm")
+	#parse("components/content/topRatedContent.vm")
+	#parse("components/content/mostViewedContent.vm")
+</div>

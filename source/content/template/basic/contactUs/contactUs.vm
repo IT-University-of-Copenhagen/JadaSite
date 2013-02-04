@@ -1,0 +1,52 @@
+#set ($contactUsInfoList = $template.getContactUs())
+#set ($contactUsInfos = $contactUsInfoList.contactUsInfos)
+<div class="left-panel">
+	<br>
+	<span id="contact-us-title-text">$template.getLanguageByValue('Contact Us')</span>
+	<br>
+	<br>
+	<div id="contact-us-info-container">
+		#if ($contactUsInfoList.messageText != "")
+		<span id="contact-us-message-text">$template.getLanguageByValue($contactUsInfoList.messageText)</span><br>
+		#end
+		#foreach( $contactUs in $contactUsInfos )
+			<form action="/$template.getContextPath()/content/email/emailAction.do?&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName" method="post" onsubmit="return jc_contactUs_submit(this);">
+			<input name="process" type="hidden" value="" />
+			<input name="contactUsEmail" type="hidden" value="$contactUs.contactUsEmail" />
+			<span id="contact-us-name">$contactUs.contactUsName</span><br>
+			<br>
+			#if ($contactUs.ContactUsDesc != "")
+				<span id="contact-us-desc">$contactUs.ContactUsDesc</span><br>
+			#end
+			#if ($contactUs.contactUsEmail != "")
+				<span id="contact-us-email">$template.getLanguageByValue('Email'): </span><a href="mailto:$contactUs.contactUsEmail" id="contact-us-email-link">$contactUs.contactUsEmail</a><br>
+			#end
+			#if ($contactUs.contactUsAddressLine1 != "")
+				<span id="contact-us-address">
+				$contactUs.contactUsAddressLine1<br>
+				#if ($contactUs.contactUsAddressLine2 != "")
+					$contactUs.contactUsAddressLine2<br>
+				#end
+				#if ($contactUs.contactUsCityName != "")
+					$contactUs.contactUsCityName,&nbsp;$contactUs.contactUsStateName<br>
+				#end                          
+				#if ($contactUs.contactUsCountryName != "")
+					$contactUs.contactUsCountryName<br>
+				#end
+				#if ($contactUs.contactUsZipCode != "")
+					$contactUs.contactUsZipCode<br>
+				#end
+				</span>
+			#end
+			#if ($contactUs.contactUsPhone != "")
+				<span id="contact-us-phone">$template.getLanguageByValue('Phone'): $contactUs.contactUsPhone</span><br>
+			#end
+			<br>
+		#end
+	</div>
+</div>
+<div class="right-panel">
+	#if ($template.isShoppingCart())
+		#parse("components/shoppingCart/shoppingCartSummary.vm") 
+	#end
+</div>

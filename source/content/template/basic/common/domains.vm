@@ -1,0 +1,5 @@
+#if ($siteInfo.singleCheckout && $template.getCount($siteInfo.siteDomains) > 1)
+	#foreach( $siteDomain in $siteInfo.siteDomains )
+		<a class="domain-link" href="$siteDomain.homeUrl"><img src="$siteDomain.siteLogoUrl&maxsize=60" border="0"> $siteDomain.siteName</a>&nbsp;&nbsp;&nbsp;
+	#end
+#end

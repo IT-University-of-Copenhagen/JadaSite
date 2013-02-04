@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DatabaseUpgrade>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0105</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `order_header` CHANGE `payment_gateway` `payment_gateway` VARCHAR(20);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0105</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `site_currency` ADD `cash_payment` CHAR(1) NULL AFTER `exchange_rate`;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0105</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `customer_credit_card` CHANGE `cust_creditcard_expiry_year` `cust_creditcard_expiry_year` VARCHAR(4) NOT NULL;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0105</dbVersion>
+		<dbQuery><![CDATA[
+insert into language_translation (lang_tran_key, lang_tran_value, lang_source, rec_update_by, rec_update_datetime, rec_create_by, rec_create_datetime, lang_id) values ('content.text.checkOutCash', 'Cash On Delivery', 'S', 'admin', now(), 'admin', now(), 1);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0105</dbVersion>
+		<dbQuery><![CDATA[
+insert into category_language values (1, 'Home', 'Home', null, 'system', now(), 'system', now(), 1, 1);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0201</dbVersion>
+		<dbQuery><![CDATA[
+rename table credit_tax to credit_detail_tax;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0201</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `invoice_detail_tax` CHANGE `invoice_tax_id` `invoice_detail_tax_id` bigint(20) NOT NULL AUTO_INCREMENT;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0201</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `credit_detail_tax` CHANGE `credit_tax_id` `credit_detail_tax_id` bigint(20) NOT NULL AUTO_INCREMENT;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+alter table item drop foreign key FK317B133C30ABC2;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+alter table item drop index FK317B133C30ABC2;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+alter table item change item_parent_id item_sku_id bigint;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+alter table item add index FK317B13DC783B47 (item_sku_id), add constraint FK317B13DC783B47 foreign key (item_sku_id) references item (item_id);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+create table item_children (item_id bigint not null, item_child_id bigint not null, primary key (item_id, item_child_id)) ENGINE=InnoDB;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+alter table item_children add index FK7A0BD9AB71DEBAE5 (item_id), add constraint FK7A0BD9AB71DEBAE5 foreign key (item_id) references item (item_id);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+alter table item_children add index FK7A0BD9AB6DC793E8 (item_child_id), add constraint FK7A0BD9AB6DC793E8 foreign key (item_child_id) references item (item_id);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+create table item_site_domain (item_id bigint not null, site_domain_id bigint not null, primary key (item_id, site_domain_id)) ENGINE=InnoDB;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+alter table item_site_domain add index FK538F599071DEBAE5 (item_id), add constraint FK538F599071DEBAE5 foreign key (item_id) references item (item_id);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0301</dbVersion>
+		<dbQuery><![CDATA[
+alter table item_site_domain add index FK538F5990B8784434 (site_domain_id), add constraint FK538F5990B8784434 foreign key (site_domain_id) references site_domain (site_domain_id);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0302</dbVersion>
+		<className>com.jada.xml.databaseUpgrade.DatabaseUpgradeProcedure</className>
+		<method>createCustomerClass</method>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0303</dbVersion>
+		<className>com.jada.xml.databaseUpgrade.DatabaseUpgradeProcedure</className>
+		<method>createDefaultShippingRegion</method>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+alter table home_page_language add column meta_keywords varchar(1000) null default null after home_page_title, add column meta_description varchar(1000) null default null after home_page_title;		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+alter table category_language add column meta_keywords varchar(1000) null default null after cat_title, add column meta_description varchar(1000) null default null after cat_title;		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+alter table content_language add column meta_keywords varchar(1000) null default null after content_title, add column meta_description varchar(1000) null default null after content_title;		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+alter table item_language add column meta_keywords varchar(1000) null default null after item_short_desc, add column meta_description varchar(1000) null default null after item_short_desc;		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update content_language set	meta_keywords = '', meta_description = '' where	site_profile_class_id in (select site_profile_class_id from site_profile_class where system_record = 'Y');		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update item_language set meta_keywords = '', meta_description = '' where	site_profile_class_id in (select site_profile_class_id from site_profile_class where system_record = 'Y');		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update home_page_language set meta_keywords = '', meta_description = '' where	site_profile_class_id in (select site_profile_class_id from site_profile_class where system_record = 'Y');		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update category_language set meta_keywords = '', meta_description = '' where	site_profile_class_id in (select site_profile_class_id from site_profile_class where system_record = 'Y');		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+create table shipping_region_zip (shipping_region_zip_id bigint not null auto_increment, rec_create_by varchar(20) not null, rec_create_datetime datetime not null, rec_update_by varchar(20) not null, rec_update_datetime datetime not null, zip_code_end varchar(40) not null, zip_code_expression char(1) not null, zip_code_start varchar(40) not null, shipping_region_id bigint, primary key (shipping_region_zip_id));		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+alter table shipping_region_zip add index FK57465287EDA4B782 (shipping_region_id), add constraint FK57465287EDA4B782 foreign key (shipping_region_id) references shipping_region (shipping_region_id);		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE order_header  ADD COLUMN order_abundant_loc VARCHAR(10) NULL AFTER cust_email,  ADD COLUMN shipping_valid_until DATETIME NULL AFTER shipping_total;		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE order_header  CHANGE COLUMN shipping_method_name shipping_method_name VARCHAR(40);			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE order_header  ADD COLUMN shipping_pick_up VARCHAR(1) NOT NULL AFTER shipping_method_name;			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update order_header set shipping_pick_up = 'N' where shipping_pick_up != 'Y';			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `site`  ADD COLUMN `site_param` LONGTEXT NULL AFTER `site_desc`;			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `order_header`  CHANGE COLUMN `payment_gateway` `payment_gateway_provider` VARCHAR(40) NULL DEFAULT NULL AFTER `order_total`;			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update order_header set payment_gateway_provider = 'AuthorizeNetEngine' where payment_gateway_provider = 'authorizenet';			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update order_header set payment_gateway_provider = 'PaymentExpressEngine' where payment_gateway_provider = 'paypal';			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update order_header set payment_gateway_provider = 'PayPalEngine' where payment_gateway_provider = 'psigate';			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update order_header set payment_gateway_provider = 'PsiGateEngine'where payment_gateway_provider = 'paymentexpress';			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update payment_gateway set payment_gateway_provider = 'AuthorizeNetEngine' where payment_gateway_provider = 'Authorize.net';			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update payment_gateway set payment_gateway_provider = 'PsiGateEngine' where payment_gateway_provider = 'PSIGate';			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update payment_gateway set payment_gateway_provider = 'PayPalEngine' where payment_gateway_provider = 'PayPal Express Checkout';			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+update payment_gateway set payment_gateway_provider = 'PaymentExpressEngine' where payment_gateway_provider = 'Payment Express';			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `credit_header`  ADD COLUMN `invoice_header_id` BIGINT(20) NULL DEFAULT NULL AFTER `update_inventory`;			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+alter table credit_header add index FKF709A93E5DAA3EA (invoice_header_id), add constraint FKF709A93E5DAA3EA foreign key (invoice_header_id) references invoice_header (invoice_header_id);			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `order_item_detail`  ADD COLUMN `item_sku_cd` VARCHAR(40) NOT NULL AFTER `item_short_desc`;			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `user`  CHANGE COLUMN `user_state_code` `user_state_code` VARCHAR(2) NULL;			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE `order_header`  CHANGE COLUMN `shipping_pick_up` `shipping_pick_up` CHAR(1) NOT NULL			]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<className>com.jada.xml.databaseUpgrade.DatabaseUpgradeProcedure</className>
+		<method>dropReport</method>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+create table report (report_id bigint not null auto_increment, last_run_by varchar(20), last_run_datetime datetime, rec_create_by varchar(20) not null, rec_create_datetime datetime not null, rec_update_by varchar(20) not null, rec_update_datetime datetime not null, report_desc varchar(255) not null, report_name varchar(40) not null, report_text longtext not null, system_record char(1) not null, site_id varchar(20) not null, primary key (report_id)) ENGINE=InnoDB;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+alter table report add index FK91B1415470EBDE65 (site_id), add constraint FK91B1415470EBDE65 foreign key (site_id) references site (site_id);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<className>com.jada.xml.databaseUpgrade.DatabaseUpgradeProcedure</className>
+		<method>loadReportOrders</method>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+create table ie_profile_detail (ie_profile_detail_id bigint not null auto_increment, ie_profile_field_name varchar(80) not null, ie_profile_field_value longtext, ie_profile_group_index integer, ie_profile_group_name varchar(80), ie_profile_position integer, rec_create_by varchar(20) not null, rec_create_datetime datetime not null, rec_update_by varchar(20) not null, rec_update_datetime datetime not null, seq_num integer not null, ie_profile_header_id bigint, primary key (ie_profile_detail_id)) ENGINE=InnoDB;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+create table ie_profile_header (ie_profile_header_id bigint not null auto_increment, ie_profile_header_name varchar(80) not null, ie_profile_type char(1) not null, rec_create_by varchar(20) not null, rec_create_datetime datetime not null, rec_update_by varchar(20) not null, rec_update_datetime datetime not null, system_record char(1) not null, site_id varchar(20) not null, primary key (ie_profile_header_id)) ENGINE=InnoDB;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+alter table ie_profile_detail add index FK29DB112AACD8EF83 (ie_profile_header_id), add constraint FK29DB112AACD8EF83 foreign key (ie_profile_header_id) references ie_profile_header (ie_profile_header_id);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+alter table ie_profile_header add index FK30A5DB6670EBDE65 (site_id), add constraint FK30A5DB6670EBDE65 foreign key (site_id) references site (site_id);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+INSERT INTO `ie_profile_header` (`ie_profile_header_id`, `ie_profile_header_name`, `ie_profile_type`, `system_record`, `rec_create_by`, `rec_create_datetime`, `rec_update_by`, `rec_update_datetime`, `site_id`) VALUES
+	(1, 'Standard', 'E', 'Y', 'admin', '2011-03-02 10:19:14', 'admin', '2011-03-02 10:19:19', 'default'),
+	(3, 'Standard', 'I', 'Y', 'admin', '2010-06-05 22:11:29', 'admin', '2011-03-02 10:15:03', 'default');
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<dbQuery><![CDATA[
+INSERT INTO `ie_profile_detail` (`ie_profile_detail_id`, `ie_profile_group_name`, `ie_profile_group_index`, `ie_profile_field_name`, `ie_profile_field_value`, `ie_profile_position`, `rec_create_by`, `rec_create_datetime`, `rec_update_by`, `rec_update_datetime`, `seq_num`, `ie_profile_header_id`) VALUES
+	(7523, '', NULL, 'siteProfileClassId', NULL, 1, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 0, 3),
+	(7524, '', NULL, 'siteProfileClassName', NULL, 2, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 1, 3),
+	(7525, '', NULL, 'siteCurrencyClassId', NULL, 3, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 2, 3),
+	(7526, '', NULL, 'siteCurrencyClassName', NULL, 4, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 3, 3),
+	(7527, '', NULL, 'itemId', NULL, 5, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 4, 3),
+	(7528, '', NULL, 'itemNum', NULL, 6, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 5, 3),
+	(7529, '', NULL, 'itemUpcCd', NULL, 7, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 6, 3),
+	(7530, '', NULL, 'itemSkuCd', NULL, 8, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 7, 3),
+	(7531, '', NULL, 'itemTypeCd', NULL, 9, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 8, 3),
+	(7532, '', NULL, 'itemSellable', NULL, 10, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 9, 3),
+	(7533, '', NULL, 'itemCost', NULL, 11, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 10, 3),
+	(7534, '', NULL, 'itemHitCounter', NULL, 12, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 11, 3),
+	(7535, '', NULL, 'itemRating', NULL, 13, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 12, 3),
+	(7536, '', NULL, 'itemRatingCount', NULL, 14, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 13, 3),
+	(7537, '', NULL, 'itemQty', NULL, 15, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 14, 3),
+	(7538, '', NULL, 'itemBookedQty', NULL, 16, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 15, 3),
+	(7539, '', NULL, 'itemPublishOn', NULL, 17, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 16, 3),
+	(7540, '', NULL, 'itemExpireOn', NULL, 18, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 17, 3),
+	(7541, '', NULL, 'published', NULL, 19, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 18, 3),
+	(7542, '', NULL, 'itemShortDesc', NULL, 20, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 19, 3),
+	(7543, '', NULL, 'itemDesc', NULL, 21, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 20, 3),
+	(7544, '', NULL, 'pageTitle', NULL, 22, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 21, 3),
+	(7545, '', NULL, 'itemPrice', NULL, 23, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 22, 3),
+	(7546, '', NULL, 'itemSpecPrice', NULL, 24, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 23, 3),
+	(7547, '', NULL, 'itemSpecPricePublishOn', NULL, 25, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 24, 3),
+	(7548, '', NULL, 'itemSpecPriceExpireOn', NULL, 26, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 25, 3),
+	(7549, '', NULL, 'shippingTypeId', NULL, 27, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 26, 3),
+	(7550, '', NULL, 'shippingTypeName', NULL, 28, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 27, 3),
+	(7551, '', NULL, 'productClassId', NULL, 29, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 28, 3),
+	(7552, '', NULL, 'productClassName', NULL, 30, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 29, 3),
+	(7553, '', NULL, 'itemParentId', NULL, 31, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 30, 3),
+	(7554, '', NULL, 'itemParentSkuCd', NULL, 32, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 31, 3),
+	(7555, '', NULL, 'customAttributeGroupId', NULL, 33, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 32, 3),
+	(7556, '', NULL, 'customAttributeGroupName', NULL, 34, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 33, 3),
+	(7557, '', NULL, 'metaKeywords', NULL, 35, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 34, 3),
+	(7558, '', NULL, 'metaDescription', NULL, 36, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 35, 3),
+	(7559, '', NULL, 'itemImageOverride', NULL, 37, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 36, 3),
+	(7560, 'categories', 0, 'catId', NULL, 38, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 37, 3),
+	(7561, 'categories', 0, 'catShortTitle', NULL, 39, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 38, 3),
+	(7562, 'categories', 1, 'catId', NULL, 40, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 39, 3),
+	(7563, 'categories', 1, 'catShortTitle', NULL, 41, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 40, 3),
+	(7564, 'categories', 2, 'catId', NULL, 42, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 41, 3),
+	(7565, 'categories', 2, 'catShortTitle', NULL, 43, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 42, 3),
+	(7566, 'categories', 3, 'catId', NULL, 44, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 43, 3),
+	(7567, 'categories', 3, 'catShortTitle', NULL, 45, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 44, 3),
+	(7568, 'categories', 4, 'catId', NULL, 46, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 45, 3),
+	(7569, 'categories', 4, 'catShortTitle', NULL, 47, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 46, 3),
+	(7570, 'itemsRelated', 0, 'itemId', NULL, 48, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 47, 3),
+	(7571, 'itemsRelated', 0, 'itemSkuCd', NULL, 49, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 48, 3),
+	(7572, 'itemsRelated', 1, 'itemId', NULL, 50, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 49, 3),
+	(7573, 'itemsRelated', 1, 'itemSkuCd', NULL, 51, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 50, 3),
+	(7574, 'itemsRelated', 2, 'itemId', NULL, 52, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 51, 3),
+	(7575, 'itemsRelated', 2, 'itemSkuCd', NULL, 53, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 52, 3),
+	(7576, 'itemsRelated', 3, 'itemId', NULL, 54, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 53, 3),
+	(7577, 'itemsRelated', 3, 'itemSkuCd', NULL, 55, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 54, 3),
+	(7578, 'itemsRelated', 4, 'itemId', NULL, 56, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 55, 3),
+	(7579, 'itemsRelated', 4, 'itemSkuCd', NULL, 57, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 56, 3),
+	(7580, 'itemsUpSell', 0, 'itemId', NULL, 68, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 57, 3),
+	(7581, 'itemsUpSell', 0, 'itemSkuCd', NULL, 69, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 58, 3),
+	(7582, 'itemsUpSell', 1, 'itemId', NULL, 70, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 59, 3),
+	(7583, 'itemsUpSell', 1, 'itemSkuCd', NULL, 71, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 60, 3),
+	(7584, 'itemsUpSell', 2, 'itemId', NULL, 72, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 61, 3),
+	(7585, 'itemsUpSell', 2, 'itemSkuCd', NULL, 73, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 62, 3),
+	(7586, 'itemsUpSell', 3, 'itemId', NULL, 74, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 63, 3),
+	(7587, 'itemsUpSell', 3, 'itemSkuCd', NULL, 75, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 64, 3),
+	(7588, 'itemsUpSell', 4, 'itemId', NULL, 76, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 65, 3),
+	(7589, 'itemsUpSell', 4, 'itemSkuCd', NULL, 77, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 66, 3),
+	(7590, 'itemsCrossSell', 0, 'itemId', NULL, 58, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 67, 3),
+	(7591, 'itemsCrossSell', 0, 'itemSkuCd', NULL, 59, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 68, 3),
+	(7592, 'itemsCrossSell', 1, 'itemId', NULL, 60, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 69, 3),
+	(7593, 'itemsCrossSell', 1, 'itemSkuCd', NULL, 61, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 70, 3),
+	(7594, 'itemsCrossSell', 2, 'itemId', NULL, 62, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 71, 3),
+	(7595, 'itemsCrossSell', 2, 'itemSkuCd', NULL, 63, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 72, 3),
+	(7596, 'itemsCrossSell', 3, 'itemId', NULL, 64, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 73, 3),
+	(7597, 'itemsCrossSell', 3, 'itemSkuCd', NULL, 65, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 74, 3),
+	(7598, 'itemsCrossSell', 4, 'itemId', NULL, 66, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 75, 3),
+	(7599, 'itemsCrossSell', 4, 'itemSkuCd', NULL, 67, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 76, 3),
+	(7600, 'itemTierPrices', 0, 'custClassId', NULL, 78, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 77, 3),
+	(7601, 'itemTierPrices', 0, 'itemTierQty', NULL, 79, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 78, 3),
+	(7602, 'itemTierPrices', 0, 'itemPrice', NULL, 80, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 79, 3),
+	(7603, 'itemTierPrices', 0, 'itemTierPricePublishOn', NULL, 81, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 80, 3),
+	(7604, 'itemTierPrices', 0, 'itemTierPriceExpireOn', NULL, 82, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 81, 3),
+	(7605, 'itemTierPrices', 1, 'custClassId', NULL, 83, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 82, 3),
+	(7606, 'itemTierPrices', 1, 'itemTierQty', NULL, 84, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 83, 3),
+	(7607, 'itemTierPrices', 1, 'itemPrice', NULL, 85, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 84, 3),
+	(7608, 'itemTierPrices', 1, 'itemTierPricePublishOn', NULL, 86, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 85, 3),
+	(7609, 'itemTierPrices', 1, 'itemTierPriceExpireOn', NULL, 87, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 86, 3),
+	(7610, 'itemTierPrices', 2, 'custClassId', NULL, 88, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 87, 3),
+	(7611, 'itemTierPrices', 2, 'itemTierQty', NULL, 89, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 88, 3),
+	(7612, 'itemTierPrices', 2, 'itemPrice', NULL, 90, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 89, 3),
+	(7613, 'itemTierPrices', 2, 'itemTierPricePublishOn', NULL, 91, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 90, 3),
+	(7614, 'itemTierPrices', 2, 'itemTierPriceExpireOn', NULL, 92, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 91, 3),
+	(7615, 'itemTierPrices', 3, 'custClassId', NULL, 93, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 92, 3),
+	(7616, 'itemTierPrices', 3, 'itemTierQty', NULL, 94, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 93, 3),
+	(7617, 'itemTierPrices', 3, 'itemPrice', NULL, 95, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 94, 3),
+	(7618, 'itemTierPrices', 3, 'itemTierPricePublishOn', NULL, 96, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 95, 3),
+	(7619, 'itemTierPrices', 3, 'itemTierPriceExpireOn', NULL, 97, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 96, 3),
+	(7620, 'itemTierPrices', 4, 'custClassId', NULL, 98, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 97, 3),
+	(7621, 'itemTierPrices', 4, 'itemTierQty', NULL, 99, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 98, 3),
+	(7622, 'itemTierPrices', 4, 'itemPrice', NULL, 100, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 99, 3),
+	(7623, 'itemTierPrices', 4, 'itemTierPricePublishOn', NULL, 101, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 100, 3),
+	(7624, 'itemTierPrices', 4, 'itemTierPriceExpireOn', NULL, 102, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 101, 3),
+	(7625, 'itemAttributeDetails', 0, 'customAttribId', NULL, 103, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 102, 3),
+	(7626, 'itemAttributeDetails', 0, 'customAttribName', NULL, 104, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 103, 3),
+	(7627, 'itemAttributeDetails', 0, 'customAttribOptionId', NULL, 105, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 104, 3),
+	(7628, 'itemAttributeDetails', 0, 'customAttribValue', NULL, 106, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 105, 3),
+	(7629, 'itemAttributeDetails', 1, 'customAttribId', NULL, 107, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 106, 3),
+	(7630, 'itemAttributeDetails', 1, 'customAttribName', NULL, 108, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 107, 3),
+	(7631, 'itemAttributeDetails', 1, 'customAttribOptionId', NULL, 109, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 108, 3),
+	(7632, 'itemAttributeDetails', 1, 'customAttribValue', NULL, 110, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 109, 3),
+	(7633, 'itemAttributeDetails', 2, 'customAttribId', NULL, 111, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 110, 3),
+	(7634, 'itemAttributeDetails', 2, 'customAttribName', NULL, 112, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 111, 3),
+	(7635, 'itemAttributeDetails', 2, 'customAttribOptionId', NULL, 113, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 112, 3),
+	(7636, 'itemAttributeDetails', 2, 'customAttribValue', NULL, 114, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 113, 3),
+	(7637, 'itemAttributeDetails', 3, 'customAttribId', NULL, 115, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 114, 3),
+	(7638, 'itemAttributeDetails', 3, 'customAttribName', NULL, 116, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 115, 3),
+	(7639, 'itemAttributeDetails', 3, 'customAttribOptionId', NULL, 117, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 116, 3),
+	(7640, 'itemAttributeDetails', 3, 'customAttribValue', NULL, 118, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 117, 3),
+	(7641, 'itemAttributeDetails', 4, 'customAttribId', NULL, 119, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 118, 3),
+	(7642, 'itemAttributeDetails', 4, 'customAttribName', NULL, 120, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 119, 3),
+	(7643, 'itemAttributeDetails', 4, 'customAttribOptionId', NULL, 121, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 120, 3),
+	(7644, 'itemAttributeDetails', 4, 'customAttribValue', NULL, 122, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 121, 3),
+	(7645, '', NULL, 'siteProfileClassId', NULL, 1, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 0, 1),
+	(7646, '', NULL, 'siteProfileClassName', NULL, 2, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 1, 1),
+	(7647, '', NULL, 'siteCurrencyClassId', NULL, 3, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 2, 1),
+	(7648, '', NULL, 'siteCurrencyClassName', NULL, 4, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 3, 1),
+	(7649, '', NULL, 'itemId', NULL, 5, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 4, 1),
+	(7650, '', NULL, 'itemNum', NULL, 6, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 5, 1),
+	(7651, '', NULL, 'itemUpcCd', NULL, 7, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 6, 1),
+	(7652, '', NULL, 'itemSkuCd', NULL, 8, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 7, 1),
+	(7653, '', NULL, 'itemTypeCd', NULL, 9, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 8, 1),
+	(7654, '', NULL, 'itemSellable', NULL, 10, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 9, 1),
+	(7655, '', NULL, 'itemCost', NULL, 11, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 10, 1),
+	(7656, '', NULL, 'itemHitCounter', NULL, 12, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 11, 1),
+	(7657, '', NULL, 'itemRating', NULL, 13, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 12, 1),
+	(7658, '', NULL, 'itemRatingCount', NULL, 14, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 13, 1),
+	(7659, '', NULL, 'itemQty', NULL, 15, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 14, 1),
+	(7660, '', NULL, 'itemBookedQty', NULL, 16, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 15, 1),
+	(7661, '', NULL, 'itemPublishOn', NULL, 17, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 16, 1),
+	(7662, '', NULL, 'itemExpireOn', NULL, 18, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 17, 1),
+	(7663, '', NULL, 'published', NULL, 19, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 18, 1),
+	(7664, '', NULL, 'itemShortDesc', NULL, 20, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 19, 1),
+	(7665, '', NULL, 'itemDesc', NULL, 21, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 20, 1),
+	(7666, '', NULL, 'pageTitle', NULL, 22, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 21, 1),
+	(7667, '', NULL, 'itemPrice', NULL, 23, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 22, 1),
+	(7668, '', NULL, 'itemSpecPrice', NULL, 24, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 23, 1),
+	(7669, '', NULL, 'itemSpecPricePublishOn', NULL, 25, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 24, 1),
+	(7670, '', NULL, 'itemSpecPriceExpireOn', NULL, 26, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 25, 1),
+	(7671, '', NULL, 'shippingTypeId', NULL, 27, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 26, 1),
+	(7672, '', NULL, 'shippingTypeName', NULL, 28, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 27, 1),
+	(7673, '', NULL, 'productClassId', NULL, 29, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 28, 1),
+	(7674, '', NULL, 'productClassName', NULL, 30, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 29, 1),
+	(7675, '', NULL, 'itemParentId', NULL, 31, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 30, 1),
+	(7676, '', NULL, 'itemParentSkuCd', NULL, 32, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 31, 1),
+	(7677, '', NULL, 'customAttributeGroupId', NULL, 33, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 32, 1),
+	(7678, '', NULL, 'customAttributeGroupName', NULL, 34, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 33, 1),
+	(7679, '', NULL, 'metaKeywords', NULL, 35, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 34, 1),
+	(7680, '', NULL, 'metaDescription', NULL, 36, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 35, 1),
+	(7681, '', NULL, 'itemImageOverride', NULL, 37, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 36, 1),
+	(7682, 'categories', 0, 'catId', NULL, 38, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 37, 1),
+	(7683, 'categories', 0, 'catShortTitle', NULL, 39, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 38, 1),
+	(7684, 'categories', 1, 'catId', NULL, 40, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 39, 1),
+	(7685, 'categories', 1, 'catShortTitle', NULL, 41, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 40, 1),
+	(7686, 'categories', 2, 'catId', NULL, 42, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 41, 1),
+	(7687, 'categories', 2, 'catShortTitle', NULL, 43, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 42, 1),
+	(7688, 'categories', 3, 'catId', NULL, 44, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 43, 1),
+	(7689, 'categories', 3, 'catShortTitle', NULL, 45, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 44, 1),
+	(7690, 'categories', 4, 'catId', NULL, 46, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 45, 1),
+	(7691, 'categories', 4, 'catShortTitle', NULL, 47, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 46, 1),
+	(7692, 'itemsRelated', 0, 'itemId', NULL, 48, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 47, 1),
+	(7693, 'itemsRelated', 0, 'itemSkuCd', NULL, 49, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 48, 1),
+	(7694, 'itemsRelated', 1, 'itemId', NULL, 50, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 49, 1),
+	(7695, 'itemsRelated', 1, 'itemSkuCd', NULL, 51, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 50, 1),
+	(7696, 'itemsRelated', 2, 'itemId', NULL, 52, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 51, 1),
+	(7697, 'itemsRelated', 2, 'itemSkuCd', NULL, 53, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 52, 1),
+	(7698, 'itemsRelated', 3, 'itemId', NULL, 54, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 53, 1),
+	(7699, 'itemsRelated', 3, 'itemSkuCd', NULL, 55, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 54, 1),
+	(7700, 'itemsRelated', 4, 'itemId', NULL, 56, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 55, 1),
+	(7701, 'itemsRelated', 4, 'itemSkuCd', NULL, 57, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 56, 1),
+	(7702, 'itemsUpSell', 0, 'itemId', NULL, 68, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 57, 1),
+	(7703, 'itemsUpSell', 0, 'itemSkuCd', NULL, 69, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 58, 1),
+	(7704, 'itemsUpSell', 1, 'itemId', NULL, 70, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 59, 1),
+	(7705, 'itemsUpSell', 1, 'itemSkuCd', NULL, 71, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 60, 1),
+	(7706, 'itemsUpSell', 2, 'itemId', NULL, 72, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 61, 1),
+	(7707, 'itemsUpSell', 2, 'itemSkuCd', NULL, 73, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 62, 1),
+	(7708, 'itemsUpSell', 3, 'itemId', NULL, 74, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 63, 1),
+	(7709, 'itemsUpSell', 3, 'itemSkuCd', NULL, 75, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 64, 1),
+	(7710, 'itemsUpSell', 4, 'itemId', NULL, 76, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 65, 1),
+	(7711, 'itemsUpSell', 4, 'itemSkuCd', NULL, 77, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 66, 1),
+	(7712, 'itemsCrossSell', 0, 'itemId', NULL, 58, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 67, 1),
+	(7713, 'itemsCrossSell', 0, 'itemSkuCd', NULL, 59, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 68, 1),
+	(7714, 'itemsCrossSell', 1, 'itemId', NULL, 60, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 69, 1),
+	(7715, 'itemsCrossSell', 1, 'itemSkuCd', NULL, 61, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 70, 1),
+	(7716, 'itemsCrossSell', 2, 'itemId', NULL, 62, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 71, 1),
+	(7717, 'itemsCrossSell', 2, 'itemSkuCd', NULL, 63, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 72, 1),
+	(7718, 'itemsCrossSell', 3, 'itemId', NULL, 64, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 73, 1),
+	(7719, 'itemsCrossSell', 3, 'itemSkuCd', NULL, 65, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 74, 1),
+	(7720, 'itemsCrossSell', 4, 'itemId', NULL, 66, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 75, 1),
+	(7721, 'itemsCrossSell', 4, 'itemSkuCd', NULL, 67, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 76, 1),
+	(7722, 'itemTierPrices', 0, 'custClassId', NULL, 78, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 77, 1),
+	(7723, 'itemTierPrices', 0, 'itemTierQty', NULL, 79, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 78, 1),
+	(7724, 'itemTierPrices', 0, 'itemPrice', NULL, 80, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 79, 1),
+	(7725, 'itemTierPrices', 0, 'itemTierPricePublishOn', NULL, 81, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 80, 1),
+	(7726, 'itemTierPrices', 0, 'itemTierPriceExpireOn', NULL, 82, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 81, 1),
+	(7727, 'itemTierPrices', 1, 'custClassId', NULL, 83, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 82, 1),
+	(7728, 'itemTierPrices', 1, 'itemTierQty', NULL, 84, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 83, 1),
+	(7729, 'itemTierPrices', 1, 'itemPrice', NULL, 85, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 84, 1),
+	(7730, 'itemTierPrices', 1, 'itemTierPricePublishOn', NULL, 86, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 85, 1),
+	(7731, 'itemTierPrices', 1, 'itemTierPriceExpireOn', NULL, 87, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 86, 1),
+	(7732, 'itemTierPrices', 2, 'custClassId', NULL, 88, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 87, 1),
+	(7733, 'itemTierPrices', 2, 'itemTierQty', NULL, 89, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 88, 1),
+	(7734, 'itemTierPrices', 2, 'itemPrice', NULL, 90, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 89, 1),
+	(7735, 'itemTierPrices', 2, 'itemTierPricePublishOn', NULL, 91, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 90, 1),
+	(7736, 'itemTierPrices', 2, 'itemTierPriceExpireOn', NULL, 92, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 91, 1),
+	(7737, 'itemTierPrices', 3, 'custClassId', NULL, 93, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 92, 1),
+	(7738, 'itemTierPrices', 3, 'itemTierQty', NULL, 94, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 93, 1),
+	(7739, 'itemTierPrices', 3, 'itemPrice', NULL, 95, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 94, 1),
+	(7740, 'itemTierPrices', 3, 'itemTierPricePublishOn', NULL, 96, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 95, 1),
+	(7741, 'itemTierPrices', 3, 'itemTierPriceExpireOn', NULL, 97, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 96, 1),
+	(7742, 'itemTierPrices', 4, 'custClassId', NULL, 98, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 97, 1),
+	(7743, 'itemTierPrices', 4, 'itemTierQty', NULL, 99, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 98, 1),
+	(7744, 'itemTierPrices', 4, 'itemPrice', NULL, 100, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 99, 1),
+	(7745, 'itemTierPrices', 4, 'itemTierPricePublishOn', NULL, 101, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 100, 1),
+	(7746, 'itemTierPrices', 4, 'itemTierPriceExpireOn', NULL, 102, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 101, 1),
+	(7747, 'itemAttributeDetails', 0, 'customAttribId', NULL, 103, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 102, 1),
+	(7748, 'itemAttributeDetails', 0, 'customAttribName', NULL, 104, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 103, 1),
+	(7749, 'itemAttributeDetails', 0, 'customAttribOptionId', NULL, 105, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 104, 1),
+	(7750, 'itemAttributeDetails', 0, 'customAttribValue', NULL, 106, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 105, 1),
+	(7751, 'itemAttributeDetails', 1, 'customAttribId', NULL, 107, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 106, 1),
+	(7752, 'itemAttributeDetails', 1, 'customAttribName', NULL, 108, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 107, 1),
+	(7753, 'itemAttributeDetails', 1, 'customAttribOptionId', NULL, 109, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 108, 1),
+	(7754, 'itemAttributeDetails', 1, 'customAttribValue', NULL, 110, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 109, 1),
+	(7755, 'itemAttributeDetails', 2, 'customAttribId', NULL, 111, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 110, 1),
+	(7756, 'itemAttributeDetails', 2, 'customAttribName', NULL, 112, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 111, 1),
+	(7757, 'itemAttributeDetails', 2, 'customAttribOptionId', NULL, 113, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 112, 1),
+	(7758, 'itemAttributeDetails', 2, 'customAttribValue', NULL, 114, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 113, 1),
+	(7759, 'itemAttributeDetails', 3, 'customAttribId', NULL, 115, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 114, 1),
+	(7760, 'itemAttributeDetails', 3, 'customAttribName', NULL, 116, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 115, 1),
+	(7761, 'itemAttributeDetails', 3, 'customAttribOptionId', NULL, 117, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 116, 1),
+	(7762, 'itemAttributeDetails', 3, 'customAttribValue', NULL, 118, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 117, 1),
+	(7763, 'itemAttributeDetails', 4, 'customAttribId', NULL, 119, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 118, 1),
+	(7764, 'itemAttributeDetails', 4, 'customAttribName', NULL, 120, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 119, 1),
+	(7765, 'itemAttributeDetails', 4, 'customAttribOptionId', NULL, 121, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 120, 1),
+	(7766, 'itemAttributeDetails', 4, 'customAttribValue', NULL, 122, 'admin', '2011-03-02 10:15:03', 'admin', '2011-03-02 10:15:03', 121, 1);
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<className>com.jada.xml.databaseUpgrade.DatabaseUpgradeProcedure</className>
+		<method>copyReports</method>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0304</dbVersion>
+		<className>com.jada.xml.databaseUpgrade.DatabaseUpgradeProcedure</className>
+		<method>copyImportExport</method>
+	</databaseUpgradeRecord>
+	<databaseUpgradeRecord>
+		<dbVersion>2.0305</dbVersion>
+		<dbQuery><![CDATA[
+ALTER TABLE cache  DROP INDEX cache_key;
+		]]></dbQuery>
+	</databaseUpgradeRecord>
+</DatabaseUpgrade>
+

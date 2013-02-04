@@ -1,0 +1,14 @@
+#set ($myAccountBean = $form)
+<script type="text/javascript" language="JavaScript"><!--
+function submitForm(type) {
+    document.forms[0].process.value = type;
+    document.forms[0].submit();
+}
+
+//--></script>
+<div id="my-account-container">
+  <div id="my-account-nav-container">
+  	#parse("/myaccount/myAccountNav.vm")
+  </div>
+  <div class="container-reset"></div>
+</div>

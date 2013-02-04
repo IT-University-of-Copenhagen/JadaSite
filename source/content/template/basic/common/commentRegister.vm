@@ -1,0 +1,210 @@
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+Not used
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="yui-skin-sam">
+<div id="panelRegister">
+  <div class="panel_bd">
+    <div id="registerform-message"></div>
+    <form name="registerForm" action="" method="post">
+      <table border="0" cellpadding="10" style="padding: 10px">
+        <tr>
+          <td nowrap style="padding: 10px" colspan="2">
+            <span class="jc_text_large_title">
+            $template.getLanguageByValue('Create a new account') <br>
+            <br>
+            $template.getLanguageByValue('or')<br>
+            <br>
+            </span>
+            <a href="javascript:void(0);" class="jc_content_link_large" onclick="showSignin();">$template.getLanguageByValue('Sign-in using existing account')</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="jc_text_normal" nowrap style="padding: 10px" valign="top">$template.getLanguageByValue('Public name')</td>
+          <td style="padding: 10px"><input type="text" name="custPublicName" size="20" maxlength="20"/><div id="registerform-custPublicNameError" class="jc_alert"></div></td>
+        </tr>
+        <tr>
+          <td class="jc_text_normal" nowrap style="padding: 10px" valign="top">$template.getLanguageByValue('Email address')</td>
+          <td class="jc_text_normal" style="padding: 10px"><input type="text" name="custEmail" size="40" maxlength="40"/><div id="registerform-custEmailError" class="jc_alert"></div></td>
+        </tr>
+        <tr>
+          <td class="jc_text_normal" nowrap style="padding: 10px" valign="top">$template.getLanguageByValue('Password')</td>
+          <td class="jc_text_normal" style="padding: 10px"><input type="password" name="custPassword" size="20" maxlength="20"/><div id="registerform-custPasswordError" class="jc_alert"></div></td>
+        </tr>
+        <tr>
+          <td class="jc_text_normal" nowrap style="padding: 10px" valign="top">$template.getLanguageByValue('Re-enter Password')</td>
+          <td class="jc_text_normal" style="padding: 10px"><input type="password" name="custPassword1" size="20" maxlength="20"/><div id="registerform-custPassword1Error" class="jc_alert"></div></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px"></td>
+          <td style="padding: 10px"><a class="jc_button_small" href="javascript:void(0)" onclick="register();">$template.getLanguageByValue('Register')</a></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+</div>
+
+<div class="yui-skin-sam">
+<div id="panelSignin">
+  <div class="panel_bd">
+    <form name="signinForm" action="" method="get">
+      <table border="0" cellpadding="5" style="padding: 10px">
+        <tr>
+          <td colspan="2" style="padding: 10px">
+            <span class="jc_text_large_title">
+            $template.getLanguageByValue('Sign-in using existing account')<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px" valign="top">$template.getLanguageByValue('Email address')</td>
+          <td style="padding: 10px"><input type="text" name="custEmail" size="40" maxlength="40"/><div id="signinForm-custEmailError" class="jc_alert"></div></td>
+        </tr>
+        <tr>
+          <td style="padding: 10px" valign="top">$template.getLanguageByValue('Password')</td>
+          <td style="padding: 10px"><input type="password" name="custPassword" size="20" maxlength="20"/><div id="signinForm-custPasswordError" class="jc_alert"></div></td>
+        </tr>
+        <tr>
+          <td style="padding: 10px" valign="top"></td>
+          <td style="padding: 10px"><a class="jc_button_small" href="javascript:void(0)" onclick="signin();">$template.getLanguageByValue('Sign-in')</a></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+</div>
+
+<script language="JavaScript">
+var panelRegister = null;
+YAHOO.util.Event.onContentReady('panelRegister', function() {
+	panelRegister = new YAHOO.widget.Panel("panelRegister", { visible:false,
+															  fixedcenter : true,
+                                							  modal: true,
+															  constraintoviewport:true } );
+	panelRegister.render();
+});
+
+var panelSignin = null;
+YAHOO.util.Event.onContentReady('panelSignin', function() {
+	panelSignin = new YAHOO.widget.Panel("panelSignin", { visible:false,
+														  fixedcenter : true,
+                                					      modal: true,
+													      constraintoviewport:true } );
+	panelSignin.render();
+});
+
+function showCommentRegistration() {
+	panelRegister.show();
+}
+
+function register() {
+	document.getElementById('registerform-custPublicNameError').innerHTML = '';
+	document.getElementById('registerform-custEmailError').innerHTML = '';
+	document.getElementById('registerform-custPasswordError').innerHTML = '';
+	document.getElementById('registerform-custPassword1Error').innerHTML = '';
+	document.getElementById('registerform-custPublicNameError').style.display = 'none';
+	document.getElementById('registerform-custEmailError').style.display = 'none';
+	document.getElementById('registerform-custPasswordError').style.display = 'none';
+	document.getElementById('registerform-custPassword1Error').style.display = 'none';
+
+	var postData = "";
+	postData += "custPublicName=" + document.registerForm.custPublicName.value;
+	postData += "&custEmail=" + document.registerForm.custEmail.value;
+	postData += "&custPassword=" + document.registerForm.custPassword.value;
+	postData += "&custPassword1=" + document.registerForm.custPassword1.value;
+	var url = '/$template.getContextPath()/content/content/update.do?process=registration&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName';
+	var request = YAHOO.util.Connect.asyncRequest('POST', url, {
+		success: function(o) {
+			if (!isJsonResponseValid(o.responseText)) {
+				document.getElementById('registerform-message').innerHTML = "$template.getLanguageByValue('Unable to register')";
+			}
+			var jsonObject = getJsonObject(o.responseText);
+			if (jsonObject.status != 'success') {
+				if (jsonObject.custPublicNameError != null) {
+					document.getElementById('registerform-custPublicNameError').innerHTML = jsonObject.custPublicNameError;
+					document.getElementById('registerform-custPublicNameError').style.display = 'block';
+				}
+				if (jsonObject.custEmailError != null) {
+					document.getElementById('registerform-custEmailError').innerHTML = jsonObject.custEmailError;
+					document.getElementById('registerform-custEmailError').style.display = 'block';
+				}
+				if (jsonObject.custPasswordError != null) {
+					document.getElementById('registerform-custPasswordError').innerHTML = jsonObject.custPasswordError;
+					document.getElementById('registerform-custPasswordError').style.display = 'block';
+				}
+				if (jsonObject.custPasswordMatch != null) {
+					document.getElementById('registerform-custPasswordError').innerHTML = jsonObject.custPasswordMatch;
+					document.getElementById('registerform-custPasswordError').style.display = 'block';
+				}
+				if (jsonObject.custPassword1Error != null) {
+					document.getElementById('registerform-custPassword1Error').innerHTML = jsonObject.custPassword1Error;
+					document.getElementById('registerform-custPassword1Error').style.display = 'block';
+				}
+			}
+			else {
+				panelRegister.hide();
+			}
+		},
+		failure: function(o) {
+	      document.getElementById('registerform-message').innerHTML = "$template.getLanguageByValue('Unable to register')";
+		}
+	}, postData);
+	
+}
+
+function showSignin() {
+	panelRegister.hide();
+	panelSignin.show();
+}
+
+function signin() {
+	document.getElementById('signinForm-custEmailError').innerHTML = '';
+	document.getElementById('signinForm-custPasswordError').innerHTML = '';
+
+	var postData = "";
+	postData += "&custEmail=" + document.signinForm.custEmail.value;
+	postData += "&custPassword=" + document.signinForm.custPassword.value;
+	
+	var url = '/$template.getContextPath()/content/content/update.do?process=signin&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName';
+	var request = YAHOO.util.Connect.asyncRequest('POST', url, {
+		success: function(o) {
+			if (!isJsonResponseValid(o.responseText)) {
+				document.getElementById('signinForm-message').innerHTML = "Unable to sign-in";
+			}
+			var jsonObject = getJsonObject(o.responseText);
+			if (jsonObject.status != 'success') {
+				if (jsonObject.custEmailError) {
+					document.getElementById('signinForm-custEmailError').innerHTML = jsonObject.custEmailError;
+				}
+				if (jsonObject.custPasswordError) {
+					document.getElementById('signinForm-custPasswordError').innerHTML = jsonObject.custPasswordError;
+				}
+			}
+			else {
+				panelSignin.hide();
+			}
+		},
+		failure: function(o) {
+	      document.getElementById('panelSignin-message').innerHTML = "Unable to sign-in";
+		}
+	}, postData);
+}
+</script>

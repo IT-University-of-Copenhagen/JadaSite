@@ -1,0 +1,89 @@
+<div id="shopping-cart-login-option-container" style="float: left; margin-right: 10px; width: 250px; padding: 10px">
+<div class="shopping-cart-col1">
+<a href="" onclick="$('#shopping-cart-new-user-container').toggle(); return false;" class="shopping-cart-button">
+  $template.getLanguage("content.text.newVisitorAccount")
+</a>
+</div>
+<br></br>
+<div id="shopping-cart-new-user-container" class="shopping-cart-panel-disable">
+<form method="post" name="shoppingCartNewUserForm" id="shoppingCartNewUserForm" styleId="shoppingCartNewUserForm" action="/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do?prefix=$siteInfo.siteDomainPrefix">
+  <input type="hidden" name="process" value="newUser"/>
+  <div class="shopping-cart-col1">
+    <div class="shopping-cart-col"><span class="shopping-cart-newuser-input-label">$template.getLanguageByValue("Email address (login name)")</span></div>
+    <div class="shopping-cart-col"><input type="text" name="custEmail" value="$template.nn($form.custEmail)" size="40" class="shopping-cart-newuser-input"/></div>
+  </div>
+  <span class="shopping-cart-error" id="msg-custEmail"></span>
+  <span class="shopping-cart-error" id="msg-emailDuplicate"></span>
+  <div class="shopping-cart-col1">
+    <div class="shopping-cart-col"><span class="shopping-cart-newuser-input-label">$template.getLanguageByValue("Re-enter Email address")</span></div>
+    <div class="shopping-cart-col"><input type="text" name="custEmail1" value="$template.nn($form.custEmail1)" size="40" styleClass="shopping-cart-newuser-input"/></div>
+  </div>
+  <span class="shopping-cart-error" id="msg-custEmail1"></span>
+  <span class="shopping-cart-error" id="msg-custEmailNoMatch"></span>
+  <div class="shopping-cart-col1">
+    <div class="shopping-cart-col"><span class="shopping-cart-newuser-input-label">Public Name</span></div>
+    <div class="shopping-cart-col">
+    <span class="shopping-cart-newuser-text">
+      Name that will be known to the public
+    </span>
+    </div>
+    <div class="shopping-cart-col"><input type="text" name="custPublicName" value="$template.nn($form.custPublicName)" size="20" class="shopping-cart-newuser-input"/></div>
+  </div>
+  <span class="shopping-cart-error" id="msg-custPublicName"></span>
+  <div class="shopping-cart-col1">
+  <div class="shopping-cart-col"><span class="shopping-cart-newuser-input-label">$template.getLanguageByValue("Password")</span></div>
+  <div class="shopping-cart-col">
+  <span class="shopping-cart-newuser-text">
+    $template.getLanguage("content.text.passwordMessage")
+  </span>
+  </div>
+  </div>
+  <div class="shopping-cart-col1">
+    <div class="shopping-cart-col"><input type="password" name="custPassword" size="30" class="shopping-cart-newuser-input"/></div>
+    <span class="shopping-cart-error" id="msg-custPassword"></span>
+  </div>
+  <div class="shopping-cart-col1">
+    <div class="shopping-cart-col"><span class="shopping-cart-newuser-input-label">$template.getLanguageByValue("Re-enter Password")</span></div>
+    <input type="password" name="custVerifyPassword" size="30" class="shopping-cart-newuser-input"/><br>
+  </div>
+  <span class="shopping-cart-error" id="msg-custVerifyPassword"></span>
+  <span class="shopping-cart-error" id="msg-custPasswordNoMatch"></span>
+  <div class="shopping-cart-col1">
+    <a href="" onclick="return submitNewUser();" class="shopping-cart-button">$template.getLanguageByValue("Register New User")</a>&nbsp;&nbsp;
+  </div>
+  <br><br>
+</form>
+</div>
+<div class="shopping-cart-col1">
+<a href="/$siteInfo.contextPath/content/checkout/shoppingCartCancelCheckout.do?process=cancel&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName" class="shopping-cart-button">
+  $template.getLanguageByValue("Cancel Checkout")
+</a>
+</div>
+</div>
+<form method="post" name="shoppingCartLoginForm" id="shoppingCartLoginForm" action="/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do?process=login&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">
+<input type="hidden" name="process" value="login"/>
+<input type="hidden" name="cash" value="$template.nn($form.cash)"/>
+<div id="shopping-cart-login-container" style="float: left; width: 200px">
+	<div class="shopping-cart-col1">
+	  <div class="shopping-cart-col"><span class="shopping-cart-login-input-label">$template.getLanguageByValue("E-mail address")</span></div>
+	  <div class="shopping-cart-col"><input type="text" name="custEmail" value="$template.nn($form.custEmail)" size="30" class="shopping-cart-login-input"/></div>
+	</div>
+	<div class="shopping-cart-col1"><span class="tran-error-normal">$template.nn($form.getMessage("msg-custEmail"))</span></div>
+	<div class="shopping-cart-col1">
+	  <div class="shopping-cart-col"><span class="shopping-cart-login-input-label">$template.getLanguageByValue("Password")</span></div>
+	  <div class="shopping-cart-col"><input type="password" name="custPassword" size="30" class="shopping-cart-login-input"/></div>
+	</div><br>
+	<div class="shopping-cart-col1"><span class="tran-error-normal" id="msg-custPassword"></span></div>
+	<div class="shopping-cart-col1"><span class="tran-error-normal" id="msg-login"></span></div>
+	<div class="shopping-cart-col1">
+	  <a href="#" onclick="return login();" class="shopping-cart-button">
+	    $template.getLanguageByValue("Sign-in")
+	  </a>&nbsp;
+	  <a href="/$siteInfo.contextPath/myaccount/forgot/myAccountForgot.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName" class="shopping-cart-button">
+	    $template.getLanguageByValue("Forgot your password?")
+	  </a>
+	</div>
+</div>
+</form>
+<div class="container-reset"></div>
+<br></br>

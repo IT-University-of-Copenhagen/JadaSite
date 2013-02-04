@@ -1,0 +1,26 @@
+<form name="shoppingCartShippingForm" method="post" id="shoppingCartShippingForm" action="/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do">
+<input type="hidden" name="process" value="updateShipping"/> 
+<input type="hidden" name="prefix" value="$siteInfo.siteDomainPrefix"/>
+<div class="shopping-cart-col1">
+  <div class="shopping-cart-col11">
+    <span class="shopping-cart-info-title">$template.getLanguageByValue("Shipping method")</span>
+  </div>
+  <div class="shopping-cart-col11">
+    <select id="shippingMethodId" name="shippingMethodId" class="shopping-cart-input" onchange="javascript:submitForm('recalculate')">
+      #foreach ($shippingMethod in $form.shippingMethods)
+      #set selected = ""
+      #if ($shippingMethod.value == $form.shippingMethodId)
+        #set selected = "selected='selected'"
+      #end
+      <option value="$shippingMethod.value" $selected/>$shippingMethod.label</option>
+      #end
+    </select>
+  </div>
+</div>
+<div class="container-reset"></div>
+<div class="shopping-cart-col-large">
+  <a href="" onclick="return submitPayPalShipping();" class="shopping-cart-button">
+    $template.getLanguageByValue("Update and Continue")
+  </a>
+</div>
+</form>

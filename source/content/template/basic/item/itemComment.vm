@@ -1,0 +1,153 @@
+#set ($commentTitle = "")
+#set ($comment = "")
+#if ($template.isPageItemCommentUpdate())
+	#set ($result = $template.updateItemComment())
+	#set ($commentTitle = $result.commentTitle)
+	#set ($comment = $result.comment)
+#end
+#set ($itemInfo = $template.getItem())
+#if (!$itemInfo)
+	#parse("messages/moved.vm")
+#end
+#set ($commentInfos = $template.getItemComment())
+
+<script type="text/javascript">
+var jc_alert_type_moderator = 'M';
+var jc_alert_type_agree = 'A';
+var jc_alert_type_disagree = 'D';
+var pos = 0;
+
+function jc_alert(commentId, alertType, index) {
+  pos = index;
+  jQuery.ajax( {
+      timeout: 30000,
+      url: '/$template.getContextPath()/content/item/update.do?process=alert&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName&commentId=' + commentId + '&alertType=' + alertType,
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+      	$('#jc_comment_message_' + pos).html('');
+		if (response.status != 'success') {
+			$('#jc_comment_message_' + pos).html(response.message);
+			return;
+		}
+		
+		if (response.agreeCount > 0) {
+		    $('#jc_comment_agree_' + pos).html('(' + response.agreeCount + ')');
+		}
+		else {
+			$('#jc_comment_agree_' + pos).html('');
+		}
+		if (response.disagreeCount > 0) {
+		    $('#jc_comment_disagree_' + pos).html('(' + response.disagreeCount + ')');
+		}
+		else {
+			$('#jc_comment_disagree_' + pos).html('');
+		}
+		if (response.moderation == 'Y') {
+		    $('#jc_comment_moderator_' + pos).html("$template.getLanguageByValue('This posting is being moderated.')");
+		}
+      }
+    }
+  );
+  return false;
+}
+
+function postComment() {
+	jQuery.ajax( {
+      timeout: 30000,
+      url: '/$template.getContextPath()/content/content/update.do?process=signinStatus&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName',
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+          if (response.signinStatus) {
+              $('#jc_comment_form').submit();
+          }
+          else {
+              window.location.href = '/$template.getContextPath()/myaccount/login/myAccountLogin.do?process=start&url=$itemInfo.itemCommentUrl&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName';
+          }
+      }
+    }
+  );
+}
+
+</script>
+<div class="left-panel">
+	<p><span id="item-comment-shortdesc">$itemInfo.itemShortDesc</span></p>
+	<span id="item-comment-itemnum">$template.getLanguageByValue('Item Number') - $itemInfo.itemNum</span><br>
+	<br>
+	<img src="$template.getServletResourcePrefix()/basic/images/comment.gif" width="25" height="25">
+	<span id="item-comment-review">$template.getLanguageByValue('Reviews') &nbsp;($itemInfo.commentCount)</span>
+	<span class="item-comment-review">&nbsp;&nbsp;$template.getLanguageByValue('Posting are moderated.')</span><br>
+	<br>       
+
+	#if (!$template.isCustomerSession())
+	<br>
+	<div id="item-comment-join-container">
+	  <span id="item-comment-join-title">$template.getLanguageByValue('Join the conversation')</span><br>
+	  <br>
+	  <span id="item-comment-join-message">$template.getLanguage('content.text.comment.joinConverationMessage')</span><br>
+	  <br>
+	  <a id="item-comment-join-link" href="/$template.getContextPath()/myaccount/login/myAccountLogin.do?process=start&url=$itemInfo.itemCommentUrl&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName">$template.getLanguageByValue('Sign-in')</a>&nbsp;&nbsp;
+	  <a id="item-comment-join-link" href="/$template.getContextPath()/myaccount/register/myAccountRegister.do?process=start&url=$itemInfo.itemCommentUrl&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.siteProfileClassName">$template.getLanguageByValue('Register New User')</a>
+	</div>
+	<br>
+	#end
+		
+	#foreach( $commentInfo in $commentInfos )
+	<br>
+	<hr>
+	<br>
+	<div id="item-comment-container">
+		<div id="item-comment-moderation-container">
+			#set ($commentCounter = $velocityCount)
+			#parse("common/commentAlert.vm")
+		</div>
+		<div id="item-comment-spacer">&nbsp;</div>
+		<div id="item-comment-rating-container">
+			<div class="jc_rating_outer">
+		    <div class="jc_rating_inner" style="width: $commentInfo.commentRatingPercentageNumber%">&nbsp;</div>
+		  </div>
+		  <br>
+		  <span id="item-comment-title">$commentInfo.commentTitle</span><br><br>
+		  <span id="item-comment-text">$commentInfo.comment</span><br><br>
+		  <span id="item-comment-author">$template.getLanguageByValue('Posted by') $commentInfo.commentUpdateName on $commentInfo.recUpdateDatetime</span><br>
+		  <br>
+		</div>
+	</div>
+	<div class="container-reset"></div>
+	#end
+	#if ($template.isCustomerSession())
+	<br>
+	<div id="item-comment-input-container">
+		<form id="jc_comment_form" name="jc_comment_form" method="post" action="$itemInfo.itemCommentUpdateUrl">
+		<p><span id="item-comment-leavereview">$template.getLanguageByValue('Leave a review')</span></p>
+		<p><span id="item-comment-rateitem">$template.getLanguageByValue('Rate this item')</span></p>
+		<p>#parse("common/commentRating.vm")</p>
+		#if ($result.commentRatingMessage)
+			<span id="item-comment-error">$result.commentRatingMessage</span><br>
+		#end
+		<p><span id="item-comment-label">Title</span></p>
+		<p><input type="textfield" name="commentTitle" size="80" value="$commentTitle" id="item-comment-input"></p>
+		#if ($result.commentTitleMessage)
+			<span id="item-comment-error">$result.commentTitleMessage</span><br>
+		#end
+		<p><span id="item-comment-label">$template.getLanguageByValue('Comments')</span></p>
+		<p><textarea name="comment" cols="80" rows="10" id="item-comment-input">$comment</textarea></p>
+		#if ($result.commentMessage)
+			<span id="item-comment-error">$result.commentMessage</span><br>
+		#end
+		<p><a class="item-comment-post" href="javascript:void(0)" onclick="return postComment();">$template.getLanguageByValue('Post comment')</a></p>
+		</form>
+	</div>
+	#end
+	<br>
+	<br>
+	<br>
+</div>
+<div class="right-panel">
+	<br>
+	#if ($template.isShoppingCart())
+		#parse("components/shoppingCart/shoppingCartSummary.vm")
+		<br>
+	#end
+</div>

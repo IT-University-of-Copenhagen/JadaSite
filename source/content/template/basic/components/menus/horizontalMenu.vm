@@ -1,0 +1,30 @@
+#set ($menuInfos = $template.getMenu('MAIN'))
+<script type="text/javascript">
+jQuery(function(){
+  jQuery('ul.sf-menu').superfish({
+      delay:       500,
+      animation:   {opacity:'show',height:'show'},
+      autoArrows:  false,
+      dropShadows: false
+  });
+});
+</script>
+<div class="wide-format" id="horizontal-menu-container">
+<ul class="sf-menu">
+	#foreach( $menuInfo in $menuInfos )
+	<li>
+	  <a href="$menuInfo.menuUrl" target="$menuInfo.menuWindowTarget">$menuInfo.menuName</a>
+	  #if (!$template.isEmpty($menuInfo.menus))
+	  <ul>
+	  #foreach ($submenuInfo in $menuInfo.menus)
+	    <li>
+	      <a href="$submenuInfo.menuUrl" target="$submenuInfo.menuWindowTarget">$submenuInfo.menuName</a>
+	    </li>
+	  #end
+	  </ul>
+	  #end
+	</li>
+	#end
+</ul>
+</div>
+<div class="container-reset"></div>

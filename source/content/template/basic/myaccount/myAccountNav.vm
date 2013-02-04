@@ -1,0 +1,27 @@
+<div id="my-account-nav-inner-container">
+  <div class="my-account-nav-header-container">
+    $template.getLanguageByValue("My account")<br>
+  </div>
+  <div class="my-account-nav-header-container">
+    <span id="my-account-nav-title">$template.nn($myAccountBean.displayFirstName)&nbsp;$template.nn($myAccountBean.displayLastName)</span>
+  </div>
+  <ul class="my-account-nav-container">
+    <li><a href="/$siteInfo.contextPath/content/checkout/shoppingCart.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">$template.getLanguageByValue("My Cart - view my current shopping cart order")</a></li><li><a href="/$siteInfo.contextPath/myaccount/login/myAccountLogout.do?process=logout&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">$template.getLanguageByValue("Sign-out")</a></li>
+  </ul>
+  <div class="my-account-nav-header-container">
+    <span id="my-account-nav-title">$template.getLanguageByValue("My account settings")</span>
+  </div>
+  <ul>
+    <li><a href="/$siteInfo.contextPath/myaccount/identity/myAccountIdentity.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">$template.getLanguageByValue("Email and password")</a></li>
+    <li><a href="/$siteInfo.contextPath/myaccount/address/myAccountAddress.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">$template.getLanguageByValue("Address information")</a></li>
+    #if ($myAccountBean.storeCreditCard)
+    <li><a href="/$siteInfo.contextPath/myaccount/payment/myAccountPayment.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">$template.getLanguageByValue("Payment information")</a></li>
+    #end
+  </ul>
+  <div class="my-account-nav-header-container">
+    <span id="my-account-nav-title">$template.getLanguageByValue("My orders")</span>
+  </div>
+  <ul>
+    <li><a href="/$siteInfo.contextPath/myaccount/order/myAccountOrderStatusListing.do?process=list&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName&srPageNo=1">$template.getLanguageByValue("Order Status - track and view status of current orders")</a></li>
+  </ul>
+</div>

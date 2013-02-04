@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "struts-config_1_3.dtd"><struts-config>
+    <form-beans>
+        <form-bean name="userListingForm" type="com.jada.admin.user.UserListingActionForm"></form-bean>
+        <form-bean name="userMaintForm" type="com.jada.admin.user.UserMaintActionForm"></form-bean>
+        <form-bean name="contactUsListingForm" type="com.jada.admin.contactus.ContactUsListingActionForm"></form-bean>
+        <form-bean name="contactUsMaintForm" type="com.jada.admin.contactus.ContactUsMaintActionForm"></form-bean>
+        <form-bean name="contentMaintForm" type="com.jada.admin.content.ContentMaintActionForm"></form-bean>
+        <form-bean name="contentListingForm" type="com.jada.admin.content.ContentListingActionForm"></form-bean>
+        <form-bean name="customAttributeMaintForm" type="com.jada.admin.customAttribute.CustomAttributeMaintActionForm"></form-bean>
+        <form-bean name="customAttributeListingForm" type="com.jada.admin.customAttribute.CustomAttributeListingActionForm"></form-bean>
+        <form-bean name="customAttributeGroupMaintForm" type="com.jada.admin.customAttribute.CustomAttributeGroupMaintActionForm"></form-bean>
+        <form-bean name="customAttributeGroupListingForm" type="com.jada.admin.customAttribute.CustomAttributeGroupListingActionForm"></form-bean>
+        <form-bean name="menuListingForm" type="com.jada.admin.menu.MenuListingActionForm"></form-bean>
+        <form-bean name="menuMaintForm" type="com.jada.admin.menu.MenuMaintActionForm"></form-bean>
+        <form-bean name="categoryMaintForm" type="com.jada.admin.category.CategoryMaintActionForm"></form-bean>
+        <form-bean name="itemMaintForm" type="com.jada.admin.item.ItemMaintActionForm"></form-bean>
+        <form-bean name="itemListingForm" type="com.jada.admin.item.ItemListingActionForm"></form-bean>
+        <form-bean name="shippingTypeListingForm" type="com.jada.admin.shipping.ShippingTypeListingActionForm"></form-bean>
+        <form-bean name="shippingTypeMaintForm" type="com.jada.admin.shipping.ShippingTypeMaintActionForm"></form-bean>
+        <form-bean name="shippingRegionListingForm" type="com.jada.admin.shipping.ShippingRegionListingActionForm"></form-bean>
+        <form-bean name="shippingRegionMaintForm" type="com.jada.admin.shipping.ShippingRegionMaintActionForm"></form-bean>
+        <form-bean name="shippingMethodListingForm" type="com.jada.admin.shipping.ShippingMethodListingActionForm"></form-bean>
+        <form-bean name="shippingMethodMaintForm" type="com.jada.admin.shipping.ShippingMethodMaintActionForm"></form-bean>
+        <form-bean name="taxListingForm" type="com.jada.admin.tax.TaxListingActionForm"></form-bean>
+        <form-bean name="taxMaintForm" type="com.jada.admin.tax.TaxMaintActionForm"></form-bean>
+        <form-bean name="taxRegionListingForm" type="com.jada.admin.tax.TaxRegionListingActionForm"></form-bean>
+        <form-bean name="taxRegionMaintForm" type="com.jada.admin.tax.TaxRegionMaintActionForm"></form-bean>
+        <form-bean name="templateListingForm" type="com.jada.admin.template.TemplateListingActionForm"></form-bean>
+        <form-bean name="templateMaintForm" type="com.jada.admin.template.TemplateMaintActionForm"></form-bean>
+        <form-bean name="homePageListingForm" type="com.jada.admin.homePage.HomePageListingActionForm"></form-bean>
+        <form-bean name="homePageMaintForm" type="com.jada.admin.homePage.HomePageMaintActionForm"></form-bean>
+        <form-bean name="syndicationMaintForm" type="com.jada.admin.syndication.SyndicationMaintActionForm"></form-bean>
+        <form-bean name="shoppingCartActionForm" type="com.jada.content.checkout.ShoppingCartActionForm"></form-bean>
+        <form-bean name="shoppingCartNewUserActionForm" type="com.jada.content.checkout.ShoppingCartNewUserActionForm"></form-bean>
+        <form-bean name="shoppingCartReviewAddressActionForm" type="com.jada.content.checkout.ShoppingCartReviewAddressActionForm"></form-bean>
+        <form-bean name="shoppingCartCreditCardActionForm" type="com.jada.content.checkout.ShoppingCartCreditCardActionForm"></form-bean>
+        <form-bean name="shoppingCartLoginActionForm" type="com.jada.content.checkout.ShoppingCartLoginActionForm"></form-bean>
+        <form-bean name="loginActionForm" type="com.jada.admin.login.LoginActionForm"></form-bean>
+        <form-bean name="homeActionForm" type="com.jada.admin.home.HomeActionForm"></form-bean>
+        <form-bean name="siteListingForm" type="com.jada.admin.site.SiteListingActionForm"></form-bean>
+        <form-bean name="siteMaintForm" type="com.jada.admin.site.SiteMaintActionForm"></form-bean>
+        <form-bean name="siteDomainMaintForm" type="com.jada.admin.site.SiteDomainMaintActionForm"></form-bean>
+        <form-bean name="siteProfileClassListingForm" type="com.jada.admin.site.SiteProfileClassListingActionForm"></form-bean>
+        <form-bean name="siteProfileClassMaintForm" type="com.jada.admin.site.SiteProfileClassMaintActionForm"></form-bean>
+        <form-bean name="siteCurrencyClassListingForm" type="com.jada.admin.site.SiteCurrencyClassListingActionForm"></form-bean>
+        <form-bean name="siteCurrencyClassMaintForm" type="com.jada.admin.site.SiteCurrencyClassMaintActionForm"></form-bean>
+        <form-bean name="systemMaintForm" type="com.jada.admin.system.SystemMaintActionForm"></form-bean>
+        <form-bean name="orderListingForm" type="com.jada.admin.inventory.OrderListingActionForm"></form-bean>
+        <form-bean name="orderMaintForm" type="com.jada.admin.inventory.OrderMaintActionForm"></form-bean>
+        <form-bean name="invoiceMaintForm" type="com.jada.admin.inventory.InvoiceMaintActionForm"></form-bean>
+        <form-bean name="creditMaintForm" type="com.jada.admin.inventory.CreditMaintActionForm"></form-bean>
+        <form-bean name="shipMaintForm" type="com.jada.admin.inventory.ShipMaintActionForm"></form-bean>
+        <form-bean name="myAccountRegisterActionForm" type="com.jada.myaccount.register.MyAccountRegisterActionForm"></form-bean>
+        <form-bean name="myAccountLoginActionForm" type="com.jada.myaccount.login.MyAccountLoginActionForm"></form-bean>
+        <form-bean name="myAccountForgotActionForm" type="com.jada.myaccount.forgot.MyAccountForgotActionForm"></form-bean>
+        <form-bean name="myAccountPortalActionForm" type="com.jada.myaccount.portal.MyAccountPortalActionForm"></form-bean>
+        <form-bean name="myAccountIdentityActionForm" type="com.jada.myaccount.identity.MyAccountIdentityActionForm"></form-bean>
+        <form-bean name="myAccountAddressActionForm" type="com.jada.myaccount.address.MyAccountAddressActionForm"></form-bean>
+        <form-bean name="myAccountPaymentActionForm" type="com.jada.myaccount.payment.MyAccountPaymentActionForm"></form-bean>
+        <form-bean name="myAccountOrderStatusListingActionForm" type="com.jada.myaccount.order.MyAccountOrderStatusListingActionForm"></form-bean>
+        <form-bean name="myAccountOrderStatusActionForm" type="com.jada.myaccount.order.MyAccountOrderStatusActionForm"></form-bean>
+        <form-bean name="installForm" type="com.jada.install.process.InstallActionForm"></form-bean>
+        <form-bean name="indexingForm" type="com.jada.admin.indexing.IndexingActionForm"></form-bean>
+        <form-bean name="pollListingForm" type="com.jada.admin.poll.PollListingActionForm"></form-bean>
+        <form-bean name="pollMaintForm" type="com.jada.admin.poll.PollMaintActionForm"></form-bean>
+        <form-bean name="countryListingForm" type="com.jada.admin.country.CountryListingActionForm"></form-bean>
+        <form-bean name="countryMaintForm" type="com.jada.admin.country.CountryMaintActionForm"></form-bean>
+        <form-bean name="customerListingForm" type="com.jada.admin.customer.CustomerListingActionForm"></form-bean>
+        <form-bean name="customerMaintForm" type="com.jada.admin.customer.CustomerMaintActionForm"></form-bean>
+        <form-bean name="moderationMaintForm" type="com.jada.admin.moderation.ModerationMaintActionForm"></form-bean>
+        <form-bean name="languageListingForm" type="com.jada.admin.language.LanguageListingActionForm"></form-bean>
+        <form-bean name="languageMaintForm" type="com.jada.admin.language.LanguageMaintActionForm"></form-bean>
+        <form-bean name="couponListingForm" type="com.jada.admin.coupon.CouponListingActionForm"></form-bean>
+        <form-bean name="couponMaintForm" type="com.jada.admin.coupon.CouponMaintActionForm"></form-bean>
+        <form-bean name="productClassListingForm" type="com.jada.admin.productClass.ProductClassListingActionForm"></form-bean>
+        <form-bean name="productClassMaintForm" type="com.jada.admin.productClass.ProductClassMaintActionForm"></form-bean>
+        <form-bean name="customerClassListingForm" type="com.jada.admin.customerClass.CustomerClassListingActionForm"></form-bean>
+        <form-bean name="customerClassMaintForm" type="com.jada.admin.customerClass.CustomerClassMaintActionForm"></form-bean>
+        <form-bean name="paymentGatewayListingForm" type="com.jada.admin.paymentGateway.PaymentGatewayListingActionForm"></form-bean>
+        <form-bean name="paymentGatewayMaintForm" type="com.jada.admin.paymentGateway.PaymentGatewayMaintActionForm"></form-bean>
+        <form-bean name="reportGeneratorListingForm" type="com.jada.admin.report.ReportGeneratorListingActionForm"></form-bean>
+        <form-bean name="reportGeneratorForm" type="com.jada.admin.report.ReportGeneratorActionForm"></form-bean>
+        <form-bean name="reportListingForm" type="com.jada.admin.report.ReportListingActionForm"></form-bean>
+        <form-bean name="reportMaintForm" type="com.jada.admin.report.ReportMaintActionForm"></form-bean>
+        <form-bean name="exportForm" type="com.jada.admin.ie.ExportActionForm"></form-bean>
+        <form-bean name="importForm" type="com.jada.admin.ie.ImportActionForm"></form-bean>
+        <form-bean name="ieProfileListingForm" type="com.jada.admin.ie.IeProfileListingActionForm"></form-bean>
+        <form-bean name="ieProfileMaintForm" type="com.jada.admin.ie.IeProfileMaintActionForm"></form-bean>
+    </form-beans>
+    <global-exceptions>
+	  <exception type="java.lang.SecurityException" key="error.input" path="/global/security.jsp"/>
+	  <exception type="java.lang.Exception" key="error.input" path="/global/error.jsp"/>
+	</global-exceptions>
+    <global-forwards>
+        <forward name="customerLogin" path="/myaccount/login/myAccountLogin.do?process=start" redirect="true" />
+        <forward name="login" path="/admin/login.do?reason=nosession" redirect="true" />
+        <forward name="sessionexpire" path="/admin/login.do?reason=sessionexpire" redirect="true" />
+        <forward name="securityException" path="/global/security.jsp" />
+        <forward name="exception" path="/global/error.jsp" />
+        <forward name="message" path="/global/message.jsp" />
+    </global-forwards>
+    <action-mappings>
+        <action name="orderListingForm" 
+        		type="com.jada.admin.inventory.OrderListingAction" 
+        		scope="session" 
+        		path="/admin/inventory/orderListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/inventory/orderListing.jsp" />
+        </action>
+
+        <action name="customAttributeListingForm" 
+        		type="com.jada.admin.customAttribute.CustomAttributeListingAction" 
+        		scope="session" 
+        		path="/admin/customAttribute/customAttributeListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/customAttribute/customAttributeListing.jsp" />
+            <forward name="removeError" path="/admin/customAttribute/customAttributeListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/customAttribute/customAttributeListing.do" />
+        </action>
+        
+        <action name="customAttributeMaintForm" 
+                type="com.jada.admin.customAttribute.CustomAttributeMaintAction" 
+                scope="request" 
+                path="/admin/customAttribute/customAttributeMaint" parameter="process">
+            <forward name="success" path="/admin/customAttribute/customAttributeMaint.jsp" />
+            <forward name="error" path="/admin/customAttribute/customAttributeMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/customAttribute/customAttributeListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="paymentGatewayListingForm" 
+        		type="com.jada.admin.paymentGateway.PaymentGatewayListingAction" 
+        		scope="session" 
+        		path="/admin/paymentGateway/paymentGatewayListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/paymentGateway/paymentGatewayListing.jsp" />
+            <forward name="removeError" path="/admin/paymentGateway/paymentGatewayListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/paymentGateway/paymentGatewayListing.do" />
+        </action>
+        
+        <action name="paymentGatewayMaintForm" 
+                type="com.jada.admin.paymentGateway.PaymentGatewayMaintAction" 
+                scope="request" 
+                path="/admin/paymentGateway/paymentGatewayMaint" parameter="process">
+            <forward name="success" path="/admin/paymentGateway/paymentGatewayMaint.jsp" />
+            <forward name="error" path="/admin/paymentGateway/paymentGatewayMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/paymentGateway/paymentGatewayListing.do?process=list" redirect="true" />
+        </action>
+        
+        
+        <action name="customAttributeGroupListingForm" 
+        		type="com.jada.admin.customAttribute.CustomAttributeGroupListingAction" 
+        		scope="session" 
+        		path="/admin/customAttribute/customAttributeGroupListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/customAttribute/customAttributeGroupListing.jsp" />
+            <forward name="removeError" path="/admin/customAttribute/customAttributeGroupListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/customAttribute/customAttributeGroupListing.do" />
+        </action>
+        
+        <action name="customAttributeGroupMaintForm" 
+                type="com.jada.admin.customAttribute.CustomAttributeGroupMaintAction" 
+                scope="request" 
+                path="/admin/customAttribute/customAttributeGroupMaint" parameter="process">
+            <forward name="success" path="/admin/customAttribute/customAttributeGroupMaint.jsp" />
+            <forward name="error" path="/admin/customAttribute/customAttributeGroupMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/customAttribute/customAttributeGroupListing.do?process=list" redirect="true" />
+        </action>
+
+        <action name="orderMaintForm" 
+        		type="com.jada.admin.inventory.OrderMaintAction" 
+        		scope="request" 
+        		path="/admin/inventory/orderMaint" 
+        		parameter="process">
+            <forward name="success" path="/admin/inventory/orderMaint.jsp" />
+            <forward name="error" path="/admin/inventory/orderMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/inventory/orderListing.do?process=list" redirect="true" />
+            <forward name="removeCreditsSuccess" path="/admin/inventory/orderMaint.jsp" />
+        </action>
+        
+        <action name="invoiceMaintForm" 
+        		type="com.jada.admin.inventory.InvoiceMaintAction" 
+        		scope="request" 
+        		path="/admin/inventory/invoiceMaint" 
+        		parameter="process">
+            <forward name="success" path="/admin/inventory/invoiceMaint.jsp" />
+            <forward name="error" path="/admin/inventory/invoiceMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/inventory/invoiceListing.do?process=list" redirect="true" />
+            <forward name="removeCreditsSuccess" path="/admin/inventory/invoiceMaint.jsp" />
+        </action>
+        
+        <action name="creditMaintForm" 
+        		type="com.jada.admin.inventory.CreditMaintAction" 
+        		scope="request" 
+        		path="/admin/inventory/creditMaint" 
+        		parameter="process">
+            <forward name="success" path="/admin/inventory/creditMaint.jsp" />
+            <forward name="error" path="/admin/inventory/creditMaint.jsp" />
+        </action>
+        
+        <action name="shipMaintForm" 
+        		type="com.jada.admin.inventory.ShipMaintAction" 
+        		scope="request" 
+        		path="/admin/inventory/shipMaint" 
+        		parameter="process">
+            <forward name="success" path="/admin/inventory/shipMaint.jsp" />
+            <forward name="error" path="/admin/inventory/shipMaint.jsp" />
+        </action>
+        
+        <action name="userListingForm" 
+        		type="com.jada.admin.user.UserListingAction" 
+        		className="com.jada.admin.AdminActionMapping"
+        		scope="session" 
+        		path="/admin/user/userListing" 
+        		parameter="process">
+    		<set-property property="userTypes" value="A,S"/>
+            <forward name="success" path="/admin/user/userListing.jsp" />
+        </action>
+        
+        <action name="userMaintForm" 
+        		type="com.jada.admin.user.UserMaintAction" 
+        		className="com.jada.admin.AdminActionMapping"
+        		scope="request" 
+        		path="/admin/user/userMaint" 
+        		parameter="process">
+    		<set-property property="userTypes" value="A,S"/>
+            <forward name="success" path="/admin/user/userMaint.jsp" />
+            <forward name="error" path="/admin/user/userMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/user/userListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="contactUsListingForm" 
+        		type="com.jada.admin.contactus.ContactUsListingAction" 
+        		scope="session" 
+        		path="/admin/contactus/contactUsListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/contactus/contactUsListing.jsp" />
+        </action>
+        
+        <action name="contactUsMaintForm" 
+        		type="com.jada.admin.contactus.ContactUsMaintAction" 
+        		scope="request" 
+        		path="/admin/contactus/contactUsMaint" 
+        		parameter="process">
+            <forward name="success" path="/admin/contactus/contactUsMaint.jsp" />
+            <forward name="error" path="/admin/contactus/contactUsMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/contactus/contactUsListing.do?process=list" redirect="true" />
+        </action>
+       
+        <action name="homePageListingForm" 
+        		type="com.jada.admin.homePage.HomePageListingAction" 
+        		scope="session" 
+        		path="/admin/homePage/homePageListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/homePage/homePageListing.jsp" />
+        </action>
+        <action name="homePageMaintForm" 
+                type="com.jada.admin.homePage.HomePageMaintAction" 
+                scope="request" 
+                path="/admin/homePage/homePageMaint" parameter="process">
+        	<forward name="error" path="/admin/homePage/homePageMaint.jsp" />
+            <forward name="success" path="/admin/homePage/homePageMaint.jsp" />
+        </action>
+        
+        <action name="syndicationMaintForm" 
+                type="com.jada.admin.syndication.SyndicationMaintAction" 
+                scope="session" 
+                path="/admin/syndication/syndicationMaint" parameter="process">
+            <forward name="success" path="/admin/syndication/syndicationMaint.jsp" />
+        </action>
+        
+        <action name="indexingForm" 
+                type="com.jada.admin.indexing.IndexingMaintAction" 
+                scope="request" 
+                path="/admin/indexing/indexingMaint" parameter="process">
+            <forward name="error" path="/admin/indexing/indexingMaint.jsp" />
+            <forward name="success" path="/admin/indexing/indexingMaint.jsp" />
+        </action>
+       
+        <action name="contentListingForm" 
+                type="com.jada.admin.content.ContentListingAction" 
+                scope="session" 
+                path="/admin/content/contentListing" parameter="process">
+            <forward name="success" path="/admin/content/contentListing.jsp" />
+            <forward name="removeError" path="/admin/content/contentListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/content/contentListing.do" />
+        </action>
+        
+        <action name="contentMaintForm" 
+                input="/admin/content/contentMaint.jsp"
+                type="com.jada.admin.content.ContentMaintAction" 
+                scope="request" 
+                path="/admin/content/contentMaint" 
+                parameter="process">
+            <forward name="removeConfirm" path="/admin/content/contentListing.do?process=list" redirect="true"/>
+            <forward name="error" path="/admin/content/contentMaint.jsp" />
+            <forward name="cancel" path="/admin/content/contentListing.do?process=list" redirect="true"/>
+            <forward name="success" path="/admin/content/contentMaint.jsp" />
+            <forward name="processed" path="/admin/content/contentMaint.jsp" />
+        </action>
+        
+        <action name="couponListingForm" 
+                type="com.jada.admin.coupon.CouponListingAction" 
+                scope="session" 
+                path="/admin/coupon/couponListing" parameter="process">
+            <forward name="success" path="/admin/coupon/couponListing.jsp" />
+            <forward name="removeError" path="/admin/coupon/couponListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/coupon/couponListing.do" />
+        </action>
+        
+        <action name="couponMaintForm" 
+                input="/admin/coupon/couponMaint.jsp"
+                type="com.jada.admin.coupon.CouponMaintAction" 
+                scope="request" 
+                path="/admin/coupon/couponMaint" 
+                parameter="process">
+            <forward name="removeSuccess" path="/admin/coupon/couponListing.do?process=list" redirect="true"/>
+            <forward name="error" path="/admin/coupon/couponMaint.jsp" />
+            <forward name="success" path="/admin/coupon/couponMaint.jsp" />
+        </action>
+
+        <action name="menuListingForm" 
+                type="com.jada.admin.menu.MenuListingAction" 
+                scope="session" 
+                path="/admin/menu/menuListing" parameter="process">
+            <forward name="error" path="/admin/menu/menuListing.jsp" />
+            <forward name="success" path="/admin/menu/menuListing.jsp" />
+        </action>
+        
+        <action name="menuMaintForm" 
+                input="/admin/menu/menuMaint.jsp"
+                type="com.jada.admin.menu.MenuMaintAction" 
+                scope="request" 
+                path="/admin/menu/menuMaint" 
+                parameter="process">
+            <forward name="error" path="/admin/menu/menuMaint.jsp" />
+            <forward name="success" path="/admin/menu/menuMaint.jsp" />
+        </action>
+    
+        <action name="categoryMaintForm" 
+                input="/admin/category/categoryMaint.jsp"
+                type="com.jada.admin.category.CategoryMaintAction" 
+                scope="request" 
+                path="/admin/category/categoryMaint" 
+                parameter="process">
+            <forward name="error" path="/admin/category/categoryMaint.jsp" />
+            <forward name="success" path="/admin/category/categoryMaint.jsp" />
+        </action>
+        
+        <action name="itemListingForm" 
+                type="com.jada.admin.item.ItemListingAction" 
+                scope="session" 
+                path="/admin/item/itemListing" parameter="process">
+            <forward name="success" path="/admin/item/itemListing.jsp" />
+            <forward name="removeError" path="/admin/item/itemListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/item/itemListing.do" />
+        </action>
+        
+        <action name="itemMaintForm" 
+                input="/admin/item/itemMaint.jsp"
+                type="com.jada.admin.item.ItemMaintAction" 
+                scope="request" 
+                path="/admin/item/itemMaint" 
+                parameter="process">
+            <forward name="removeConfirm" path="/admin/item/itemListing.do?process=list" redirect="true"/>
+            <forward name="processed" path="/admin/item/itemMaint.jsp" />
+            <forward name="success" path="/admin/item/itemMaint.jsp" />
+            <forward name="error" path="/admin/item/itemMaint.jsp" />
+        </action>
+        
+        <action name="productClassListingForm" 
+        		type="com.jada.admin.productClass.ProductClassListingAction" 
+        		scope="session" 
+        		path="/admin/productClass/productClassListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/productClass/productClassListing.jsp" />
+            <forward name="removeError" path="/admin/productClass/productClassListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/productClass/productClassListing.do" />
+        </action>
+        
+        <action name="productClassMaintForm" 
+                type="com.jada.admin.productClass.ProductClassMaintAction" 
+                scope="request" 
+                path="/admin/productClass/productClassMaint" parameter="process">
+            <forward name="success" path="/admin/productClass/productClassMaint.jsp" />
+            <forward name="error" path="/admin/productClass/productClassMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/productClass/productClassListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="customerClassListingForm" 
+        		type="com.jada.admin.customerClass.CustomerClassListingAction" 
+        		scope="session" 
+        		path="/admin/customerClass/customerClassListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/customerClass/customerClassListing.jsp" />
+            <forward name="removeError" path="/admin/customerClass/customerClassListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/customerClass/customerClassListing.do" />
+        </action>
+        
+        <action name="customerClassMaintForm" 
+                type="com.jada.admin.customerClass.CustomerClassMaintAction" 
+                scope="request" 
+                path="/admin/customerClass/customerClassMaint" parameter="process">
+            <forward name="success" path="/admin/customerClass/customerClassMaint.jsp" />
+            <forward name="error" path="/admin/customerClass/customerClassMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/customerClass/customerClassListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="shippingTypeListingForm" 
+        		type="com.jada.admin.shipping.ShippingTypeListingAction" 
+        		scope="session" 
+        		path="/admin/shipping/shippingTypeListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/shipping/shippingTypeListing.jsp" />
+            <forward name="removeError" path="/admin/shipping/shippingTypeListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/shipping/shippingTypeListing.do" />
+        </action>
+        
+        <action name="shippingTypeMaintForm" 
+                type="com.jada.admin.shipping.ShippingTypeMaintAction" 
+                scope="request" 
+                path="/admin/shipping/shippingTypeMaint" parameter="process">
+            <forward name="success" path="/admin/shipping/shippingTypeMaint.jsp" />
+            <forward name="error" path="/admin/shipping/shippingTypeMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/shipping/shippingTypeListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="shippingRegionListingForm" 
+        		type="com.jada.admin.shipping.ShippingRegionListingAction" 
+        		scope="session" 
+        		path="/admin/shipping/shippingRegionListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/shipping/shippingRegionListing.jsp" />
+        </action>
+        
+        <action name="shippingRegionMaintForm" 
+                type="com.jada.admin.shipping.ShippingRegionMaintAction" 
+                scope="request" 
+                path="/admin/shipping/shippingRegionMaint" parameter="process">
+            <forward name="success" path="/admin/shipping/shippingRegionMaint.jsp" />
+            <forward name="error" path="/admin/shipping/shippingRegionMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/shipping/shippingRegionListing.do?process=list" redirect="true" />
+        </action>
+
+        <action name="shippingMethodListingForm" 
+        		type="com.jada.admin.shipping.ShippingMethodListingAction" 
+        		scope="session" 
+        		path="/admin/shipping/shippingMethodListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/shipping/shippingMethodListing.jsp" />
+            <forward name="error" path="/admin/shipping/shippingMethodListing.jsp" />
+        </action>
+        
+        <action name="shippingMethodMaintForm" 
+                type="com.jada.admin.shipping.ShippingMethodMaintAction" 
+                scope="request" 
+                path="/admin/shipping/shippingMethodMaint" parameter="process">
+            <forward name="success" path="/admin/shipping/shippingMethodMaint.jsp" />
+            <forward name="error" path="/admin/shipping/shippingMethodMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/shipping/shippingMethodListing.do?process=list" redirect="true" />
+        </action>
+
+        <action name="customerListingForm" 
+        		type="com.jada.admin.customer.CustomerListingAction" 
+        		scope="session" 
+        		path="/admin/customer/customerListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/customer/customerListing.jsp" />
+        </action>
+        
+        <action name="customerMaintForm" 
+                type="com.jada.admin.customer.CustomerMaintAction" 
+                scope="request" 
+                path="/admin/customer/customerMaint" parameter="process">
+            <forward name="success" path="/admin/customer/customerMaint.jsp" />
+            <forward name="error" path="/admin/customer/customerMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/customer/customerListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="taxListingForm" 
+        		type="com.jada.admin.tax.TaxListingAction" 
+        		scope="session" 
+        		path="/admin/tax/taxListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/tax/taxListing.jsp" />
+        </action>
+        
+        <action name="taxMaintForm" 
+                type="com.jada.admin.tax.TaxMaintAction" 
+                scope="request" 
+                path="/admin/tax/taxMaint" parameter="process">
+            <forward name="success" path="/admin/tax/taxMaint.jsp" />
+            <forward name="error" path="/admin/tax/taxMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/tax/taxListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="taxRegionListingForm" 
+        		type="com.jada.admin.tax.TaxRegionListingAction" 
+        		scope="session" 
+        		path="/admin/tax/taxRegionListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/tax/taxRegionListing.jsp" />
+        </action>
+        
+        <action name="taxRegionMaintForm" 
+                type="com.jada.admin.tax.TaxRegionMaintAction" 
+                scope="request" 
+                path="/admin/tax/taxRegionMaint" parameter="process">
+            <forward name="success" path="/admin/tax/taxRegionMaint.jsp" />
+            <forward name="error" path="/admin/tax/taxRegionMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/tax/taxRegionListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="templateListingForm" 
+        		type="com.jada.admin.template.TemplateListingAction" 
+        		scope="session" 
+        		path="/admin/template/templateListing" 
+        		parameter="process">
+            <forward name="success" path="/admin/template/templateListing.jsp" />
+            <forward name="preview" path="/web/fe/home" redirect="true" />
+            <forward name="error" path="/admin/template/templateListing.jsp" />
+        </action>
+        
+        <action name="templateMaintForm" 
+                type="com.jada.admin.template.TemplateMaintAction" 
+                scope="request" 
+                path="/admin/template/templateMaint" parameter="process">
+            <forward name="success" path="/admin/template/templateMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/template/templateListing.do?process=list" redirect="true" />
+            <forward name="error" path="/admin/template/templateMaint.jsp" />
+        </action>
+
+        <action name="systemMaintForm" 
+        		type="com.jada.admin.system.SystemMaintAction" 
+        		className="com.jada.admin.AdminActionMapping"
+                scope="request" 
+                path="/admin/system/systemMaint" parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/system/systemMaint.jsp" />
+            <forward name="resetSuccess" path="/admin/system/systemMaintDone.jsp" />
+            <forward name="error" path="/admin/system/systemMaint.jsp" />
+        </action>
+        
+        <action name="languageListingForm" 
+        		type="com.jada.admin.language.LanguageListingAction"
+        		className="com.jada.admin.AdminActionMapping"
+        		scope="session" 
+        		path="/admin/language/languageListing"
+        		parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/language/languageListing.jsp" />
+            <forward name="removeError" path="/admin/language/languageListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/language/languageListing.do" />
+        </action>
+        
+        <action name="languageMaintForm" 
+                type="com.jada.admin.language.LanguageMaintAction" 
+        		className="com.jada.admin.AdminActionMapping"
+                scope="request" 
+                path="/admin/language/languageMaint" parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/language/languageMaint.jsp" />
+            <forward name="error" path="/admin/language/languageMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/language/languageListing.do?process=list" redirect="true" />
+            <forward name="removeError" path="/admin/language/languageListing.jsp" />
+        </action>
+        
+        <action name="siteListingForm" 
+        		type="com.jada.admin.site.SiteListingAction"
+        		className="com.jada.admin.AdminActionMapping"
+        		scope="session" 
+        		path="/admin/site/siteListing"
+        		parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/site/siteListing.jsp" />
+            <forward name="removeError" path="/admin/site/siteListing.jsp" />
+        </action>
+        
+        <action name="siteMaintForm" 
+                type="com.jada.admin.site.SiteMaintAction" 
+        		className="com.jada.admin.AdminActionMapping"
+                scope="request" 
+                path="/admin/site/siteMaint" parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/site/siteMaint.jsp" />
+            <forward name="error" path="/admin/site/siteMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/site/siteListing.do?process=list" redirect="true" />
+            <forward name="removeError" path="/admin/site/siteListing.jsp" />
+        </action>
+        
+        <action name="siteDomainMaintForm" 
+                type="com.jada.admin.site.SiteDomainMaintAction" 
+        		className="com.jada.admin.AdminActionMapping"
+                scope="request" 
+                path="/admin/site/siteDomainMaint" parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/site/siteDomainMaint.jsp" />
+            <forward name="error" path="/admin/site/siteDomainMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/site/siteMaint.do?process=edit" redirect="true" />
+            <forward name="removeError" path="/admin/site/siteDomainListing.jsp" />
+        </action>
+        
+        <action name="siteProfileClassListingForm" 
+        		type="com.jada.admin.site.SiteProfileClassListingAction"
+        		className="com.jada.admin.AdminActionMapping"
+        		scope="session" 
+        		path="/admin/site/siteProfileClassListing"
+        		parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/site/siteProfileClassListing.jsp" />
+            <forward name="removeError" path="/admin/site/siteProfileClassListing.jsp" />
+        </action>
+        
+        <action name="siteProfileClassMaintForm" 
+                type="com.jada.admin.site.SiteProfileClassMaintAction" 
+        		className="com.jada.admin.AdminActionMapping"
+                scope="request" 
+                path="/admin/site/siteProfileClassMaint" parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/site/siteProfileClassMaint.jsp" />
+            <forward name="error" path="/admin/site/siteProfileClassMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/site/siteProfileClassMaint.do?process=list" redirect="true" />
+            <forward name="removeError" path="/admin/site/siteProfileClassMaint.jsp" />
+        </action>
+        
+        <action name="siteCurrencyClassListingForm" 
+        		type="com.jada.admin.site.SiteCurrencyClassListingAction"
+        		className="com.jada.admin.AdminActionMapping"
+        		scope="session" 
+        		path="/admin/site/siteCurrencyClassListing"
+        		parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/site/siteCurrencyClassListing.jsp" />
+            <forward name="removeError" path="/admin/site/siteCurrencyClassListing.jsp" />
+        </action>
+        
+        <action name="siteCurrencyClassMaintForm" 
+                type="com.jada.admin.site.SiteCurrencyClassMaintAction" 
+        		className="com.jada.admin.AdminActionMapping"
+                scope="request" 
+                path="/admin/site/siteCurrencyClassMaint" parameter="process">
+        	<set-property property="userTypes" value="S"/>
+            <forward name="success" path="/admin/site/siteCurrencyClassMaint.jsp" />
+            <forward name="error" path="/admin/site/siteCurrencyClassMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/site/siteCurrencyClassMaint.do?process=list" redirect="true" />
+            <forward name="removeError" path="/admin/site/siteCurrencyClassMaint.jsp" />
+        </action>
+        
+        <action name="pollListingForm" 
+                type="com.jada.admin.poll.PollListingAction" 
+                scope="session" 
+                path="/admin/poll/pollListing" parameter="process">
+            <forward name="success" path="/admin/poll/pollListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/poll/pollListing.do" />
+        </action>
+        
+        <action name="countryListingForm" 
+                type="com.jada.admin.country.CountryListingAction" 
+                scope="session" 
+                path="/admin/country/countryListing" parameter="process">
+            <forward name="success" path="/admin/country/countryListing.jsp" />
+            <forward name="removeError" path="/admin/country/countryListing.jsp" />
+            <forward name="removed" redirect="true" path="/admin/country/countryListing.do" />
+        </action>
+        
+        <action name="countryMaintForm" 
+                input="/admin/country/countryMaint.jsp"
+                type="com.jada.admin.country.CountryMaintAction" 
+                scope="request" 
+                path="/admin/country/countryMaint" 
+                parameter="process">
+            <forward name="removeConfirm" path="/admin/country/countryListing.do?process=list" redirect="true"/>
+            <forward name="processed" path="/admin/country/countryMaint.jsp" />
+            <forward name="success" path="/admin/country/countryMaint.jsp" />
+            <forward name="error" path="/admin/country/countryMaint.jsp" />
+        </action>
+        
+        <action name="pollMaintForm" 
+                type="com.jada.admin.poll.PollMaintAction" 
+                scope="request" 
+                path="/admin/poll/pollMaint" parameter="process">
+            <forward name="success" path="/admin/poll/pollMaint.jsp" />
+            <forward name="error" path="/admin/poll/pollMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/poll/pollListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="moderationMaintForm" 
+                type="com.jada.admin.moderation.ModerationMaintAction" 
+                scope="session" 
+                path="/admin/moderation/moderationMaint" parameter="process">
+            <forward name="success" path="/admin/moderation/moderationMaint.jsp" />
+            <forward name="approved" path="/admin/moderation/moderationMaint.do" />
+            <forward name="rejected" path="/admin/moderation/moderationMaint.do" />
+            <forward name="error" path="/admin/moderation/moderationMaint.jsp" />
+        </action>
+        
+        <action name="reportGeneratorListingForm" 
+                type="com.jada.admin.report.ReportGeneratorListingAction" 
+                scope="session" 
+                path="/admin/report/reportGeneratorListing" parameter="process">
+            <forward name="success" path="/admin/report/reportGeneratorListing.jsp" />
+            <forward name="error" path="/admin/report/reportGeneratorListing.jsp" />
+        </action>
+     
+        <action name="reportGeneratorForm" 
+                type="com.jada.admin.report.ReportGeneratorAction" 
+                scope="request" 
+                path="/admin/report/reportGenerator" parameter="process">
+            <forward name="success" path="/admin/report/reportInput.jsp" />
+            <forward name="error" path="/admin/report/reportInput.jsp" />
+        </action>
+        
+        <action name="reportListingForm" 
+                type="com.jada.admin.report.ReportListingAction" 
+                scope="session" 
+                path="/admin/report/reportListing" parameter="process">
+            <forward name="success" path="/admin/report/reportListing.jsp" />
+            <forward name="error" path="/admin/report/reportListing.jsp" />
+        </action>
+        
+        <action name="reportMaintForm" 
+                type="com.jada.admin.report.ReportMaintAction" 
+                scope="request" 
+                path="/admin/report/reportMaint" parameter="process">
+            <forward name="success" path="/admin/report/reportMaint.jsp" />
+            <forward name="error" path="/admin/report/reportMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/report/reportListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="ieProfileListingForm" 
+                type="com.jada.admin.ie.IeProfileListingAction" 
+                scope="session" 
+                path="/admin/ie/ieProfileListing" parameter="process">
+            <forward name="error" path="/admin/ie/ieProfileListing.jsp" />
+            <forward name="success" path="/admin/ie/ieProfileListing.jsp" />
+        </action>
+        
+        <action name="ieProfileMaintForm" 
+                input="/admin/ie/ieProfileMaint.jsp"
+                type="com.jada.admin.ie.IeProfileMaintAction" 
+                scope="request" 
+                path="/admin/ie/ieProfileMaint" 
+                parameter="process">
+            <forward name="error" path="/admin/ie/ieProfileMaint.jsp" />
+            <forward name="success" path="/admin/ie/ieProfileMaint.jsp" />
+            <forward name="removeSuccess" path="/admin/ie/ieProfileListing.do?process=list" redirect="true" />
+        </action>
+        
+        <action name="exportForm" 
+                type="com.jada.admin.ie.ExportAction" 
+                scope="request" 
+                path="/admin/ie/export" parameter="process">
+            <forward name="success" path="/admin/ie/export.jsp" />
+            <forward name="error" path="/admin/ie/export.jsp" />
+        </action>
+     
+        <action name="importForm" 
+                type="com.jada.admin.ie.ImportAction" 
+                scope="request" 
+                path="/admin/ie/import" parameter="process">
+            <forward name="success" path="/admin/ie/import.jsp" />
+            <forward name="error" path="/admin/ie/import.jsp" />
+        </action>
+     
+        <action name="loginActionForm"
+        		type="com.jada.admin.login.LoginAction" 
+                scope="request" 
+                path="/admin/login">
+            <forward name="success" path="/admin/home/home.do?process=list" redirect="true"/>
+            <forward name="login" path="/admin/login/login.jsp"/>
+            <forward name="error" path="/admin/login/login.jsp"/>
+        </action>
+
+        <action type="com.jada.admin.login.LogoutAction" 
+                scope="request" 
+                path="/admin/logout">
+            <forward name="success" path="/admin/login.do?reason=signout" redirect="true"/>
+        </action>
+
+        <action name="homeActionForm"
+        		type="com.jada.admin.home.HomeAction" 
+                scope="request" 
+                path="/admin/home/home"
+                parameter="process">
+            <forward name="success" path="/admin/home/home.jsp"/>
+            <forward name="error" path="/admin/home/home.jsp"/>
+        </action>
+
+        <action type="com.jada.admin.lookup.ItemLookupAction" 
+                scope="request" 
+                path="/admin/lookup/itemLookup">
+        </action>
+        <action type="com.jada.admin.lookup.ContentLookupAction" 
+                scope="request" 
+                path="/admin/lookup/contentLookup">
+        </action>
+        <action type="com.jada.admin.lookup.CategoryLookupAction" 
+                scope="request" 
+                path="/admin/lookup/categoryLookup">
+        </action>
+        <action type="com.jada.admin.lookup.MenusLookupAction" 
+                scope="request" 
+                path="/admin/lookup/menusLookup">
+        </action>
+        <action type="com.jada.admin.lookup.RegionLookupAction" 
+                scope="request" 
+                path="/admin/lookup/regionLookup">
+        </action>
+        <action type="com.jada.admin.lookup.ProductClassLookupAction" 
+                scope="request" 
+                path="/admin/lookup/productClassLookup">
+        </action>
+        <action type="com.jada.admin.lookup.CustomerClassLookupAction" 
+                scope="request" 
+                path="/admin/lookup/customerClassLookup">
+        </action>
+        <action type="com.jada.admin.lookup.TaxLookupAction" 
+                scope="request" 
+                path="/admin/lookup/taxLookup">
+        </action>
+        <action type="com.jada.admin.lookup.CustomAttributeLookupAction" 
+                scope="request" 
+                path="/admin/lookup/customAttributeLookup">
+        </action>
+
+        <action type="com.jada.content.checkout.ShoppingCartCancelCheckoutAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/shoppingCartCancelCheckout" 
+                parameter="process">
+            <forward name="cancel" path="/web/fe" redirect="true" />
+        </action>
+        
+        <action name="shoppingCartActionForm" 
+                type="com.jada.content.checkout.ShoppingCartProcessAction" 
+                scope="request"
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/shoppingCartProcess" 
+                parameter="process">
+			<set-property property="ssl" value="Y"/>
+			<set-property property="enforceProtocol" value="Y"/>
+			<forward name="info" path="/shoppingCart/shoppingCartStatus.vm" />
+            <forward name="success" path="/shoppingCart/shoppingCartProcess.vm" />
+            <forward name="finalize" path="/content/checkout/shoppingCartConfirmation.do?process=confirm" redirect="true"/>
+            <forward name="paypal.sandbox" path="https://www.sandbox.paypal.com/cgibin/webscr?cmd=_express-checkout&amp;lc=CN&amp;token=" redirect="true"/>
+            <forward name="paypal.production" path="https://www.paypal.com/cgibin/webscr?cmd=_express-checkout&amp;token=" redirect="true"/>
+            <forward name="paypal.mobile.sandbox" path="https://www.sandbox.paypal.com/cgibin/webscr?cmd=_express-checkout-mobile&amp;lc=CN&amp;token=" redirect="true"/>
+            <forward name="paypal.mobile.production" path="https://www.paypal.com/cgibin/webscr?cmd=_express-checkout-mobile&amp;token=" redirect="true"/>
+        </action>
+        
+        <action name="shoppingCartActionForm" 
+                type="com.jada.content.checkout.ShoppingCartLoginAction" 
+                scope="request"
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/shoppingCartLogin" 
+                parameter="process">
+			<set-property property="ssl" value="Y"/>
+			<set-property property="enforceProtocol" value="Y"/>
+            <forward name="loginSuccess" path="/content/checkout/regular/shoppingCartReviewAddress.do?process=start&amp;new=N" redirect="true" />
+            <forward name="quote" path="/content/checkout/shoppingCartReviewOrder.do?process=list" redirect="true" />
+            <forward name="success" path="/content/shoppingCart/shoppingCartLogin.jsp" />
+            <forward name="error" path="/content/shoppingCart/shoppingCartLogin.jsp" />
+        </action>
+        
+        <action name="shoppingCartNewUserActionForm" 
+                type="com.jada.content.checkout.ShoppingCartNewUserAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/shoppingCartNewUser" 
+                parameter="process">
+            <forward name="createSuccess" path="/content/checkout/regular/shoppingCartReviewAddress.do?process=start&amp;new=Y" redirect="true"/>
+            <forward name="success" path="/content/shoppingCart/shoppingCartNewUser.jsp" />
+            <forward name="error" path="/content/shoppingCart/shoppingCartNewUser.jsp" />
+        </action>
+        
+        <action name="shoppingCartActionForm" 
+                type="com.jada.content.checkout.regular.ShoppingCartReviewAddressAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/regular/shoppingCartReviewAddress" 
+                parameter="process">
+            <forward name="updateSuccess" path="/content/checkout/shoppingCartPaymentCallBack.do?process=list" />
+            <forward name="quote" path="/content/checkout/shoppingCartReviewOrder.do?process=list" redirect="true" />
+            <forward name="success" path="/content/shoppingCart/regular/shoppingCartReviewAddress.jsp" />
+            <forward name="error" path="/content/shoppingCart/regular/shoppingCartReviewAddress.jsp" />
+        </action>
+        
+        <action name="shoppingCartActionForm" 
+                type="com.jada.content.checkout.regular.ShoppingCartCreditCardAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/regular/shoppingCartCreditCard" 
+                parameter="process">
+            <forward name="updateSuccess" path="/content/checkout/regular/shoppingCartFinalize.do?process=finalize"/>
+            <forward name="success" path="/content/shoppingCart/regular/shoppingCartCreditCard.jsp" />
+            <forward name="error" path="/content/shoppingCart/regular/shoppingCartCreditCard.jsp" />
+        </action>
+ 
+        <action type="com.jada.content.checkout.regular.ShoppingCartFinalizeAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/regular/shoppingCartFinalize" 
+                parameter="process">
+            <forward name="success" path="/content/checkout/shoppingCartConfirmation.do?process=confirm" redirect="true"/>
+            <forward name="authorizationException" path="/content/checkout/regular/shoppingCartCreditCard.do?process=start&amp;paymentError=true"/>
+            <forward name="paymentError" path="/content/shoppingCart/shoppingCartError.jsp"/>
+        </action>
+        
+        <action name="shoppingCartActionForm" 
+                type="com.jada.content.checkout.ShoppingCartAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/shoppingCart" 
+                parameter="process">
+ 			<forward name="success" path="/shoppingCart/shoppingCartMaint.vm" />
+            <forward name="error" path="/shoppingCart/shoppingCartMaint.vm" />
+        </action>
+                
+        <action name="myAccountRegisterActionForm" 
+                type="com.jada.myaccount.register.MyAccountRegisterAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/register/myAccountRegister" 
+                parameter="process">
+            <forward name="success" path="/myaccount/register/myAccountRegister.vm" />
+            <forward name="registerSuccess" path="/myaccount/portal/myAccountPortal.do?process=start" redirect="true"/>
+            <forward name="error" path="/myaccount/register/myAccountRegister.vm" />
+        </action>
+
+        <action type="com.jada.content.checkout.paypal.ShoppingCartPayPalAuthorizeAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/paypal/shoppingCartPayPalAuthorize" 
+                parameter="process">
+            <forward name="sandbox" path="https://www.sandbox.paypal.com/cgibin/webscr?cmd=_express-checkout&amp;lc=CN&amp;token=" redirect="true"/>
+            <forward name="production" path="https://www.paypal.com/cgibin/webscr?cmd=_express-checkout&amp;token=" redirect="true"/>
+        </action>
+
+        <action type="com.jada.content.checkout.paypalprohosted.ShoppingCartPayPalProHostedCreditCardAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/paypalprohosted/shoppingCartPayPalProHostedCreditCard" 
+                parameter="process">
+            <forward name="success" path="/content/checkout/paypal/shoppingCartPayPalFinalize.do?process=finalize" redirect="true"/>
+        </action>
+
+        <action name="shoppingCartActionForm" 
+        		type="com.jada.content.checkout.ShoppingCartPaymentCallBackAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/shoppingCartPaymentCallBack" 
+                parameter="process">
+            <forward name="success" path="/content/checkout/shoppingCartReviewOrder.do?process=list" redirect="true"/>
+            <forward name="paymentError" path="/content/shoppingCart/shoppingCartPaymentError.jsp"/>
+            <forward name="paymentCustomerError" path="/content/shoppingCart/shoppingCartSuspended.jsp"/>
+        </action>
+
+        <action name="shoppingCartActionForm" 
+        		type="com.jada.content.checkout.ShoppingCartReviewOrderAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/shoppingCartReviewOrder" 
+                parameter="process">
+            <forward name="quoteConfirmation" path="/content/shoppingCart/shoppingCartShippingQuoteConfirmation.jsp" />
+            <forward name="success" path="/content/shoppingCart/shoppingCartReviewOrder.jsp"/>
+            <forward name="error" path="/content/shoppingCart/shoppingCartReviewOrder.jsp"/>
+        </action>
+
+        <action name="shoppingCartActionForm"
+                type="com.jada.content.checkout.paypal.ShoppingCartPayPalFinalizeAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/paypal/shoppingCartPayPalFinalize" 
+                parameter="process">
+            <forward name="success" path="/content/checkout/shoppingCartConfirmation.do?process=confirm" redirect="true"/>
+            <forward name="paymentError" path="/content/shoppingCart/shoppingCartPaymentError.jsp"/>
+            <forward name="payPalError" path="/content/shoppingCart/shoppingCartPayPalError.jsp"/>
+            <forward name="error" path="/content/shoppingCart/shoppingCartReviewOrder.jsp"/>
+        </action>
+
+        <action name="shoppingCartActionForm"
+                type="com.jada.content.checkout.cash.ShoppingCartCashFinalizeAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/checkout/shoppingCartCashFinalize" 
+                parameter="process">
+            <forward name="success" path="/content/checkout/shoppingCartConfirmation.do?process=confirm" redirect="true"/>
+            <forward name="error" path="/content/shoppingCart/shoppingCartReviewOrder.jsp"/>
+        </action>
+
+        <action name="shoppingCartActionForm"
+        		type="com.jada.content.checkout.ShoppingCartConfirmationAction" 
+                className="com.jada.content.ContentActionMapping"
+                scope="request" 
+                path="/content/checkout/shoppingCartConfirmation"
+                parameter="process">
+			<set-property property="authentication" value="Y"/>
+            <forward name="success" path="/shoppingCart/shoppingCartConfirmation.vm"/>
+            <forward name="sequenceInterrupt" path="/content/checkout/shoppingCart.do?process=start&amp;sequenceInterrupt=Y" redirect="true" />  
+        </action>
+                
+        <action name="myAccountLoginActionForm" 
+                type="com.jada.myaccount.login.MyAccountLoginAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/login/myAccountLogin" 
+                parameter="process">
+            <forward name="loginSuccess" path="/myaccount/portal/myAccountPortal.do?process=start" redirect="true"/>
+            <forward name="shoppingCart.start" path="/content/checkout/shoppingCart.do?process=start" redirect="true"/>
+            <forward name="success" path="/myaccount/login/myAccountLogin.vm" />
+            <forward name="error" path="/myaccount/login/myAccountLogin.vm" />
+        </action>
+                
+        <action name="myAccountForgotActionForm" 
+                type="com.jada.myaccount.forgot.MyAccountForgotAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/forgot/myAccountForgot" 
+                parameter="process">
+            <forward name="forgotSuccess" path="/myaccount/login/myAccountLogin.do?process=start&amp;action=forgot" redirect="true"/>
+            <forward name="success" path="/myaccount/forgot/myAccountForgot.vm"/>
+            <forward name="error" path="/myaccount/forgot/myAccountForgot.vm" />
+        </action>
+                
+        <action type="com.jada.myaccount.login.MyAccountLogoutAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/login/myAccountLogout" 
+                parameter="process">
+            <forward name="logoutSuccess" path="/myaccount/login/myAccountLogin.do?process=start&amp;action=logout" redirect="true"/>
+        </action>
+   
+        <action name="myAccountPortalActionForm" 
+                type="com.jada.myaccount.portal.MyAccountPortalAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/portal/myAccountPortal" 
+                parameter="process">
+    		<set-property property="authentication" value="Y"/>
+            <forward name="success" path="/myaccount/portal/myAccountPortal.vm" />
+        </action>
+        
+        <action name="myAccountIdentityActionForm" 
+                type="com.jada.myaccount.identity.MyAccountIdentityAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/identity/myAccountIdentity" 
+                parameter="process">
+			<set-property property="authentication" value="Y"/>
+            <forward name="success" path="/myaccount/identity/myAccountIdentity.vm" />
+            <forward name="error" path="/myaccount/identity/myAccountIdentity.vm" />
+        </action>
+        
+        <action name="myAccountAddressActionForm" 
+                type="com.jada.myaccount.address.MyAccountAddressAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/address/myAccountAddress" 
+                parameter="process">
+    		<set-property property="authentication" value="Y"/>
+            <forward name="success" path="/myaccount/address/myAccountAddress.vm" />
+            <forward name="error" path="/myaccount/address/myAccountAddress.vm" />
+        </action>
+        
+        <action name="myAccountPaymentActionForm" 
+                type="com.jada.myaccount.payment.MyAccountPaymentAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/payment/myAccountPayment" 
+                parameter="process">
+    		<set-property property="authentication" value="Y"/>
+            <forward name="success" path="/myaccount/payment/myAccountPayment.vm" />
+            <forward name="error" path="/myaccount/payment/myAccountPayment.vm" />
+        </action>
+        
+        <action name="myAccountOrderStatusListingActionForm" 
+                type="com.jada.myaccount.order.MyAccountOrderListingAction" 
+                scope="session" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/order/myAccountOrderStatusListing" 
+                parameter="process">
+    		<set-property property="authentication" value="Y"/>
+            <forward name="success" path="/myaccount/order/myAccountOrderStatusListing.vm" />
+            <forward name="error" path="/myaccount/order/myAccountOrderStatusListing.vm" />
+        </action>
+        
+        <action name="myAccountOrderStatusActionForm" 
+                type="com.jada.myaccount.order.MyAccountOrderAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/order/myAccountOrderStatus" 
+                parameter="process">
+			<set-property property="authentication" value="Y"/>
+            <forward name="success" path="/myaccount/order/myAccountOrderStatus.vm" />
+            <forward name="error" path="/myaccount/order/myAccountOrderStatus.vm" />
+        </action>
+        
+        <action name="myAccountOrderStatusListingActionForm" 
+                type="com.jada.myaccount.order.MyAccountOrderListingAction" 
+                scope="session" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/order/myAccountOrderHistoryListing" 
+                parameter="process">
+			<set-property property="authentication" value="Y"/>
+            <forward name="success" path="/myaccount/order/myAccountOrderHistoryListing.jsp" />
+            <forward name="error" path="/myaccount/order/myAccountOrderHistoryListing.jsp" />
+        </action>
+        
+        <action name="myAccountOrderStatusActionForm" 
+                type="com.jada.myaccount.order.MyAccountOrderAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/myaccount/order/myAccountOrderHistory" 
+                parameter="process">
+    		<set-property property="authentication" value="Y"/>
+            <forward name="success" path="/myaccount/order/myAccountOrderHistory.jsp" />
+            <forward name="error" path="/myaccount/order/myAccountOrderHistory.jsp" />
+        </action>
+        
+        <action type="com.jada.content.item.ItemAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/item/update"
+                parameter="process">
+            <forward name="success" path="/web/fe/"/>
+            <forward name="commentSuccess" path="/web/fe/" redirect="true"/>
+        </action>
+ 
+        <action type="com.jada.content.content.ContentAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/content/update"
+                parameter="process">
+            <forward name="success" path="/web/fe/" />
+            <forward name="categoryFilterSuccess" path="/web/fe/" redirect="true" />
+            <forward name="commentSuccess" path="/web/fe/" />
+        </action>
+  
+        <action type="com.jada.content.frontend.FrontendAction" 
+                scope="request"
+                className="com.jada.content.ContentActionMapping"
+                path="/fe/**">
+			<set-property property="enforceProtocol" value="Y"/>
+        </action>
+        
+        <action type="com.jada.content.frontend.MessagesAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/frontend/messagesAction">
+            <forward name="success" path="/content/messages/messages.jsp"/>
+        </action>
+                
+        <action type="com.jada.content.poll.PollAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/poll/pollAction" parameter="process">
+        </action>
+        
+        <action type="com.jada.content.email.EmailAction" 
+                scope="request" 
+                className="com.jada.content.ContentActionMapping"
+                path="/content/email/emailAction" parameter="process">
+        	<forward name="success" path="/web/fe/" redirect="true" />
+        	<forward name="error" path="/web/fe/" redirect="true" />
+        </action>
+        
+        <action name="installForm" 
+        		type="com.jada.install.process.DatabaseTestAction" 
+                scope="session" 
+                path="/install/process/databaseTestAction" parameter="process">
+            <forward name="success" path="/install/process/databaseTest.jsp"/>
+            <forward name="next" path="/install/process/databaseLoadAction.do?process=wait" redirect="true"/>
+            <forward name="error" path="/install/process/databaseTest.jsp"/>
+        </action>
+        
+        <action name="installForm" 
+        		type="com.jada.install.process.DatabaseLoadAction" 
+                scope="session" 
+                path="/install/process/databaseLoadAction" parameter="process">
+            <forward name="dbError" path="/install/process/databaseTestAction.do" redirect="true"/>
+            <forward name="wait" path="/install/process/databaseWait.jsp"/>
+            <forward name="success" path="/install/process/databaseLoad.jsp"/>
+            <forward name="error" path="/install/process/databaseLoad.jsp"/>
+        </action>
+
+        <action type="com.jada.service.ProxyAction" 
+                scope="request"
+                className="com.jada.content.ContentActionMapping"
+                path="/proxy/**">
+        </action>    
+        
+        <action type="com.jada.service.ImageProvider" 
+                scope="request"
+                className="com.jada.content.ContentActionMapping"
+                path="/services/ImageProvider">
+            <forward name="empty" path="/content/images/transparent.gif"/>
+        </action>
+        
+        <action type="com.jada.service.SecureImageProvider" 
+                scope="request"
+                path="/services/SecureImageProvider">
+            <forward name="empty" path="/content/images/transparent.gif"/>
+        </action>
+        
+        <action type="com.jada.service.SiteMapAction" 
+                scope="request"
+                path="/sitemap">
+        </action>
+    </action-mappings>
+    <controller contentType="text/html; charset=UTF-8" nocache="true"/>
+    <message-resources parameter="application" />
+</struts-config>

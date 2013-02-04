@@ -1,0 +1,49 @@
+#set ($homeFeatureData = $template.getHomeFeatureData()) 
+#set ($homeFeatureData = $template.getHomeFeatureData())
+<div class="left-panel">
+#if ($homeFeatureData)
+	#set ($info = $homeFeatureData)
+  #set ($orientation = "left")
+  <div id="feature-data-container">
+	#if ($homeFeatureData.infoType == "content")
+		#parse("common/previewContent.vm")
+	#else
+		#parse("common/previewItem.vm")
+	#end
+  </div>
+  <div class="container-reset"></div>
+#end	
+#set ($homeDataInfos = $template.getHomeDataInfos()) 
+#foreach ($homeDataInfo in $homeDataInfos)
+	#set ($info = $homeDataInfo)
+	#if ($info.infoType == "content")
+		#set ($orientation = "left")
+		<div id="category-preview-container">
+		#parse("common/previewContent.vm")
+		</div>
+	#else
+		#set ($orientation = "top")
+		<div id="category-border-preview-container">
+		#parse("common/previewItem.vm")
+		</div>
+	#end
+	#if ($velocityCount % 3 == 0)
+	<div class="container-reset"></div>
+	#end
+#end
+</div>
+<div class="right-panel">
+	#if ($template.isShoppingCart())
+		#parse("components/shoppingCart/shoppingCartSummary.vm")
+	#end
+	#parse("components/compare/compareItemContainer.vm")
+	#if ($template.isPoll())
+	#parse("components/poll/poll.vm")
+	#end
+	#if ($template.isSyndication())
+	#parse("components/syndication/syndication.vm")
+	#end
+	#parse("components/item/mostPopularItems.vm")
+	#parse("components/content/topRatedContent.vm")
+	#parse("components/content/mostViewedContent.vm")
+</div>

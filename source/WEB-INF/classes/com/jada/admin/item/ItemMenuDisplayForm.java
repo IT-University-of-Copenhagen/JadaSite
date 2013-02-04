@@ -1,0 +1,44 @@
+/*
+ * Copyright 2007-2010 JadaSite.
+
+ * This file is part of JadaSite.
+ 
+ * JadaSite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * JadaSite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with JadaSite.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.jada.admin.item;
+
+public class ItemMenuDisplayForm {
+	String menuId;
+	String menuLongDesc;
+	String siteDomainName;
+	public String getMenuId() {
+		return menuId;
+	}
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
+	}
+	public String getMenuLongDesc() {
+		return menuLongDesc;
+	}
+	public void setMenuLongDesc(String menuLongDesc) {
+		this.menuLongDesc = menuLongDesc;
+	}
+	public String getSiteDomainName() {
+		return siteDomainName;
+	}
+	public void setSiteDomainName(String siteDomainName) {
+		this.siteDomainName = siteDomainName;
+	}
+}

@@ -1,0 +1,26 @@
+#if ($searchInfo.pageTotal > 0) 
+  <div id="search-navigation-container">
+  #if ($searchInfo.pageNum > $searchInfo.pageStart)
+    &nbsp;
+    <a class="search-navigation-link" href="/$template.getContextPath()/web/fe/$siteInfo.siteDomainPrefix/$siteInfo.langName/search?query=$searchInfo.query&pageNum=1">First</a>
+    &nbsp;
+    #set( $previous = $searchInfo.pageNum - 1 )
+    <a class="search-navigation-link" href="/$template.getContextPath()/web/fe/$siteInfo.siteDomainPrefix/$siteInfo.langName/search?query=$searchInfo.query&pageNum=$previous">&lt;&lt; $template.getLanguageByValue('Previous')</a>
+  #end
+  #foreach($index in [$searchInfo.pageStart..$searchInfo.pageEnd])
+    &nbsp;
+    #if ($searchInfo.pageNum == $index)
+      <span id="search-navigation-text">$index</span>
+    #else
+      <a class="search-navigation-link" href="/$template.getContextPath()/web/fe/$siteInfo.siteDomainPrefix/$siteInfo.langName/search?query=$searchInfo.query&pageNum=$index">$index</a>
+    #end
+  #end
+  #if ($searchInfo.pageNum < $searchInfo.pageEnd)
+    &nbsp;
+    #set( $last = $searchInfo.pageNum + 1 )
+    <a class="search-navigation-link" href="/$template.getContextPath()/web/fe/$siteInfo.siteDomainPrefix/$siteInfo.langName/search?query=$searchInfo.query&pageNum=$last">$template.getLanguageByValue('Next') &gt;&gt;</a>
+    &nbsp;
+    <a class="search-navigation-link" href="/$template.getContextPath()/web/fe/$siteInfo.siteDomainPrefix/$siteInfo.langName/search?query=$searchInfo.query&pageNum=$searchInfo.pageTotal">$template.getLanguageByValue('Last')</a>
+  #end
+  </div>
+#end

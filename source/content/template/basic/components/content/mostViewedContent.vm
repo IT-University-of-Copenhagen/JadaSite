@@ -1,0 +1,13 @@
+#set ( $contentInfos = $template.getMostViewedContent() ) 
+#if (!$template.isEmpty($contentInfos))
+  <div class="jc_panel_header">$template.getLanguageByValue('Most viewed articles')</div>
+  <div class="jc_panel_body">
+    #foreach( $contentInfo in $contentInfos )
+      #if ($velocityCount > 1)
+        <div class="dotted-line-separator"></div>
+      #end
+      <a href="$contentInfo.contentUrl" class="most-viewed-article-link">$contentInfo.contentTitle</a><br>
+    #end
+  </div>
+  <br>
+#end

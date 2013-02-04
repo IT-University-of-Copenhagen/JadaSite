@@ -1,0 +1,29 @@
+#if (!$template.isEmpty($itemCompareInfo.itemCompareList))
+<div class="jc_panel_header">
+    $template.getLanguageByValue('Items to compare')
+</div>
+<div class="jc_panel_body">
+  <br>
+  <form action="" method="post" name="itemReviewForm">
+  #foreach ($itemInfo in $itemCompareInfo.itemCompareList) 
+  <div id="item-compare-product-container">
+    <div id="item-compare-image-container">
+		#if ($itemInfo.itemDefaultImageUrl)
+			<img name="jc_image_preview" src="$itemInfo.itemDefaultImageUrl&maxsize=60"><br>
+		#end
+		</div>
+		<div id="item-compare-info-container">
+			<span id="item-compare-itemdesc">$itemInfo.itemShortDesc</span><br>
+			<br>
+			<a class="item-compare-remove-link" onclick="jc_item_compare_remove('$template.getContextPath()', '$siteInfo.siteDomainPrefix', '$itemInfo.itemId'); return false;" href="javascript:void(0)" border="0">$template.getLanguageByValue('Remove')</a>
+    </div>
+    <div class="container-reset"></div>
+  </div>
+  #end
+  </form>
+  #if (!$template.isEmpty($itemCompareInfo.itemCompareList))
+  <a class="jc_button_small" href="/$template.getContextPath()/web/fe/$siteInfo.siteDomainPrefix/$siteInfo.siteProfileClassName/itemCompare" border="0">$template.getLanguageByValue('Compare')</a>
+  #end
+</div>
+<br>
+#end

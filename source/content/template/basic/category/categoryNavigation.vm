@@ -1,0 +1,68 @@
+#if ($categoryInfo.pageTotal > 0)
+	
+<script type="text/javascript">
+function jc_category_sortBy(object) {
+	var sortBy = object.options[object.options.selectedIndex].value;
+	if (sortBy == '') {
+		return;
+	}
+	var url = '$categoryInfo.categoryBasicUrl' + '?sortBy=' + sortBy + '$categoryInfo.filterUrl';
+	document.location.href=url;
+}
+</script>
+
+<div id="category-nav-container">
+  <div id="category-nav-page-container">
+    <span id="category-nav-page-text">$template.getLanguageByValue('Page') $categoryInfo.pageNum / $categoryInfo.pageTotal</span>
+  </div>
+  <div id="category-nav-page-no-container">
+		<select name="selectName" id="category-nav-sort-select" onchange="jc_category_sortBy(this);">
+		<option value="">$template.getLanguageByValue('Sort by')</option>
+		#if ($categoryInfo.sortBy == "1")
+			#set ($s = "selected")
+		#else
+			#set ($s = "")
+		#end
+		<option value="1" $s>$template.getLanguageByValue('Price - from highest')</option>
+		#if ($categoryInfo.sortBy == "2")
+			#set ($s = "selected")
+		#else
+			#set ($s = "")
+		#end
+		<option value="2" $s>$template.getLanguageByValue('Price - from lowest')</option>
+		#if ($categoryInfo.sortBy == "4")
+			#set ($s = "selected")
+		#else
+			#set ($s = "")
+		#end
+		<option value="4" $s>$template.getLanguageByValue('Description')</option>
+		#if ($categoryInfo.sortBy == "3")
+			#set ($s = "selected")
+		#else
+			#set ($s = "")
+		#end
+		<option value="3" $s>$template.getLanguageByValue('Description descending')</option>
+    </select>
+    &nbsp;
+	  #if ($categoryInfo.pageNum > $categoryInfo.pageStart)
+	    <a class="jc_link_normal" href="$categoryInfo.categoryUrl">$template.getLanguageByValue('First')</a>
+	    &nbsp;
+	    #set( $previous = $categoryInfo.pageNum - 1 )
+	    <a class="jc_link_normal" href="$categoryInfo.categoryUrl&pageNum=$categoryInfo.pageNum">&lt;</a>
+	  #end
+	  #foreach($index in [$categoryInfo.pageStart..$categoryInfo.pageEnd])
+	    #if ($categoryInfo.pageNum == $index)
+	      <span class="jc_text_normal_title">$index</span>
+	    #else
+	      <a class="jc_link_normal" href="$categoryInfo.categoryUrl&pageNum=$index">$index</a>
+	    #end
+	  #end
+	  #if ($categoryInfo.pageNum < $categoryInfo.pageEnd)
+	    #set( $last = $categoryInfo.pageNum + 1 )
+	    <a class="category-nav-link" href="$categoryInfo.categoryUrl&pageNum=$last">&gt;</a>
+	    &nbsp;
+	    <a class="category-nav-link" href="$categoryInfo.categoryUrl&pageNum=$categoryInfo.pageTotal">$template.getLanguageByValue('Last')</a>
+	  #end
+  </div>
+</div>
+#end

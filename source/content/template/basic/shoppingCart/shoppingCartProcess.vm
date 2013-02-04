@@ -1,0 +1,564 @@
+#set ($CHECKOUT_STEP_NONE = 1)
+#set ($CHECKOUT_STEP_MYINFORMATION = 2)
+#set ($CHECKOUT_STEP_SHIPPING = 3)
+#set ($CHECKOUT_STEP_CREDITCARD = 4)
+#set ($CHECKOUT_STEP_PAYPALACTIVATE = 5)
+#set ($CHECKOUT_STEP_DONE = 6)
+
+<style>
+.shopping-cart-panel-disable {
+  display: none;
+}
+</style>
+
+<script type="text/javascript" language="JavaScript">
+var DISABLECLASS = "shopping-cart-panel-disable";
+
+$(function() {
+	$("#shopping-cart-panels > h3").addClass("panel-header");
+	$("#shopping-cart-panels > div").addClass("panel-hide");
+	$("#shopping-cart-panels > h3").click(function(event) {
+	  if ($(this).hasClass(DISABLECLASS)) {
+		return;
+	  }
+	  if ($(this).children("div").css("display") == "none") {
+	    $("#shopping-cart-panels > div > div").css("display","none");
+	    $(this).children("div").slideToggle("slow", "linear");
+	  }
+	});
+	
+	$('#loading').dialog({ 
+		autoOpen: false,
+		closeText: '',
+		modal: true
+	});
+
+	$("#loading").ajaxStart(function(){
+		$('#loading').dialog('open');
+
+	 }).ajaxStop(function(){
+	    $('#loading').dialog('close');
+	 });
+	 
+	paintPanel();
+});
+
+
+function removeMsg(parent) {
+  $(parent).find('span[id^="msg-"]').each(function(index, e) {
+	  $(e).html('');
+  });
+}
+
+function showMsg(jsonObject) {
+  for (var i = 0; i < jsonObject.messages.length; i++) {
+    var message = jsonObject.messages[i];
+    var object = $("#msg-" + message.key);
+    if (object.length > 0) {
+      object.text(message.value);
+    }
+  }
+}
+
+function login() {
+  $('#shoppingCartLoginForm').submit(function() {
+    removeMsg('#shoppingCartForm');
+    jQuery.ajax( {
+        timeout: 30000,
+        url: $(this).attr('action'),
+        type: $(this).attr('method'),
+        dataType: 'json',
+        data: $(this).serialize(),
+        success: function(response) {
+          if (response.status != 'success') {
+            showMsg(response);
+            return;
+          }
+          else {
+            var address = response.address;
+            $('#custEmail').text(address.custEmail);
+            $('#shoppingCartUserForm').find('[name="custId"]').val(address.custId);
+            $('#shoppingCartUserForm').find('[name="custFirstName"]').val(address.custFirstName);
+            $('#shoppingCartUserForm').find('[name="custLastName"]').val(address.custLastName);
+            $('#shoppingCartUserForm').find('[name="custAddressLine1"]').val(address.custAddressLine1);
+            $('#shoppingCartUserForm').find('[name="custAddressLine2"]').val(address.custAddressLine2);
+            $('#shoppingCartUserForm').find('[name="custCityName"]').val(address.custCityName);
+            $('#shoppingCartUserForm').find('[name="custStateCode"]').val(address.custStateCode);
+            $('#shoppingCartUserForm').find('[name="custStateName"]').val(address.custStateName);
+            $('#shoppingCartUserForm').find('[name="custCountryCode"]').val(address.custCountryCode);
+            $('#shoppingCartUserForm').find('[name="custCountryName"]').val(address.custCountryName);
+            $('#shoppingCartUserForm').find('[name="custZipCode"]').val(address.custZipCode);
+            $('#shoppingCartUserForm').find('[name="custPhoneNum"]').val(address.custPhoneNum);
+            $('#shoppingCartUserForm').find('[name="custFaxNum"]').val(address.custFaxNum);
+            $('#shoppingCartUserForm').find('[name="custStateName"]').val(address.custStateName);
+            $('#shoppingCartUserForm').find('[name="custCountryName"]').val(address.custCountryName);
+            populateStateCodes('custCountryCode', 'custStateCode', 'custStateName', address.custStateCode);
+           
+            $('#shoppingCartUserForm').find('[name="billingUseAddress"]').val(response.billingUseAddress);
+            if (response.billingCustAddressId) {
+              $('#shoppingCartUserForm').find('[name="billingCustFirstName"]').val(response.billingCustFirstName);
+      	      $('#shoppingCartUserForm').find('[name="billingCustLastName"]').val(response.billingCustLastName);
+          	  $('#shoppingCartUserForm').find('[name="billingCustAddressLine1"]').val(response.billingCustAddressLine1);
+              $('#shoppingCartUserForm').find('[name="billingCustAddressLine2"]').val(response.billingCustAddressLine2);
+              $('#shoppingCartUserForm').find('[name="billingCustCityName"]').val(response.billingCustCityName);
+              $('#shoppingCartUserForm').find('[name="billingCustStateCode"]').val(response.billingCustStateCode);
+              $('#shoppingCartUserForm').find('[name="billingCustStateName"]').val(response.billingCustStateName);
+              $('#shoppingCartUserForm').find('[name="billingCustCountryCode"]').val(response.billingCustCountryCode);
+              $('#shoppingCartUserForm').find('[name="billingCustCountryName"]').val(response.billingCustCountryName);
+              $('#shoppingCartUserForm').find('[name="billingCustZipCode"]').val(response.billingCustZipCode);
+              $('#shoppingCartUserForm').find('[name="billingCustPhoneNum"]').val(response.billingCustPhoneNum);
+              $('#shoppingCartUserForm').find('[name="billingCustFaxNum"]').val(response.billingCustFaxNum);
+              $('#shoppingCartUserForm').find('[name="billingCustStateName"]').val(response.billingCustStateName);
+              $('#shoppingCartUserForm').find('[name="billingCustCountryName"]').val(response.billingCustCountryName);
+              populateStateCodes('billingCustCountryCode', 'billingCustStateCode', 'billingCustStateName', response.billingCustStateCode);
+            }
+            
+            $('#shoppingCartUserForm').find('[name="shippingUseAddress').val(response.shippingUseAddress);
+            if (response.shippingCustAddressId) {
+              $('#shoppingCartUserForm').find('[name="shippingCustFirstName"]').val(response.shippingCustFirstName);
+              $('#shoppingCartUserForm').find('[name="shippingCustLastName"]').val(response.shippingCustLastName);
+              $('#shoppingCartUserForm').find('[name="shippingCustAddressLine1"]').val(response.shippingCustAddressLine1);
+              $('#shoppingCartUserForm').find('[name="shippingCustAddressLine2"]').val(response.shippingCustAddressLine2);
+              $('#shoppingCartUserForm').find('[name="shippingCustCityName"]').val(response.shippingCustCityName);
+              $('#shoppingCartUserForm').find('[name="shippingCustStateCode"]').val(response.shippingCustStateCode);
+              $('#shoppingCartUserForm').find('[name="shippingCustStateName"]').val(response.shippingCustStateName);
+              $('#shoppingCartUserForm').find('[name="shippingCustCountryCode"]').val(response.shippingCustCountryCode);
+              $('#shoppingCartUserForm').find('[name="shippingCustCountryName"]').val(response.shippingCustCountryName);
+              $('#shoppingCartUserForm').find('[name="shippingCustZipCode"]').val(response.shippingCustZipCode);
+              $('#shoppingCartUserForm').find('[name="shippingCustPhoneNum"]').val(response.shippingCustPhoneNum);
+              $('#shoppingCartUserForm').find('[name="shippingCustFaxNum"]').val(response.shippingCustFaxNum);
+              $('#shoppingCartUserForm').find('[name="shippingCustStateName"]').val(response.shippingCustStateName);
+              $('#shoppingCartUserForm').find('[name="shippingCustCountryName"]').val(response.shippingCustCountryName);
+              populateStateCodes('shippingCustCountryCode', 'shippingCustStateCode', 'shippingCustStateName', response.shippingCustStateCode);
+            }
+          }
+          $("#shopping-cart-signin").addClass(DISABLECLASS);       
+          $("#shopping-cart-user").removeClass(DISABLECLASS);
+          window.scrollTo(0, $('#shopping-cart-main-panel').position().top);
+        }
+      }
+    );
+    
+    paintPanel();
+    return false;
+  });
+  $('#shoppingCartLoginForm').submit();
+}
+
+function submitNewUser() {
+  jQuery.ajax( {
+      timeout: 30000,
+      url: $("#shoppingCartNewUserForm").attr('action'),
+      type: $("#shoppingCartNewUserForm").attr('method'),
+      dataType: 'json',
+      data: $("#shoppingCartNewUserForm").serialize(),
+      success: function(response) {
+	  	removeMsg("#shoppingCartNewUserForm");
+        if (response.status != 'success') {
+          showMsg(response);
+          return false;
+        }
+        var address = response.address;
+        $('#custEmail').text(address.custEmail);
+        $('#shoppingCartUserForm').find('[name="custId"]').val(address.custId);
+        $("#shopping-cart-signin").addClass(DISABLECLASS);       
+        $("#shopping-cart-user").removeClass(DISABLECLASS);
+        
+        if (response.cartInfo.shippingMethods.length == 0) {
+          $("#shipping-message").html("$template.getLanguageEscape('content.error.shippingLocation.unsupported')");
+        }
+        
+        paintPanel();
+      }
+    }
+  );
+  return false;
+}
+
+function submitUser() {
+  removeMsg('#shopping-cart-user');
+  jQuery.ajax( {
+      timeout: 30000,
+      url: $("#shoppingCartUserForm").attr('action'),
+      type: $("#shoppingCartUserForm").attr('method'),
+      dataType: 'json',
+      data: $("#shoppingCartUserForm").serialize(),
+      success: function(response) {
+        if (response.status != 'success') {
+          showMsg(response);
+          return false;
+        }
+        removeMsg('#shopping-cart-shipping');
+        $('#shipping-message').html('');
+        $("#shoppingCartShippingForm").find('[name="shippingMethodId"]').find('option').remove();
+        jQuery.each(response.cartInfo.shippingMethods, function(i, item) {
+            $("#shoppingCartShippingForm").find('[name="shippingMethodId"]')
+              .find('option')
+              .end()
+              .append('<option value="' + item.shippingMethodId + '">' + item.shippingMethodName + '</option>');
+        });
+        $("#shopping-cart-signin").addClass(DISABLECLASS);       
+        $("#shopping-cart-user").addClass(DISABLECLASS);
+        $("#shopping-cart-shipping").removeClass(DISABLECLASS);
+        
+        if (response.cartInfo.shippingMethods.length == 0) {
+          $("#shipping-message").html("$template.getLanguage('content.error.shippingLocation.unsupported')");
+        }
+        
+        paintPanel();
+      }
+    }
+  );
+  return false;
+}
+
+function submitShipping() {
+  removeMsg('#shopping-cart-shipping');
+  $('#shipping-message').html('');
+  jQuery.ajax( {
+      timeout: 30000,
+      url: $("#shoppingCartShippingForm").attr('action'),
+      type: $("#shoppingCartShippingForm").attr('method'),
+      dataType: 'json',
+      data: $("#shoppingCartShippingForm").serialize(),
+      success: function(response) {
+        if (response.status != 'success') {
+          showMsg(response);
+          return false;
+        }
+        $("#shopping-cart-signin").addClass(DISABLECLASS);       
+        $("#shopping-cart-user").addClass(DISABLECLASS);
+        $("#shopping-cart-shipping").addClass(DISABLECLASS);
+        if (response.cartInfo.creditCardOrder) {
+          var custCreditCard = response.custCreditCard;
+          $('#shoppingCartCreditCardForm').find('[name="custCreditCardFullName"]').val(custCreditCard.custCreditCardFullName);
+          $('#shoppingCartCreditCardForm').find('[name="creditCardId"]').find('option[value="' + custCreditCard.creditCardId + '"]').attr("selected","selected");
+          $('#shoppingCartCreditCardForm').find('[name="custCreditCardNum"]').val(custCreditCard.custCreditCardNum);
+          $('#shoppingCartCreditCardForm').find('[name="custCreditCardExpiryMonth"]').val(custCreditCard.custCreditCardExpiryMonth);
+          $('#shoppingCartCreditCardForm').find('[name="custCreditCardExpiryYear"]').val(custCreditCard.custCreditCardExpiryYear);
+          $('#shoppingCartCreditCardForm').find('[name="custCreditCardVerNum"]').val(custCreditCard.custCreditCardVerNum);
+          $('#shoppingCartCreditCardForm').find('[name="creditCardId"]').val(custCreditCard.creditCardId);
+          $("#shopping-cart-creditcard").removeClass(DISABLECLASS);
+        }
+        else {
+          $("#shopping-cart-finalize").removeClass(DISABLECLASS);
+        }
+        paintSummary(response.cartInfo);
+        paintPanel();
+      }
+    }
+  );
+  return false;
+}
+
+function submitPayPalAccount() {
+  jQuery.ajax( {
+      timeout: 30000,
+      url: $("#shoppingCartPayPalAccountForm").attr('action'),
+      type: $("#shoppingCartPayPalAccountForm").attr('method'),
+      dataType: 'json',
+      data: $("#shoppingCartPayPalAccountForm").serialize(),
+      success: function(response) {
+        if (response.status != 'success') {
+          showMsg(response);
+          return false;
+        }
+        $("#shoppingCartShippingForm > shippingMethodId").find('option').remove();
+        jQuery.each(response.cartInfo.shippingMethods, function(i, item) {
+            $("#shoppingCartShippingForm").find('[name="shippingMethodId"]')
+              .find('option')
+              .end()
+              .append('<option value="' + item.shippingMethodId + '">' + item.shippingMethodName + '</option>');
+        });
+        $("#shopping-cart-paypal-account").addClass(DISABLECLASS);
+        $("#shopping-cart-shipping").removeClass(DISABLECLASS);
+        paintPanel();
+      }
+    }
+  );
+  return false;
+}
+
+function submitPayPalShipping() {
+  jQuery.ajax( {
+      timeout: 30000,
+      url: $("#shoppingCartShippingForm").attr('action'),
+      type: $("#shoppingCartShippingForm").attr('method'),
+      dataType: 'json',
+      data: $("#shoppingCartShippingForm").serialize(),
+      success: function(response) {
+        if (response.status != 'success') {
+          showMsg(response);
+          return false;
+        }
+        $("#shopping-cart-shipping").addClass(DISABLECLASS);
+        $("#shopping-cart-finalize").removeClass(DISABLECLASS);
+      }
+    }
+  );
+  return false;
+}
+
+function submitPayment() {
+  jQuery.ajax( {
+      timeout: 30000,
+      url: $("#shoppingCartCreditCardForm").attr('action'),
+      type: $("#shoppingCartCreditCardForm").attr('method'),
+      dataType: 'json',
+      data: $("#shoppingCartCreditCardForm").serialize(),
+      success: function(response) {
+        if (response.status != 'success') {
+          showMsg(response);
+          return false;
+        }
+        paintPanel();
+        paintSummary(response.cartInfo);
+        $("#shopping-cart-signin").addClass(DISABLECLASS);       
+        $("#shopping-cart-user").addClass(DISABLECLASS);
+        $("#shopping-cart-shipping").addClass(DISABLECLASS);
+        $("#shopping-cart-creditcard").addClass(DISABLECLASS);
+        $("#shopping-cart-finalize").removeClass(DISABLECLASS);
+      }
+    }
+  );
+  return false;
+}
+
+function submitFinalize() {
+  jQuery.ajax( {
+      timeout: 30000,
+      url: $("#shoppingCartFinalizeForm").attr('action'),
+      type: $("#shoppingCartFinalizeForm").attr('method'),
+      dataType: 'json',
+      data: $("#shoppingCartFinalizeForm").serialize(),
+      success: function(response) {
+        if (response.status != 'success') {
+          if (response.paymentMessage) {
+          	$("#msg-paymentMessage").html(response.paymentMessage);
+          }
+          $("#shopping-cart-creditcard").removeClass(DISABLECLASS);
+          $("#shopping-cart-finalize").addClass(DISABLECLASS);
+          return false;
+        }
+        window.location.href = response.url;
+        return;
+      }
+    }
+  );
+  return false;
+}
+
+function submitPayPalHostedPayment() {
+  jQuery.ajax( {
+      timeout: 30000,
+      url: $("#shoppingCartFinalizeForm").attr('action'),
+      type: $("#shoppingCartFinalizeForm").attr('method'),
+      dataType: 'json',
+      data: $("#shoppingCartFinalizeForm").serialize(),
+      success: function(response) {
+        if (response.status != 'success') {
+          if (response.paymentMessage) {
+          	$("#msg-paymentMessage").html(response.paymentMessage);
+          }
+          $("#shopping-cart-creditcard").removeClass(DISABLECLASS);
+          $("#shopping-cart-finalize").addClass(DISABLECLASS);
+          return false;
+        }
+        window.location.href = response.url;
+        return;
+      }
+    }
+  );
+  return false;
+}
+
+function resetMyInformation() {
+  $("#shopping-cart-signin").addClass(DISABLECLASS);       
+  $("#shopping-cart-user").removeClass(DISABLECLASS);
+  $("#shopping-cart-shipping").addClass(DISABLECLASS);
+  $("#shopping-cart-creditcard").addClass(DISABLECLASS);
+  $("#shopping-cart-finalize").addClass(DISABLECLASS);
+  paintPanel($CHECKOUT_STEP_NONE);
+  return false;
+}
+
+function resetShipping() {
+  $("#shopping-cart-signin").addClass(DISABLECLASS);       
+  $("#shopping-cart-user").addClass(DISABLECLASS);
+  $("#shopping-cart-shipping").removeClass(DISABLECLASS);
+  $("#shopping-cart-creditcard").addClass(DISABLECLASS);
+  $("#shopping-cart-finalize").addClass(DISABLECLASS);
+  paintPanel($CHECKOUT_STEP_SHIPPING);
+  return false;
+}
+
+function resetCreditCard() {
+  $("#shopping-cart-signin").addClass(DISABLECLASS);       
+  $("#shopping-cart-user").addClass(DISABLECLASS);
+  $("#shopping-cart-shipping").addClass(DISABLECLASS);
+  $("#shopping-cart-creditcard").removeClass(DISABLECLASS);
+  $("#shopping-cart-finalize").addClass(DISABLECLASS);
+  paintPanel($CHECKOUT_STEP_CREDITCARD);
+  return false;
+}
+
+function paintPanel(step) {
+  var ajaxUrl = "/$siteInfo.contextPath/content/checkout/shoppingCartProcess.do?process=info&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName";
+  if (step) {
+    ajaxUrl += '&resetStep=' + step;
+  }
+  jQuery.ajax({url:ajaxUrl, success:function(result){
+    $("#shopping-cart-status").html(result);
+  }});
+}
+
+function paintSummary(cartInfo) {
+  $('#priceTotal').html(cartInfo.priceTotal);
+  $('#shippingTotal').html(cartInfo.shippingTotal);
+  $('#orderTotal').html(cartInfo.orderTotal);
+  $('#tax-container').html('');
+  jQuery.each(cartInfo.taxes, function() {
+    var html = '<div class="shopping-cart-col-large">' +
+               '<div class="shopping-cart-summary-col1"><span class="shopping-cart-info-title">' + 
+               this.taxName + 
+               '</span></div>' + 
+               '<div class="shopping-cart-summary-col2">' + 
+               this.taxAmount + 
+               '</div>' +
+               '</div>';
+     $('#tax-container').append(html);
+     $('#tax-container').append('<div class="container-reset"></div>');
+  });
+}
+
+
+</script>
+<br>
+<div id="shopping-cart-body-panel">
+<!--
+<div style="text-align: left; padding: 10px;">
+$template.getLanguageByValue("Home") &gt;
+<span id="category-breadcrumb-title">Check out</span>
+</div>
+-->
+#set ($step1-style = '')
+#set ($step2-style = 'shopping-cart-panel-disable')
+#if ($form.customerSignin)
+  #set ($step1-style = 'shopping-cart-panel-disable')
+  #set ($step2-style = '')
+#end
+  <div id="shopping-cart-main-panel">
+    <div id="shopping-cart-panels">
+      #if ($form.cashPaymentOrder)
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">1&nbsp;$template.getLanguageByValue("Sign-in / New User")</h3>
+        <div id="shopping-cart-signin" class="shopping-cart-panel-content $step1-style">
+          #parse("/shoppingCart/shoppingCartProcessSignin.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">2&nbsp;$template.getLanguageByValue("Review User Information")</h3>
+        <div id="shopping-cart-user" class="shopping-cart-panel-content  $step2-style">
+          #parse("/shoppingCart/shoppingCartProcessUser.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">3&nbsp;$template.getLanguageByValue("Shipping method")</h3>
+        <div id="shopping-cart-shipping" class="shopping-cart-panel-disable shopping-cart-panel-content">
+          #parse("/shoppingCart/shoppingCartProcessShipping.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">4&nbsp;$template.getLanguageByValue("Confirm Checkout")</h3>
+        <div id="shopping-cart-finalize" class="shopping-cart-panel-disable shopping-cart-panel-content">
+          #parse("/shoppingCart/shoppingCartProcessFinalize.vm")
+        </div>
+        </div>
+      #elseif ($form.payPalHostedOrder)
+      PayPal Website payment pro hosted order.
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">1&nbsp;$template.getLanguageByValue("Sign-in / New User")</h3>
+        <div id="shopping-cart-signin" class="shopping-cart-panel-content $step1-style">
+          #parse("/shoppingCart/shoppingCartProcessSignin.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">2&nbsp;$template.getLanguageByValue("Review User Information")</h3>
+        <div id="shopping-cart-user" class="shopping-cart-panel-content  $step2-style">
+          #parse("/shoppingCart/shoppingCartProcessUser.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">3&nbsp;$template.getLanguageByValue("Shipping method")</h3>
+        <div id="shopping-cart-shipping" class="shopping-cart-panel-disable shopping-cart-panel-content">
+          #parse("/shoppingCart/shoppingCartProcessShipping.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">4&nbsp;$template.getLanguageByValue("Confirm Checkout")</h3>
+        <div id="shopping-cart-finalize" class="shopping-cart-panel-disable shopping-cart-panel-content">
+          #parse("/shoppingCart/shoppingCartProcessPayPalHostedFinalize.vm")
+        </div>
+        </div>
+      #elseif ($form.payPalOrder && $form.passwordEmpty)
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">1&nbsp;$template.getLanguageByValue("Create account")</h3>
+        <div id="shopping-cart-paypal-account" class="shopping-cart-panel-content $step1-style">
+          #parse("/shoppingCart/shoppingCartProcessPayPalAccount.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">2&nbsp;$template.getLanguageByValue("Shipping method")</h3>
+        <div id="shopping-cart-shipping" class="shopping-cart-panel-content $step2-style">
+          #parse("/shoppingCart/shoppingCartProcessPayPalShipping.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">3&nbsp;$template.getLanguageByValue("Confirm Checkout")</h3>
+        <div id="shopping-cart-finalize" class="shopping-cart-panel-disable shopping-cart-panel-content">
+          #parse("/shoppingCart/shoppingCartProcessPayPalFinalize.vm")
+        </div>
+        </div>
+      #elseif ($form.payPalOrder)
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">1&nbsp;$template.getLanguageByValue("Shipping method")</h3>
+        <div id="shopping-cart-shipping" class="shopping-cart-panel-content $step1-style">
+          #parse("/shoppingCart/shoppingCartProcessPayPalShipping.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">2&nbsp;$template.getLanguageByValue("Confirm Checkout")</h3>
+        <div id="shopping-cart-finalize" class="shopping-cart-panel-content $step2-style">
+          #parse("/shoppingCart/shoppingCartProcessPayPalFinalize.vm")
+        </div>
+        </div>
+      #else
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">1&nbsp;$template.getLanguageByValue("Sign-in / New User")</h3>
+        <div id="shopping-cart-signin" class="shopping-cart-panel-content $step1-style">
+          #parse("/shoppingCart/shoppingCartProcessSignin.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">2&nbsp;$template.getLanguageByValue("Review User Information")</h3>
+        <div id="shopping-cart-user" class="shopping-cart-panel-content $step2-style">
+          #parse("/shoppingCart/shoppingCartProcessUser.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">3&nbsp;$template.getLanguageByValue("Shipping method")</h3>
+        <div id="shopping-cart-shipping" class="shopping-cart-panel-disable shopping-cart-panel-content">
+          #parse("/shoppingCart/shoppingCartProcessShipping.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">4&nbsp;$template.getLanguageByValue("Credit Card Information")</h3>
+        <div id="shopping-cart-creditcard" class="shopping-cart-panel-disable shopping-cart-panel-content">
+          #parse("/shoppingCart/shoppingCartProcessCreditCard.vm")
+        </div>
+        </div>
+        <div class="shopping-cart-panel"><h3 class="shopping-cart-panel-header">5&nbsp;$template.getLanguageByValue("Confirm Checkout")</h3>
+        <div id="shopping-cart-finalize" class="shopping-cart-panel-disable shopping-cart-panel-content">
+          #parse("/shoppingCart/shoppingCartProcessFinalize.vm")
+        </div>
+        </div>
+      #end
+    </div>
+	<div id="shopping-cart-footer-container">
+	  $form.shoppingCartMessage
+	</div>
+  </div>
+  <div id="shopping-cart-right-panel">
+  <div id="shopping-cart-status" class="component-container shopping-cart-summary-text">
+  </div>
+  <div class="container-reset"></div>
+</div>
+<div id="loading" style="display: none; background-color: #eeeeee; opacity: 0.8; text-align: center">
+  <br>
+  <br>
+  <img src="$template.getResourcePrefix('images/ajax-loader.gif')" />
+</div>
+

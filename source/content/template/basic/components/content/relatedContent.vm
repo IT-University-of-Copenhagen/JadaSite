@@ -1,0 +1,13 @@
+#set ($relatedContents = $template.getRelatedContents())
+#if (!$template.isEmpty($relatedContents))
+<div class="jc_panel_header">$template.getLanguageByValue('Related Articles')</div>
+<div class="jc_panel_body">
+	#foreach( $relatedContentInfo in $relatedContents )
+      #if ($velocityCount > 1)
+        <div class="dotted-line-separator"></div>
+      #end
+      <a href="$relatedContentInfo.contentUrl" class="related-article-link">$relatedContentInfo.contentTitle</a><br>
+	#end
+</div>
+<br>
+#end

@@ -1,0 +1,26 @@
+<script type="text/javascript" language="JavaScript">
+function focusfield(infocus, control) {
+	if (infocus) {
+		if (control.value == "$template.getLanguageByValue('Keyword Search')") {
+			control.value = "";
+		}
+	}
+	else {
+		if (control.value == "") {
+			control.value = "$template.getLanguageByValue('Keyword Search')";
+		}
+	}
+}
+function jc_query_submit() {
+	var url = '/$template.getContextPath()/web/fe/$siteInfo.siteDomainPrefix/$siteInfo.siteProfileClassName/search';
+	var search = document.getElementById('search');
+	url += '?query=' + search.value;
+	document.location.href = url;
+}
+</script>
+<div id="search-query-container">
+	<form name="search" method="post" action="/$template.getContextPath()/web/fe/$siteInfo.siteDomainPrefix/$siteInfo.siteProfileClassName/search">
+		<input name="query" class="jc_input_small" id="search-query-input" onfocus="focusfield(true, this);" onblur="focusfield(false, this);" value="$template.getLanguageByValue('Keyword Search')" size="20" maxlength="100">
+		<a href="javascript:document.search.submit();" class="search-query-link">$template.getLanguageByValue('Search')</a>
+	</form>
+</div>

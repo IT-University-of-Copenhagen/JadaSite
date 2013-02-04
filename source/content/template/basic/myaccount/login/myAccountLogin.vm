@@ -1,0 +1,80 @@
+<script type="text/javascript" language="JavaScript"><!--
+function submitForm(type) {
+    document.myAccountLoginActionForm.process.value = type;
+    document.myAccountLoginActionForm.submit();
+}
+
+//--></script>
+<div id="my-account-container">
+<div id="my-account-public-header-container">
+  <span id="my-account-public-header">$template.getLanguageByValue("Sign-in")</span>
+</div>
+<br>
+<form name="myAccountLoginActionForm" method="post" action="/$siteInfo.contextPath/myaccount/login/myAccountLogin.do?process=login&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName">
+<span class="my-account-public-message">$form.getMessage("msg")</span>
+<span class="my-account-public-message">
+  $template.getLanguageByValue("To sign in, please enter your email address and password below.")
+</span>
+<br>
+<br>
+<input type="hidden" name="process" value=""/>
+<table border="0" cellspacing="0" cellpadding="0" id="my-account-public-table" width="400">
+  <tr id="my-account-public-table-header">
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td nowrap>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td nowrap><span class="my-account-public-label">$template.getLanguageByValue("Email address")</span></td>
+  </tr>
+  <tr> 
+    <td nowrap>
+      <input type="hidden" name="target" value="$template.nn($form.target)"/>
+      <input type="hidden" name="url" value="$template.nn($form.url)"/>
+      <input type="hidden" name="orderNum" value="$template.nn($form.orderNum)"/>
+      <input type="hidden" name="others" value="$template.nn($form.others)"/>
+      <input type="text" name="custEmail" value="$template.nn($form.custEmail)" size="30" styleClass="my-account-public-input"/>
+      <span class="my-account-public-error">$form.getMessage("custEmail")</span>
+    </td>
+  </tr>
+  <tr> 
+    <td nowrap><span class="my-account-public-value">$template.getLanguageByValue("Password")</span></td>
+  </tr>
+  <tr> 
+    <td>
+      <input type="password" name="custPassword" value="$template.nn($form.custPassword)" size="30" class="my-account-public-input"/>
+      <span class="my-account-public-error">$form.getMessage("custPassword")</span>
+    </td>
+  </tr>
+  <tr> 
+    <td nowrap>
+    </td>
+  </tr>
+  <tr> 
+    <td>
+      <span class="my-account-public-error">$form.getMessage("login")</span>
+    </td>
+  </tr>
+  <tr> 
+    <td nowrap>
+    </td>
+  </tr>
+  <tr> 
+    <td nowrap id="my-account-public-table-footer">
+      <a href="javascript:submitForm('login');" class="my-account-public-button">
+        $template.getLanguageByValue("Sign-in")
+      </a>
+      <br>
+      <br>
+      <a href="/$siteInfo.contextPath/myaccount/forgot/myAccountForgot.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName" class="my-account-public-button">$template.getLanguageByValue("Forgot your password?")</a>
+      &nbsp;
+      <a href="/$siteInfo.contextPath/myaccount/register/myAccountRegister.do?process=start&prefix=$siteInfo.siteDomainPrefix&langName=$siteInfo.langName" class="my-account-public-button">
+        $template.getLanguage("content.text.newVisitorAccount")
+      </a>
+    </td>
+  </tr>
+</table>
+</form>
+<br>
+</div>

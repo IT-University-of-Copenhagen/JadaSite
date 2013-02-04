@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+	<description/>
+	<class name="com.jada.xml.sitemap.UrlSet">
+		<map-to xml="urlset"/>
+		<field name="url" type="com.jada.xml.sitemap.Url" collection="array">
+			<bind-xml name="url" node="element"/>
+		</field>
+	</class>
+	<class name="com.jada.xml.sitemap.Url">
+		<field name="loc" type="java.lang.String">
+			<bind-xml name="loc" node="element"/>
+		</field>
+		<field name="lastmod" type="java.lang.String">
+			<bind-xml name="lastmod" node="element"/>
+		</field>
+		<field name="changefreq" type="java.lang.String">
+			<bind-xml name="changefreq" node="element"/>
+		</field>
+		<field name="priority" type="java.lang.String">
+			<bind-xml name="priority" node="element"/>
+		</field>
+	</class>
+</mapping>
